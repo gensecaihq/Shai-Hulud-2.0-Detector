@@ -121,7 +121,7 @@ export interface YarnLockEntry {
   dependencies?: Record<string, string>;
 }
 
-export interface ActionInputs {
+export interface Inputs {
   failOnCritical: boolean;
   failOnHigh: boolean;
   failOnAny: boolean;
