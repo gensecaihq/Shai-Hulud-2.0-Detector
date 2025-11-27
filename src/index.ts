@@ -33,7 +33,7 @@ function isRunningInGithubActions(): boolean {
 }
 
 // Get inputs from either GitHub Actions or CLI arguments
-function getInputs(inputs?: Inputs): Inputs {
+function getInputs(inputs: Inputs): Inputs {
 	const inActions = isRunningInGithubActions();
 
 	const getBool = (
@@ -66,7 +66,7 @@ function getInputs(inputs?: Inputs): Inputs {
 		return argVal ?? defaultVal;
 	};
 
-	const outputFormatRaw = getStr("output-format", inputs?.outputFormat, "json");
+	const outputFormatRaw = getStr("output-format", inputs.outputFormat, "json");
 
 	const outputFormat: "text" | "json" | "sarif" = [
 		"text",
@@ -78,18 +78,18 @@ function getInputs(inputs?: Inputs): Inputs {
 
 	const workingDirectory = getStr(
 		"working-directory",
-		inputs?.workingDirectory,
+		inputs.workingDirectory,
 		process.cwd(),
 	);
 
 	return {
-		failOnCritical: getBool("fail-on-critical", inputs?.failOnCritical, true),
-		failOnHigh: getBool("fail-on-high", inputs?.failOnHigh, false),
-		failOnAny: getBool("fail-on-any", inputs?.failOnAny, false),
-		scanLockfiles: getBool("scan-lockfiles", inputs?.scanLockfiles, true),
+		failOnCritical: getBool("fail-on-critical", inputs.failOnCritical, true),
+		failOnHigh: getBool("fail-on-high", inputs.failOnHigh, false),
+		failOnAny: getBool("fail-on-any", inputs.failOnAny, false),
+		scanLockfiles: getBool("scan-lockfiles", inputs.scanLockfiles, true),
 		scanNodeModules: getBool(
 			"scan-node-modules",
-			inputs?.scanNodeModules,
+			inputs.scanNodeModules,
 			false,
 		),
 		outputFormat,
@@ -139,27 +139,27 @@ async function run(): Promise<void> {
 		const argsInputs: Inputs = {
 			failOnCritical:
 				argv["fail-on-critical"] ??
-				parseBoolEnv(process.env.FAIL_ON_CRITICAL) ??
+				parseBoolEnv(process.env.INPUT_FAIL_ON_CRITICAL) ??
 				true,
 			failOnHigh:
-				argv["fail-on-high"] ?? parseBoolEnv(process.env.FAIL_ON_HIGH) ?? false,
+				argv["fail-on-high"] ?? parseBoolEnv(process.env.INPUT_FAIL_ON_HIGH) ?? false,
 			failOnAny:
-				argv["fail-on-any"] ?? parseBoolEnv(process.env.FAIL_ON_ANY) ?? false,
+				argv["fail-on-any"] ?? parseBoolEnv(process.env.INPUT_FAIL_ON_ANY) ?? false,
 			scanLockfiles:
 				argv["scan-lockfiles"] ??
-				parseBoolEnv(process.env.SCAN_LOCKFILES) ??
+				parseBoolEnv(process.env.INPUT_SCAN_LOCKFILES) ??
 				true,
 			scanNodeModules:
 				argv["scan-node-modules"] ??
-				parseBoolEnv(process.env.SCAN_NODE_MODULES) ??
+				parseBoolEnv(process.env.INPUT_SCAN_NODE_MODULES) ??
 				false,
 			outputFormat:
 				argv["output-format"] ??
-				(process.env.OUTPUT_FORMAT as "text" | "json" | "sarif" | undefined) ??
+				(process.env.INPUT_OUTPUT_FORMAT as "text" | "json" | "sarif" | undefined) ??
 				"json",
 			workingDirectory:
 				(argv["working-directory"] as string | undefined) ??
-				process.env.WORKING_DIRECTORY ??
+				process.env.INPUT_WORKING_DIRECTORY ??
 				process.cwd(),
 		};
 
