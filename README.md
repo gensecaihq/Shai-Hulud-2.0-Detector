@@ -64,6 +64,7 @@
 - [FAQ](#faq)
 - [Contributing](#contributing)
 - [Acknowledgments](#acknowledgments)
+- [Thanks](#thanks)
 - [License](#license)
 
 ---
@@ -1142,6 +1143,27 @@ This project builds on the excellent work of security researchers who identified
 ### Community
 
 Thanks to everyone who reported affected packages, tested the detector, and helped spread awareness about this attack.
+
+---
+
+## Thanks
+
+A huge thank you to all the community members who have contributed to this project through code, issue reports, and discussions:
+
+| | Contributor | Contributions |
+|---|-------------|---------------|
+| <img src="https://github.com/albe.png" width="32" height="32" alt="@albe"> | [@albe](https://github.com/albe) | Pull requests |
+| <img src="https://github.com/gaellafond.png" width="32" height="32" alt="@gaellafond"> | [@gaellafond](https://github.com/gaellafond) | Issue reports |
+| <img src="https://github.com/julia-infocaster.png" width="32" height="32" alt="@julia-infocaster"> | [@julia-infocaster](https://github.com/julia-infocaster) | Code contributions, Pull requests |
+| <img src="https://github.com/luca-cond.png" width="32" height="32" alt="@luca-cond"> | [@luca-cond](https://github.com/luca-cond) | Discussions |
+| <img src="https://github.com/maxie7.png" width="32" height="32" alt="@maxie7"> | [@maxie7](https://github.com/maxie7) | Code contributions, Pull requests, Discussions |
+| <img src="https://github.com/sampov2.png" width="32" height="32" alt="@sampov2"> | [@sampov2](https://github.com/sampov2) | Discussions |
+| <img src="https://github.com/seezee.png" width="32" height="32" alt="@seezee"> | [@seezee](https://github.com/seezee) | Issue reports, False positive identification |
+| <img src="https://github.com/topsinfonimesh.png" width="32" height="32" alt="@topsinfonimesh"> | [@topsinfonimesh](https://github.com/topsinfonimesh) | Discussions |
+
+Your contributions help protect millions of developers worldwide. 🙏
+
+*This section is automatically updated weekly.*
 
 ---
 

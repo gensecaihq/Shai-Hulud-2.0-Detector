@@ -1,0 +1,191 @@
+name: Update Contributors
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Run every Sunday at midnight UTC
+  workflow_dispatch:  # Allow manual trigger
+  issues:
+    types: [opened, closed]
+  pull_request:
+    types: [opened, closed, merged]
+  discussion:
+    types: [created]
+
+jobs:
+  update-contributors:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Gather Contributors
+        id: contributors
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const contributors = new Map();
+
+            // Helper to add contributor
+            const addContributor = (login, type) => {
+              if (!login || login.includes('[bot]') || login === 'gensecai-dev') return;
+              if (!contributors.has(login)) {
+                contributors.set(login, new Set());
+              }
+              contributors.get(login).add(type);
+            };
+
+            // Get commit authors
+            try {
+              const commits = await github.rest.repos.listContributors({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                per_page: 100
+              });
+              for (const contributor of commits.data) {
+                if (contributor.type === 'User') {
+                  addContributor(contributor.login, 'Code contributions');
+                }
+              }
+            } catch (e) {
+              console.log('Error fetching commits:', e.message);
+            }
+
+            // Get issue authors
+            try {
+              const issues = await github.rest.issues.listForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'all',
+                per_page: 100
+              });
+              for (const issue of issues.data) {
+                if (!issue.pull_request && issue.user) {
+                  addContributor(issue.user.login, 'Issue reports');
+                }
+              }
+            } catch (e) {
+              console.log('Error fetching issues:', e.message);
+            }
+
+            // Get PR authors
+            try {
+              const prs = await github.rest.pulls.list({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'all',
+                per_page: 100
+              });
+              for (const pr of prs.data) {
+                if (pr.user) {
+                  addContributor(pr.user.login, 'Pull requests');
+                }
+              }
+            } catch (e) {
+              console.log('Error fetching PRs:', e.message);
+            }
+
+            // Get discussion authors
+            try {
+              const query = `
+                query($owner: String!, $repo: String!) {
+                  repository(owner: $owner, name: $repo) {
+                    discussions(first: 100) {
+                      nodes {
+                        author {
+                          login
+                        }
+                      }
+                    }
+                  }
+                }
+              `;
+              const result = await github.graphql(query, {
+                owner: context.repo.owner,
+                repo: context.repo.repo
+              });
+              if (result.repository?.discussions?.nodes) {
+                for (const discussion of result.repository.discussions.nodes) {
+                  if (discussion.author?.login) {
+                    addContributor(discussion.author.login, 'Discussions');
+                  }
+                }
+              }
+            } catch (e) {
+              console.log('Error fetching discussions:', e.message);
+            }
+
+            // Build markdown table with avatars
+            const sortedContributors = Array.from(contributors.entries())
+              .sort((a, b) => a[0].toLowerCase().localeCompare(b[0].toLowerCase()));
+
+            let table = '| | Contributor | Contributions |\n';
+            table += '|---|-------------|---------------|\n';
+
+            for (const [login, types] of sortedContributors) {
+              const contributions = Array.from(types).sort().join(', ');
+              const avatar = `<img src="https://github.com/${login}.png" width="32" height="32" alt="@${login}">`;
+              table += `| ${avatar} | [@${login}](https://github.com/${login}) | ${contributions} |\n`;
+            }
+
+            core.setOutput('table', table);
+            core.setOutput('count', sortedContributors.length);
+
+      - name: Update README
+        run: |
+          TABLE="${{ steps.contributors.outputs.table }}"
+
+          # Create the new Thanks section
+          cat > /tmp/thanks_section.md << 'SECTION_END'
+          ## Thanks
+
+          A huge thank you to all the community members who have contributed to this project through code, issue reports, and discussions:
+
+          SECTION_END
+
+          echo "$TABLE" >> /tmp/thanks_section.md
+          echo "" >> /tmp/thanks_section.md
+          echo "Your contributions help protect millions of developers worldwide. 🙏" >> /tmp/thanks_section.md
+          echo "" >> /tmp/thanks_section.md
+          echo "*This section is automatically updated weekly.*" >> /tmp/thanks_section.md
+
+          # Use awk to replace the Thanks section in README
+          awk '
+            /^## Thanks$/ { skip=1; next }
+            /^## / && skip { skip=0 }
+            !skip { print }
+          ' README.md > /tmp/readme_without_thanks.md
+
+          # Find where to insert (before ## License)
+          awk '
+            /^## License$/ {
+              system("cat /tmp/thanks_section.md")
+              print "---"
+              print ""
+            }
+            { print }
+          ' /tmp/readme_without_thanks.md > /tmp/readme_new.md
+
+          mv /tmp/readme_new.md README.md
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet README.md; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "docs: Update contributors in Thanks section [skip ci]"
+          git push

@@ -3996,7 +3996,7 @@
       "name": "get-them-args",
       "severity": "critical",
       "affectedVersions": [
-        "*"
+        "1.3.3"
       ]
     },
     {
@@ -4206,7 +4206,8 @@
       "name": "kill-port",
       "severity": "critical",
       "affectedVersions": [
-        "*"
+        "2.0.2",
+        "2.0.3"
       ]
     },
     {
@@ -5032,7 +5033,8 @@
       "name": "shell-exec",
       "severity": "critical",
       "affectedVersions": [
-        "*"
+        "1.1.3",
+        "1.1.4"
       ]
     },
     {
