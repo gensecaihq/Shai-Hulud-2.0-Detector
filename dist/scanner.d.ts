@@ -59,9 +59,10 @@ export declare function scanYarnLock(filePath: string): ScanResult[];
  * Discover recognized lockfiles recursively (depth <= 5) excluding node_modules
  * and hidden directories.
  * @param directory Root directory to begin search.
+ * @param scanNodeModules Whether to include node_modules directories in the scan. Defaults to false.
  * @returns Array of absolute lockfile paths.
  */
-export declare function findLockfiles(directory: string): string[];
+export declare function findLockfiles(directory: string, scanNodeModules?: boolean): string[];
 /**
  * Recursively locate package.json files up to depth 5 (monorepo friendly), skipping
  * node_modules and dot-prefixed directories.

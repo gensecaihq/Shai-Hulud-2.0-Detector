@@ -434,9 +434,10 @@ export function scanYarnLock(filePath: string): ScanResult[] {
  * Discover recognized lockfiles recursively (depth <= 5) excluding node_modules
  * and hidden directories.
  * @param directory Root directory to begin search.
+ * @param scanNodeModules Whether to include node_modules directories in the scan. Defaults to false.
  * @returns Array of absolute lockfile paths.
  */
-export function findLockfiles(directory: string): string[] {
+export function findLockfiles(directory: string, scanNodeModules: boolean = false): string[] {
 	const lockfiles: string[] = [];
 	const possibleFiles = [
 		'package-lock.json',
@@ -460,7 +461,7 @@ export function findLockfiles(directory: string): string[] {
 				} else if (
 					entry.isDirectory() &&
 					!entry.name.startsWith('.') &&
-					entry.name !== 'node_modules'
+					(scanNodeModules || entry.name !== 'node_modules')
 				) {
 					searchDir(fullPath, depth + 1);
 				}
@@ -1117,7 +1118,7 @@ export function runScan(
 
 	// Scan lockfiles if enabled
 	if (scanLockfiles) {
-		const lockfiles = findLockfiles(directory);
+		const lockfiles = findLockfiles(directory, scanNodeModules);
 		for (const file of lockfiles) {
 			scannedFiles.push(file);
 
