@@ -480,7 +480,7 @@ export function findLockfiles(directory: string): string[] {
  * @param directory Root search directory.
  * @returns Array of package.json paths.
  */
-export function findPackageJsonFiles(directory: string): string[] {
+export function findPackageJsonFiles(directory: string, scanNodeModules: boolean = false): string[] {
 	const packageFiles: string[] = [];
 
 	const searchDir = (dir: string, depth: number = 0) => {
@@ -497,7 +497,7 @@ export function findPackageJsonFiles(directory: string): string[] {
 				} else if (
 					entry.isDirectory() &&
 					!entry.name.startsWith('.') &&
-					entry.name !== 'node_modules'
+					(scanNodeModules || entry.name !== 'node_modules')
 				) {
 					searchDir(fullPath, depth + 1);
 				}
@@ -1070,6 +1070,7 @@ export function checkSuspiciousBranches(directory: string): SecurityFinding[] {
 export function runScan(
 	directory: string,
 	scanLockfiles: boolean = true,
+	scanNodeModules: boolean = false,
 ): ScanSummary {
 	const startTime = Date.now();
 	const allResults: ScanResult[] = [];
@@ -1079,7 +1080,7 @@ export function runScan(
 	const seenFindings = new Set<string>();
 
 	// Scan package.json files
-	const packageJsonFiles = findPackageJsonFiles(directory);
+	const packageJsonFiles = findPackageJsonFiles(directory, scanNodeModules);
 	for (const file of packageJsonFiles) {
 		scannedFiles.push(file);
 		const results = scanPackageJson(file, true);

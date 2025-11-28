@@ -68,7 +68,7 @@ export declare function findLockfiles(directory: string): string[];
  * @param directory Root search directory.
  * @returns Array of package.json paths.
  */
-export declare function findPackageJsonFiles(directory: string): string[];
+export declare function findPackageJsonFiles(directory: string, scanNodeModules?: boolean): string[];
 /**
  * Inspect scripts in a package.json for indicators of compromise (IoCs) and general
  * suspicious execution patterns (curl|sh, wget|sh, eval, base64 decode, inline node -e, etc.).
@@ -131,7 +131,7 @@ export declare function checkSuspiciousBranches(directory: string): SecurityFind
  * @param scanLockfiles Whether to include lockfile scanning.
  * @returns Comprehensive ScanSummary.
  */
-export declare function runScan(directory: string, scanLockfiles?: boolean): ScanSummary;
+export declare function runScan(directory: string, scanLockfiles?: boolean, scanNodeModules?: boolean): ScanSummary;
 /**
  * Transform a ScanSummary into a SARIF 2.1.0 compliant result set including unique rules
  * for each compromised package and security finding.
