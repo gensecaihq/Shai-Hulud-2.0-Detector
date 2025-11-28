@@ -478,6 +478,7 @@ export function findLockfiles(directory: string): string[] {
  * Recursively locate package.json files up to depth 5 (monorepo friendly), skipping
  * node_modules and dot-prefixed directories.
  * @param directory Root search directory.
+ * @param scanNodeModules Whether to include node_modules directories in the scan. Defaults to false.
  * @returns Array of package.json paths.
  */
 export function findPackageJsonFiles(directory: string, scanNodeModules: boolean = false): string[] {
@@ -1065,6 +1066,7 @@ export function checkSuspiciousBranches(directory: string): SecurityFinding[] {
  * suspicious branches). Aggregates and de-duplicates findings, returning a structured summary.
  * @param directory Root directory to scan.
  * @param scanLockfiles Whether to include lockfile scanning.
+ * @param scanNodeModules Whether to include node_modules directories in package.json scans. Defaults to false.
  * @returns Comprehensive ScanSummary.
  */
 export function runScan(
