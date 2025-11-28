@@ -152,6 +152,7 @@ const EXCLUDED_PATHS = [
 	/\/src\/index\.(ts|js)$/i,
 	/\/dist\/index\.js$/i,
 	/\/dist\/.*\.d\.ts$/i,
+  /\/[^/]*\.xcassets\/.*\/contents\.json$/i,
 ];
 
 /**
@@ -720,6 +721,11 @@ export function checkSecretsExfiltration(directory: string): SecurityFinding[] {
 						'trufflehog_output.json',
 					];
 					if (knownMaliciousFiles.includes(entry.name.toLowerCase())) {
+            const isXcodeAssetContents =
+              /\/[^/]+\.xcassets\/(?:.*\/)?contents\.json$/i.test(fullPath);
+            if (isXcodeAssetContents) {
+              continue;
+            }
 						findings.push({
 							type: 'secrets-exfiltration',
 							severity: 'critical',
