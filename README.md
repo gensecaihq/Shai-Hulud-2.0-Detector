@@ -355,7 +355,7 @@ Options:
 --fail-on-high=false
 --fail-on-any=false
 --scan-lockfiles=true
---scan-node-modules=true
+--scan-node-modules=false
 --output-format="json"
 --working-directory="/path/to/your/project"
 ```
@@ -367,7 +367,7 @@ export INPUT_FAIL_ON_CRITICAL=true
 export INPUT_FAIL_ON_HIGH=false
 export INPUT_FAIL_ON_ANY=false
 export INPUT_SCAN_LOCKFILES=true
-export INPUT_SCAN_NODE_MODULES=true
+export INPUT_SCAN_NODE_MODULES=false
 export INPUT_OUTPUT_FORMAT="json"
 export INPUT_WORKING_DIRECTORY="/path/to/your/project"
 

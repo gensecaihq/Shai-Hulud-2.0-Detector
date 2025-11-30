@@ -59,16 +59,18 @@ export declare function scanYarnLock(filePath: string): ScanResult[];
  * Discover recognized lockfiles recursively (depth <= 5) excluding node_modules
  * and hidden directories.
  * @param directory Root directory to begin search.
+ * @param scanNodeModules Whether to include node_modules directories in the scan. Defaults to false.
  * @returns Array of absolute lockfile paths.
  */
-export declare function findLockfiles(directory: string): string[];
+export declare function findLockfiles(directory: string, scanNodeModules?: boolean): string[];
 /**
  * Recursively locate package.json files up to depth 5 (monorepo friendly), skipping
  * node_modules and dot-prefixed directories.
  * @param directory Root search directory.
+ * @param scanNodeModules Whether to include node_modules directories in the scan. Defaults to false.
  * @returns Array of package.json paths.
  */
-export declare function findPackageJsonFiles(directory: string): string[];
+export declare function findPackageJsonFiles(directory: string, scanNodeModules?: boolean): string[];
 /**
  * Inspect scripts in a package.json for indicators of compromise (IoCs) and general
  * suspicious execution patterns (curl|sh, wget|sh, eval, base64 decode, inline node -e, etc.).
@@ -129,9 +131,10 @@ export declare function checkSuspiciousBranches(directory: string): SecurityFind
  * suspicious branches). Aggregates and de-duplicates findings, returning a structured summary.
  * @param directory Root directory to scan.
  * @param scanLockfiles Whether to include lockfile scanning.
+ * @param scanNodeModules Whether to include node_modules directories in package.json scans. Defaults to false.
  * @returns Comprehensive ScanSummary.
  */
-export declare function runScan(directory: string, scanLockfiles?: boolean): ScanSummary;
+export declare function runScan(directory: string, scanLockfiles?: boolean, scanNodeModules?: boolean): ScanSummary;
 /**
  * Transform a ScanSummary into a SARIF 2.1.0 compliant result set including unique rules
  * for each compromised package and security finding.

@@ -434,9 +434,10 @@ export function scanYarnLock(filePath: string): ScanResult[] {
  * Discover recognized lockfiles recursively (depth <= 5) excluding node_modules
  * and hidden directories.
  * @param directory Root directory to begin search.
+ * @param scanNodeModules Whether to include node_modules directories in the scan. Defaults to false.
  * @returns Array of absolute lockfile paths.
  */
-export function findLockfiles(directory: string): string[] {
+export function findLockfiles(directory: string, scanNodeModules: boolean = false): string[] {
 	const lockfiles: string[] = [];
 	const possibleFiles = [
 		'package-lock.json',
@@ -460,7 +461,7 @@ export function findLockfiles(directory: string): string[] {
 				} else if (
 					entry.isDirectory() &&
 					!entry.name.startsWith('.') &&
-					entry.name !== 'node_modules'
+					(scanNodeModules || entry.name !== 'node_modules')
 				) {
 					searchDir(fullPath, depth + 1);
 				}
@@ -478,9 +479,10 @@ export function findLockfiles(directory: string): string[] {
  * Recursively locate package.json files up to depth 5 (monorepo friendly), skipping
  * node_modules and dot-prefixed directories.
  * @param directory Root search directory.
+ * @param scanNodeModules Whether to include node_modules directories in the scan. Defaults to false.
  * @returns Array of package.json paths.
  */
-export function findPackageJsonFiles(directory: string): string[] {
+export function findPackageJsonFiles(directory: string, scanNodeModules: boolean = false): string[] {
 	const packageFiles: string[] = [];
 
 	const searchDir = (dir: string, depth: number = 0) => {
@@ -497,7 +499,7 @@ export function findPackageJsonFiles(directory: string): string[] {
 				} else if (
 					entry.isDirectory() &&
 					!entry.name.startsWith('.') &&
-					entry.name !== 'node_modules'
+					(scanNodeModules || entry.name !== 'node_modules')
 				) {
 					searchDir(fullPath, depth + 1);
 				}
@@ -1065,11 +1067,13 @@ export function checkSuspiciousBranches(directory: string): SecurityFinding[] {
  * suspicious branches). Aggregates and de-duplicates findings, returning a structured summary.
  * @param directory Root directory to scan.
  * @param scanLockfiles Whether to include lockfile scanning.
+ * @param scanNodeModules Whether to include node_modules directories in package.json scans. Defaults to false.
  * @returns Comprehensive ScanSummary.
  */
 export function runScan(
 	directory: string,
 	scanLockfiles: boolean = true,
+	scanNodeModules: boolean = false,
 ): ScanSummary {
 	const startTime = Date.now();
 	const allResults: ScanResult[] = [];
@@ -1079,7 +1083,7 @@ export function runScan(
 	const seenFindings = new Set<string>();
 
 	// Scan package.json files
-	const packageJsonFiles = findPackageJsonFiles(directory);
+	const packageJsonFiles = findPackageJsonFiles(directory, scanNodeModules);
 	for (const file of packageJsonFiles) {
 		scannedFiles.push(file);
 		const results = scanPackageJson(file, true);
@@ -1114,7 +1118,7 @@ export function runScan(
 
 	// Scan lockfiles if enabled
 	if (scanLockfiles) {
-		const lockfiles = findLockfiles(directory);
+		const lockfiles = findLockfiles(directory, scanNodeModules);
 		for (const file of lockfiles) {
 			scannedFiles.push(file);
 

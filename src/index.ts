@@ -227,7 +227,7 @@ async function run(): Promise<void> {
 
 		// Run the scan
 		core.info('Starting scan...');
-		const summary = runScan(workDir, inputs.scanLockfiles);
+		const summary = runScan(workDir, inputs.scanLockfiles, inputs.scanNodeModules);
 
 		// Output results based on format
 		switch (inputs.outputFormat) {
