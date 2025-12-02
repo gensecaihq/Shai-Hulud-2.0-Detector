@@ -409,7 +409,7 @@ export function scanPackageJson(
 
 /**
  * Scan an npm lockfile (v1/v2/v3) for affected packages. Determines direct vs
- * transitive based on path nesting for v2+ format.
+ * transitive by comparing against the associated package.json.
  * @param filePath Lockfile path.
  * @returns ScanResult list of affected packages.
  */
@@ -418,6 +418,28 @@ export function scanPackageLock(filePath: string): ScanResult[] {
 	const lock = parsePackageLock(filePath);
 
 	if (!lock) return results;
+
+	// Read the associated package.json to determine direct dependencies
+	const lockDir = path.dirname(filePath);
+	const pkgJsonPath = path.join(lockDir, 'package.json');
+	const pkgJson = parsePackageJson(pkgJsonPath);
+
+	// Build a set of direct dependency names from package.json
+	const directDeps = new Set<string>();
+	if (pkgJson) {
+		if (pkgJson.dependencies) {
+			Object.keys(pkgJson.dependencies).forEach((name) => directDeps.add(name));
+		}
+		if (pkgJson.devDependencies) {
+			Object.keys(pkgJson.devDependencies).forEach((name) => directDeps.add(name));
+		}
+		if (pkgJson.peerDependencies) {
+			Object.keys(pkgJson.peerDependencies).forEach((name) => directDeps.add(name));
+		}
+		if (pkgJson.optionalDependencies) {
+			Object.keys(pkgJson.optionalDependencies).forEach((name) => directDeps.add(name));
+		}
+	}
 
 	// Scan v2/v3 lockfile format (packages object)
 	if (lock.packages) {
@@ -432,7 +454,7 @@ export function scanPackageLock(filePath: string): ScanResult[] {
 					version: entry.version || 'unknown',
 					affected,
 					severity: affected ? getPackageSeverity(name) : 'none',
-					isDirect: !pkgPath.includes('node_modules/node_modules'),
+					isDirect: directDeps.has(name),
 					location: filePath,
 				});
 			}
@@ -441,7 +463,7 @@ export function scanPackageLock(filePath: string): ScanResult[] {
 
 	// Scan v1 lockfile format (dependencies object)
 	if (lock.dependencies) {
-		const scanDependencies = (deps: Record<string, any>, isDirect: boolean) => {
+		const scanDependencies = (deps: Record<string, any>, isNested: boolean) => {
 			for (const [name, entry] of Object.entries(deps)) {
 				const affected = isAffected(name, entry.version);
 				results.push({
@@ -449,16 +471,16 @@ export function scanPackageLock(filePath: string): ScanResult[] {
 					version: entry.version || 'unknown',
 					affected,
 					severity: affected ? getPackageSeverity(name) : 'none',
-					isDirect,
+					isDirect: directDeps.has(name),
 					location: filePath,
 				});
 				// Recursively scan nested dependencies
 				if (entry.dependencies) {
-					scanDependencies(entry.dependencies, false);
+					scanDependencies(entry.dependencies, true);
 				}
 			}
 		};
-		scanDependencies(lock.dependencies, true);
+		scanDependencies(lock.dependencies, false);
 	}
 
 	return results;

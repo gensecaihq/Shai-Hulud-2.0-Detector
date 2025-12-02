@@ -44,7 +44,7 @@ export declare function parseYarnLock(filePath: string): Map<string, string> | n
 export declare function scanPackageJson(filePath: string, isDirect?: boolean): ScanResult[];
 /**
  * Scan an npm lockfile (v1/v2/v3) for affected packages. Determines direct vs
- * transitive based on path nesting for v2+ format.
+ * transitive by comparing against the associated package.json.
  * @param filePath Lockfile path.
  * @returns ScanResult list of affected packages.
  */
