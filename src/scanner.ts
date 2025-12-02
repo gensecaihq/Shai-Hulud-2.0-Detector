@@ -164,8 +164,61 @@ const WEBHOOK_EXFIL_PATTERNS = [
 		pattern: /bb8ca5f6-4175-45d2-b042-fc9ebb8170b7/i,
 		description: 'Known malicious webhook UUID',
 	},
-	{ pattern: /exfiltrat/i, description: 'Exfiltration reference' },
 ];
+
+/**
+ * Check if content contains suspicious exfiltration patterns.
+ * More specific than simple "exfiltrat" matching to avoid false positives
+ * from legitimate security documentation (e.g., @lit/reactive-element).
+ *
+ * Requires "exfiltrat" to appear near suspicious context:
+ * - Network methods: fetch, XMLHttpRequest, axios, request
+ * - Data transmission: .send(, .post(, .write(
+ * - Encoding: base64, btoa, Buffer.from
+ * - URLs: http://, https://, //
+ */
+function hasExfiltrationContext(content: string): {
+	found: boolean;
+	evidence?: string;
+} {
+	// Skip if no exfiltration reference at all
+	if (!/exfiltrat/i.test(content)) {
+		return { found: false };
+	}
+
+	// Check for exfiltration near suspicious patterns (within ~200 chars)
+	const suspiciousPatterns = [
+		// Network/HTTP methods
+		/exfiltrat.{0,200}(fetch|XMLHttpRequest|axios|request\(|\.get\(|\.post\()/is,
+		/(fetch|XMLHttpRequest|axios|request\(|\.get\(|\.post\().{0,200}exfiltrat/is,
+		// Data sending
+		/exfiltrat.{0,200}(\.send\(|\.write\(|sendBeacon)/is,
+		/(\.send\(|\.write\(|sendBeacon).{0,200}exfiltrat/is,
+		// Encoding (common in data exfil)
+		/exfiltrat.{0,200}(base64|btoa|Buffer\.from|atob)/is,
+		/(base64|btoa|Buffer\.from|atob).{0,200}exfiltrat/is,
+		// URLs (data being sent somewhere)
+		/exfiltrat.{0,200}(https?:\/\/|\/\/\w)/is,
+		/(https?:\/\/|\/\/\w).{0,100}exfiltrat/is,
+		// Webhook references
+		/exfiltrat.{0,200}webhook/is,
+		/webhook.{0,200}exfiltrat/is,
+		// Secrets/credentials context
+		/exfiltrat.{0,200}(secret|credential|token|password|apikey|api_key)/is,
+		/(secret|credential|token|password|apikey|api_key).{0,200}exfiltrat/is,
+	];
+
+	for (const pattern of suspiciousPatterns) {
+		if (pattern.test(content)) {
+			return {
+				found: true,
+				evidence: 'Exfiltration code pattern detected',
+			};
+		}
+	}
+
+	return { found: false };
+}
 
 // Known affected namespaces (for low-risk warnings)
 const AFFECTED_NAMESPACES = [
@@ -718,7 +771,7 @@ export function checkTrufflehogActivity(directory: string): SecurityFinding[] {
 								}
 							}
 
-							// Check for webhook exfiltration
+							// Check for webhook exfiltration endpoints
 							for (const { pattern, description } of WEBHOOK_EXFIL_PATTERNS) {
 								if (pattern.test(content)) {
 									findings.push({
@@ -731,6 +784,19 @@ export function checkTrufflehogActivity(directory: string): SecurityFinding[] {
 									});
 									break;
 								}
+							}
+
+							// Check for exfiltration code patterns (context-aware)
+							const exfilCheck = hasExfiltrationContext(content);
+							if (exfilCheck.found) {
+								findings.push({
+									type: 'secrets-exfiltration',
+									severity: 'high',
+									title: `Suspicious exfiltration code pattern`,
+									description: `${exfilCheck.evidence}. Code appears to exfiltrate data to an external endpoint.`,
+									location: fullPath,
+									evidence: 'exfiltration + network/encoding context',
+								});
 							}
 						} catch {
 							// Skip files we can't read
