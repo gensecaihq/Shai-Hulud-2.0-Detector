@@ -1,0 +1,78 @@
+import * as fs from 'fs';
+import * as os from 'os';
+import * as path from 'path';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { parsePnpmLock, scanPnpmLock } from './scanner';
+
+describe('pnpm lock parsing and scanning', () => {
+	let tempDir: string;
+	let lockfilePath: string;
+
+	beforeEach(() => {
+		tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'pnpm-lock-test-'));
+		lockfilePath = path.join(tempDir, 'pnpm-lock.yaml');
+	});
+
+	afterEach(() => {
+		fs.rmSync(tempDir, { recursive: true, force: true });
+	});
+
+	it('parses package keys from packages section with peer suffixes', () => {
+		const content = `
+lockfileVersion: '9.0'
+packages:
+  '@actions/core@1.11.1':
+    resolution: {integrity: sha512-abc}
+  'ts-jest@29.4.5(@babel/core@7.28.5)(typescript@5.9.3)':
+    resolution: {integrity: sha512-def}
+`;
+		fs.writeFileSync(lockfilePath, content, 'utf8');
+
+		const parsed = parsePnpmLock(lockfilePath);
+		expect(parsed).not.toBeNull();
+		expect(parsed?.get('@actions/core')).toBe('1.11.1');
+		expect(parsed?.get('ts-jest')).toBe('29.4.5');
+	});
+
+	it('parses importer-only dependencies when package entry is missing', () => {
+		const content = `
+lockfileVersion: '9.0'
+importers:
+  .:
+    dependencies:
+      '@huntersofbook/core':
+        specifier: ^0.5.1
+        version: 0.5.1
+packages:
+  '@actions/core@1.11.1':
+    resolution: {integrity: sha512-abc}
+`;
+		fs.writeFileSync(lockfilePath, content, 'utf8');
+
+		const parsed = parsePnpmLock(lockfilePath);
+		expect(parsed).not.toBeNull();
+		expect(parsed?.get('@huntersofbook/core')).toBe('0.5.1');
+	});
+
+	it('detects known compromised importer dependency in scanPnpmLock', () => {
+		const content = `
+lockfileVersion: '9.0'
+importers:
+  .:
+    dependencies:
+      '@huntersofbook/core':
+        specifier: ^0.5.1
+        version: 0.5.1
+packages: {}
+`;
+		fs.writeFileSync(lockfilePath, content, 'utf8');
+
+		const results = scanPnpmLock(lockfilePath);
+		expect(results.some((r) => r.package === '@huntersofbook/core' && r.version === '0.5.1' && r.affected)).toBe(true);
+	});
+
+	it('returns null on invalid yaml', () => {
+		fs.writeFileSync(lockfilePath, 'lockfileVersion: [broken', 'utf8');
+		expect(parsePnpmLock(lockfilePath)).toBeNull();
+	});
+});

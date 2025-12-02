@@ -898,7 +898,9 @@ When running locally or in non-GitHub CI systems:
 | `package-lock.json` | JSON (v1, v2, v3) | ✅ | ✅ |
 | `yarn.lock` | Yarn custom format | ❌ | ✅ |
 | `npm-shrinkwrap.json` | JSON | ✅ | ✅ |
-| `pnpm-lock.yaml` | YAML | 🚧 Coming soon | 🚧 |
+| `pnpm-lock.yaml` | YAML | ✅* | ✅ |
+
+\* Direct dependencies from `importers` are supported, but are currently reported as transitive in output.
 
 ---
 
