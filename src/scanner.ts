@@ -1918,6 +1918,24 @@ export function formatTextReport(summary: ScanSummary): string {
 		lines.push('');
 	}
 
+	// Disclaimer section
+	lines.push('-'.repeat(70));
+	lines.push('  DISCLAIMER:');
+	lines.push('-'.repeat(70));
+	lines.push(
+		'  This tool uses heuristic pattern matching and may produce false',
+	);
+	lines.push('  positives. Security findings should be manually verified before');
+	lines.push('  taking action. Legitimate security research references (e.g.,');
+	lines.push('  threat intelligence feeds, IOC databases, security vendor docs)');
+	lines.push('  are excluded where possible, but novel patterns may be flagged.');
+	lines.push('');
+	lines.push('  False positive? Report it:');
+	lines.push(
+		'  https://github.com/gensecaihq/Shai-Hulud-2.0-Detector/issues/new',
+	);
+	lines.push('');
+
 	return lines.join('\n');
 }
 
