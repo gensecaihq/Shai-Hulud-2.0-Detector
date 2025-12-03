@@ -1,4 +1,4 @@
-<p align="center">
+ <p align="center">
   <a href="https://github.com/marketplace/actions/shai-hulud-2-0-detector"><img src="https://img.shields.io/badge/GitHub%20Marketplace-Available-2ea44f?style=for-the-badge&logo=github" alt="GitHub Marketplace"></a>
   <img src="https://img.shields.io/badge/Supply%20Chain-Security-red?style=for-the-badge" alt="Supply Chain Security">
   <img src="https://img.shields.io/badge/npm-Protected-green?style=for-the-badge&logo=npm" alt="npm Protected">
