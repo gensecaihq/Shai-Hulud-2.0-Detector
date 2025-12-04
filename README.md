@@ -835,8 +835,11 @@ When running locally or in non-GitHub CI systems:
 ------------------------------------------------------------
   Files scanned: 2
   Total dependencies: 1000
+  Compromised packages: 2
+  Security findings: 0
   Scan time: 67ms
   Database version: 2.0.0
+  Last updated: 2025-12-04
 ============================================================
 
   IMMEDIATE ACTIONS REQUIRED:
