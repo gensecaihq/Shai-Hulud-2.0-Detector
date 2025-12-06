@@ -17,6 +17,8 @@ import type {
 	SecurityFinding,
 } from './types';
 
+const DEFAULT_MAX_DEPTH = 10;
+
 // =============================================================================
 // SUSPICIOUS PATTERNS FOR ADVANCED DETECTION
 // =============================================================================
@@ -751,7 +753,11 @@ export function scanBunLock(filePath: string): ScanResult[] {
  * @param scanNodeModules Whether to include node_modules directories in the scan. Defaults to false.
  * @returns Array of absolute lockfile paths.
  */
-export function findLockfiles(directory: string, scanNodeModules: boolean = false): string[] {
+export function findLockfiles(
+	directory: string,
+	scanNodeModules: boolean = false,
+	maxDepth: number = DEFAULT_MAX_DEPTH,
+): string[] {
 	const lockfiles: string[] = [];
 	const possibleFiles = [
 		'package-lock.json',
@@ -763,7 +769,7 @@ export function findLockfiles(directory: string, scanNodeModules: boolean = fals
 
 	// Search in root and subdirectories (for monorepos)
 	const searchDir = (dir: string, depth: number = 0) => {
-		if (depth > 5) return; // Limit depth to prevent excessive recursion
+		if (depth > maxDepth) return; // Limit depth to prevent excessive recursion
 
 		try {
 			const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -791,17 +797,21 @@ export function findLockfiles(directory: string, scanNodeModules: boolean = fals
 }
 
 /**
- * Recursively locate package.json files up to depth 5 (monorepo friendly), skipping
+ * Recursively locate package.json files up to a configurable depth (monorepo friendly), skipping
  * node_modules and dot-prefixed directories.
  * @param directory Root search directory.
  * @param scanNodeModules Whether to include node_modules directories in the scan. Defaults to false.
  * @returns Array of package.json paths.
  */
-export function findPackageJsonFiles(directory: string, scanNodeModules: boolean = false): string[] {
+export function findPackageJsonFiles(
+	directory: string,
+	scanNodeModules: boolean = false,
+	maxDepth: number = DEFAULT_MAX_DEPTH,
+): string[] {
 	const packageFiles: string[] = [];
 
 	const searchDir = (dir: string, depth: number = 0) => {
-		if (depth > 5) return;
+		if (depth > maxDepth) return;
 
 		try {
 			const entries = fs.readdirSync(dir, { withFileTypes: true });
