@@ -1373,6 +1373,7 @@ A huge thank you to all the community members who have contributed to this proje
 | <img src=https://github.com/teesa-chai.png width=32 height=32 alt=@teesa-chai> | [@teesa-chai](https://github.com/teesa-chai) | Discussions |
 | <img src=https://github.com/Th3S4mur41.png width=32 height=32 alt=@Th3S4mur41> | [@Th3S4mur41](https://github.com/Th3S4mur41) | Discussions |
 | <img src=https://github.com/topsinfonimesh.png width=32 height=32 alt=@topsinfonimesh> | [@topsinfonimesh](https://github.com/topsinfonimesh) | Discussions |
+| <img src=https://github.com/warrickhill.png width=32 height=32 alt=@warrickhill> | [@warrickhill](https://github.com/warrickhill) | Issue reports |
 
 
 Your contributions help protect millions of developers worldwide. 🙏
