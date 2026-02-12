@@ -1212,6 +1212,12 @@ A: [Open an issue](https://github.com/gensecaihq/Shai-Hulud-2.0-Detector/issues)
 **Q: What about patched versions?**
 A: The detector uses semver matching to flag only specific compromised versions. Safe versions of a package are not flagged. Check `compromised-packages.json` for version details.
 
+**Q: Why don't packages from @octokit, @microsoft, @types get flagged?**
+A: These are **trusted namespaces** maintained by major organizations. The detector automatically excludes them from content-based scanning to prevent false positives from legitimate security documentation.
+
+**Q: Why doesn't my Homebrew formula for TruffleHog get flagged?**
+A: The detector uses **context-aware detection** to distinguish legitimate TruffleHog usage (security scanning, Homebrew formulas, CI configs) from malicious abuse (credential theft in npm postinstall scripts). Only attack-specific patterns trigger alerts.
+
 ---
 
 ## Contributing
