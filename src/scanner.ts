@@ -114,25 +114,157 @@ const SUSPICIOUS_SCRIPT_PATTERNS = [
 	},
 ];
 
-// TruffleHog and credential scanning patterns
+// =============================================================================
+// TRUFFLEHOG DETECTION (Issue #45 - Context-Aware)
+// =============================================================================
+// TruffleHog is a legitimate security tool by TruffleSecurity. The Shai-Hulud
+// attack ABUSES TruffleHog for credential theft, but the tool itself is not
+// malicious. We need to distinguish legitimate uses (Homebrew formulas,
+// security scanning configs, CI pipelines) from attack patterns.
+
+// Patterns that indicate MALICIOUS use of TruffleHog (attack context)
+const TRUFFLEHOG_ATTACK_PATTERNS = [
+	// TruffleHog downloaded/executed in npm scripts (not normal)
+	{
+		pattern: /(?:postinstall|preinstall|install)\s*['":].*trufflehog/i,
+		description: 'TruffleHog in npm lifecycle script (attack vector)',
+	},
+	// Output redirected to known attack files
+	{
+		pattern: /trufflehog.*>.*trufflehog_output\.json/i,
+		description: 'TruffleHog output to attack file',
+	},
+	{
+		pattern: /trufflehog.*>.*truffleSecrets\.json/i,
+		description: 'TruffleHog output to secrets file',
+	},
+	// TruffleHog downloaded to tmp/temp directories (transient attack)
+	{
+		pattern: /\/tmp\/.*trufflehog|trufflehog.*\/tmp\//i,
+		description: 'TruffleHog in temporary directory',
+	},
+	// TruffleHog with specific attack flags
+	{
+		pattern: /trufflehog.*--json\s+--no-update.*>/i,
+		description: 'TruffleHog attack CLI pattern with output redirect',
+	},
+	// TruffleHog binary download in npm context
+	{
+		pattern: /releases\/download.*trufflehog.*(&&|\||;).*chmod/i,
+		description: 'TruffleHog binary download and execute',
+	},
+	// TruffleSecurity download in suspicious context
+	{
+		pattern: /curl.*trufflesecurity.*\|\s*(ba)?sh/i,
+		description: 'TruffleHog piped to shell execution',
+	},
+	{
+		pattern: /wget.*trufflesecurity.*&&.*chmod/i,
+		description: 'TruffleHog downloaded and made executable',
+	},
+];
+
+// Patterns that indicate LEGITIMATE use of TruffleHog (should NOT flag)
+const TRUFFLEHOG_LEGITIMATE_CONTEXTS = [
+	// Homebrew formulas (Issue #45)
+	/class\s+Trufflehog\s*</i,           // Ruby class definition
+	/Formula\["trufflehog"\]/i,          // Homebrew formula reference
+	/depends_on\s+["']trufflehog/i,      // Homebrew dependency
+	/homebrew[-\/]core/i,                // Homebrew core repo path
+	/\/Formula\//i,                      // Homebrew Formula directory
+	/\/Casks\//i,                        // Homebrew Casks directory
+
+	// Legitimate security scanning configs
+	/\.pre-commit-config/i,              // pre-commit hooks
+	/\.github\/workflows\/.*security/i,  // Security workflows
+	/trufflehog.*--only-verified/i,      // CI scanning flags
+	/secret.*detection.*config/i,        // Secret detection configs
+
+	// Documentation and tests
+	/README.*trufflehog/i,               // Documentation
+	/docs?\/.*trufflehog/i,              // Documentation directories
+	/test.*trufflehog|trufflehog.*test/i, // Test files
+	/__tests__/i,                        // Jest test directories
+
+	// Package descriptions (not executable)
+	/"description":\s*".*trufflehog/i,   // Package.json description
+	/"keywords":\s*\[.*"trufflehog/i,    // Package.json keywords
+];
+
+// Legacy patterns kept for backward compatibility (now used in attack context)
 const TRUFFLEHOG_PATTERNS = [
-	{ pattern: /trufflehog/i, description: 'TruffleHog reference detected' },
+	// These are checked ONLY if not in a legitimate context
 	{ pattern: /trufflesecurity/i, description: 'TruffleSecurity reference' },
 	{
 		pattern: /credential[_-]?scan/i,
 		description: 'Credential scanning pattern',
 	},
 	{ pattern: /secret[_-]?scan/i, description: 'Secret scanning pattern' },
-	{ pattern: /--json\s+--no-update/i, description: 'TruffleHog CLI pattern' },
 	{
 		pattern: /github\.com\/trufflesecurity\/trufflehog/i,
-		description: 'TruffleHog GitHub download',
-	},
-	{
-		pattern: /releases\/download.*trufflehog/i,
-		description: 'TruffleHog binary download',
+		description: 'TruffleHog GitHub reference',
 	},
 ];
+
+/**
+ * Check if content appears to be a legitimate use of TruffleHog.
+ * Returns true if this looks like Homebrew, security configs, docs, etc.
+ * @param content File content to check
+ * @param filePath Path to the file being scanned
+ * @returns true if this is a legitimate TruffleHog context
+ */
+function isLegitimateTrufflehogContext(content: string, filePath: string): boolean {
+	const normalizedPath = filePath.replace(/\\/g, '/').toLowerCase();
+
+	// Check file path patterns
+	const legitimatePathPatterns = [
+		/homebrew/i,
+		/\/formula\//i,
+		/\/casks?\//i,
+		/\.pre-commit/i,
+		/security.*workflow/i,
+		/test/i,
+		/spec/i,
+		/__tests__/i,
+		/docs?\//i,
+		/readme/i,
+	];
+
+	for (const pattern of legitimatePathPatterns) {
+		if (pattern.test(normalizedPath)) {
+			return true;
+		}
+	}
+
+	// Check content patterns
+	for (const pattern of TRUFFLEHOG_LEGITIMATE_CONTEXTS) {
+		if (pattern.test(content)) {
+			return true;
+		}
+	}
+
+	// Check if file is a Ruby file (likely Homebrew formula)
+	if (/\.rb$/i.test(filePath)) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Check if content contains attack-specific TruffleHog patterns.
+ * These patterns indicate malicious abuse of TruffleHog, not legitimate use.
+ * @param content File content to check
+ * @returns Object with found status and description if attack pattern detected
+ */
+function hasTrufflehogAttackPattern(content: string): { found: boolean; description?: string } {
+	for (const { pattern, description } of TRUFFLEHOG_ATTACK_PATTERNS) {
+		if (pattern.test(content)) {
+			return { found: true, description };
+		}
+	}
+	return { found: false };
+}
 
 // Shai-Hulud repository indicators
 const SHAI_HULUD_REPO_PATTERNS = [
@@ -283,9 +415,41 @@ const WEBHOOK_EXFIL_PATTERNS = [
 ];
 
 /**
+ * Strip comments from code content to avoid false positives from documentation.
+ * Removes JSDoc/block comments, line comments, and common documentation patterns.
+ * This helps prevent flagging security terminology in type definitions (Issue #46).
+ * @param content Raw file content
+ * @returns Content with comments stripped
+ */
+function stripCodeComments(content: string): string {
+	let result = content;
+
+	// Remove multi-line block comments (/* ... */ and /** ... */)
+	result = result.replace(/\/\*[\s\S]*?\*\//g, '');
+
+	// Remove single-line comments (// ...)
+	result = result.replace(/\/\/[^\n\r]*/g, '');
+
+	// Remove JSDoc @tags that commonly contain security terminology
+	result = result.replace(/@(?:param|returns?|description|remarks|example|see)\s+[^\n\r]*/gi, '');
+
+	// Remove HTML/XML comments (<!-- ... -->)
+	result = result.replace(/<!--[\s\S]*?-->/g, '');
+
+	// Remove Python/Ruby style comments (# ...)
+	result = result.replace(/^\s*#[^\n\r]*/gm, '');
+
+	return result;
+}
+
+/**
  * Check if content contains suspicious exfiltration patterns.
  * More specific than simple "exfiltrat" matching to avoid false positives
- * from legitimate security documentation (e.g., @lit/reactive-element).
+ * from legitimate security documentation (e.g., @lit/reactive-element, @microsoft/microsoft-graph-types).
+ *
+ * Key improvements (Issue #46):
+ * - Strips comments before pattern matching to ignore documentation
+ * - Requires "exfiltrat" to appear near suspicious context in actual code
  *
  * Requires "exfiltrat" to appear near suspicious context:
  * - Network methods: fetch, XMLHttpRequest, axios, request
@@ -299,6 +463,15 @@ function hasExfiltrationContext(content: string): {
 } {
 	// Skip if no exfiltration reference at all
 	if (!/exfiltrat/i.test(content)) {
+		return { found: false };
+	}
+
+	// Strip comments to avoid false positives from documentation (Issue #46)
+	// e.g., @microsoft/microsoft-graph-types has "dataExfiltration" in JSDoc comments
+	const codeOnly = stripCodeComments(content);
+
+	// If exfiltration only appears in comments, skip it
+	if (!/exfiltrat/i.test(codeOnly)) {
 		return { found: false };
 	}
 
@@ -325,7 +498,7 @@ function hasExfiltrationContext(content: string): {
 	];
 
 	for (const pattern of suspiciousPatterns) {
-		if (pattern.test(content)) {
+		if (pattern.test(codeOnly)) {
 			return {
 				found: true,
 				evidence: 'Exfiltration code pattern detected',
@@ -353,6 +526,47 @@ const AFFECTED_NAMESPACES = [
 	'@nativescript-community',
 	'@oku-ui',
 ];
+
+// =============================================================================
+// TRUSTED NAMESPACES (Issue #47)
+// =============================================================================
+// These namespaces are maintained by trusted organizations and should not
+// trigger false positives. They often contain security-related terminology
+// in type definitions or documentation.
+const TRUSTED_NAMESPACES = [
+	'@octokit',      // GitHub official packages (Issue #47)
+	'@microsoft',    // Microsoft official packages (Issue #46)
+	'@types',        // DefinitelyTyped - community type definitions
+	'@azure',        // Microsoft Azure packages
+	'@google-cloud', // Google Cloud packages
+	'@aws-sdk',      // AWS SDK packages
+	'@angular',      // Angular framework
+	'@nestjs',       // NestJS framework
+	'@prisma',       // Prisma ORM
+];
+
+/**
+ * Check if a package belongs to a trusted namespace.
+ * These packages are maintained by major organizations and are unlikely to be compromised.
+ * Exported for use by consumers who want to filter their own package lists.
+ * @param packageName The package name to check
+ * @returns true if the package is from a trusted namespace
+ */
+export function isTrustedNamespace(packageName: string): boolean {
+	return TRUSTED_NAMESPACES.some(ns => packageName.startsWith(ns + '/'));
+}
+
+/**
+ * Check if a file path is within a trusted namespace's node_modules directory.
+ * @param filePath The file path to check
+ * @returns true if the file is from a trusted namespace package
+ */
+function isInTrustedNamespace(filePath: string): boolean {
+	const normalizedPath = filePath.replace(/\\/g, '/');
+	return TRUSTED_NAMESPACES.some(ns =>
+		normalizedPath.includes(`/node_modules/${ns}/`)
+	);
+}
 
 // Files/paths to exclude from scanning (detector's own source code)
 const EXCLUDED_PATHS = [
@@ -914,12 +1128,22 @@ export function checkSuspiciousScripts(filePath: string): SecurityFinding[] {
  * Traverse the repository (depth <= 5) searching for TruffleHog references, payload
  * artifacts, and exfiltration endpoints in script & code files. Skips detector sources
  * via path/content heuristics.
+ *
+ * Issue #45 Improvements:
+ * - Context-aware TruffleHog detection (distinguishes attack from legitimate use)
+ * - Skips Homebrew formulas, security configs, documentation
+ * - Only flags TruffleHog when used in attack patterns (npm scripts, output files)
+ *
+ * Issue #46 Improvements:
+ * - Skips .d.ts type definition files (no executable code)
+ * - Skips files in trusted namespaces (@microsoft, @octokit, etc.)
+ *
  * @param directory Root directory to scan.
  * @returns SecurityFinding list of critical indicators.
  */
 export function checkTrufflehogActivity(directory: string): SecurityFinding[] {
 	const findings: SecurityFinding[] = [];
-	const suspiciousFiles: string[] = [];
+	const suspiciousFiles: Array<{ path: string; reason: string }> = [];
 
 	const searchDir = (dir: string, depth: number = 0) => {
 		if (depth > 5) return;
@@ -931,19 +1155,44 @@ export function checkTrufflehogActivity(directory: string): SecurityFinding[] {
 				const fullPath = path.join(dir, entry.name);
 
 				if (entry.isFile()) {
-					// Check for TruffleHog binary or related files
-					if (
-						/trufflehog/i.test(entry.name) ||
-						entry.name === 'bun_environment.js' ||
-						entry.name === 'setup_bun.js'
-					) {
-						suspiciousFiles.push(fullPath);
+					// Always flag known Shai-Hulud attack files (not TruffleHog itself)
+					if (entry.name === 'bun_environment.js' || entry.name === 'setup_bun.js') {
+						suspiciousFiles.push({
+							path: fullPath,
+							reason: 'Shai-Hulud attack payload',
+						});
+					}
+
+					// For files named "trufflehog", check if it's a legitimate context (Issue #45)
+					if (/trufflehog/i.test(entry.name)) {
+						// Read content to check context
+						try {
+							const content = fs.readFileSync(fullPath, 'utf8');
+							if (!isLegitimateTrufflehogContext(content, fullPath)) {
+								suspiciousFiles.push({
+									path: fullPath,
+									reason: 'TruffleHog binary or script in suspicious location',
+								});
+							}
+						} catch {
+							// If we can't read it, skip (don't flag based on name alone)
+						}
 					}
 
 					// Scan content of shell scripts and JS files
 					if (/\.(sh|js|ts|mjs|cjs)$/i.test(entry.name)) {
 						// Skip excluded paths (detector's own source code)
 						if (isExcludedPath(fullPath)) {
+							continue;
+						}
+
+						// Skip type definition files - they contain no executable code (Issue #46)
+						if (/\.d\.ts$/i.test(entry.name)) {
+							continue;
+						}
+
+						// Skip files in trusted namespaces (Issue #47)
+						if (isInTrustedNamespace(fullPath)) {
 							continue;
 						}
 
@@ -957,18 +1206,34 @@ export function checkTrufflehogActivity(directory: string): SecurityFinding[] {
 								continue;
 							}
 
-							for (const { pattern, description } of TRUFFLEHOG_PATTERNS) {
-								if (pattern.test(content)) {
-									findings.push({
-										type: 'trufflehog-activity',
-										severity: 'critical',
-										title: `TruffleHog activity detected`,
-										description: `${description}. This may indicate automated credential theft as part of the Shai-Hulud attack.`,
-										location: fullPath,
-										evidence: pattern.toString(),
-										sha256: contentSha256,
-									});
-									break;
+							// Check for TruffleHog ATTACK patterns specifically (Issue #45)
+							// This distinguishes malicious use from legitimate security tooling
+							const attackCheck = hasTrufflehogAttackPattern(content);
+							if (attackCheck.found) {
+								findings.push({
+									type: 'trufflehog-activity',
+									severity: 'critical',
+									title: `Malicious TruffleHog usage detected`,
+									description: `${attackCheck.description}. This indicates TruffleHog is being abused for credential theft as part of the Shai-Hulud attack.`,
+									location: fullPath,
+									evidence: 'TruffleHog attack pattern',
+									sha256: contentSha256,
+								});
+							} else if (!isLegitimateTrufflehogContext(content, fullPath)) {
+								// Fall back to legacy patterns only if not in legitimate context
+								for (const { pattern, description } of TRUFFLEHOG_PATTERNS) {
+									if (pattern.test(content)) {
+										findings.push({
+											type: 'trufflehog-activity',
+											severity: 'high', // Reduced from critical since context unclear
+											title: `TruffleHog reference detected`,
+											description: `${description}. Review this file to determine if TruffleHog is being used legitimately or maliciously.`,
+											location: fullPath,
+											evidence: pattern.toString(),
+											sha256: contentSha256,
+										});
+										break;
+									}
 								}
 							}
 
@@ -1020,14 +1285,14 @@ export function checkTrufflehogActivity(directory: string): SecurityFinding[] {
 
 	searchDir(directory);
 
-	// Report suspicious files found
-	for (const file of suspiciousFiles) {
+	// Report suspicious files found (only those that passed context checks)
+	for (const { path: file, reason } of suspiciousFiles) {
 		const fileName = path.basename(file);
 		findings.push({
 			type: 'trufflehog-activity',
 			severity: 'critical',
 			title: `Suspicious file: ${fileName}`,
-			description: `Found file "${fileName}" which is associated with the Shai-Hulud attack. This file may download and execute TruffleHog for credential theft.`,
+			description: `Found file "${fileName}" - ${reason}. This file may download and execute TruffleHog for credential theft.`,
 			location: file,
 		});
 	}

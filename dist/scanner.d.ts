@@ -1,5 +1,13 @@
 import type { BunLock, PackageJson, PackageLock, SarifResult, ScanResult, ScanSummary, SecurityFinding } from './types';
 /**
+ * Check if a package belongs to a trusted namespace.
+ * These packages are maintained by major organizations and are unlikely to be compromised.
+ * Exported for use by consumers who want to filter their own package lists.
+ * @param packageName The package name to check
+ * @returns true if the package is from a trusted namespace
+ */
+export declare function isTrustedNamespace(packageName: string): boolean;
+/**
  * Fast membership check for whether a package name appears in the compromised
  * master package list.
  * @param packageName The dependency name to check.
@@ -98,6 +106,16 @@ export declare function checkSuspiciousScripts(filePath: string): SecurityFindin
  * Traverse the repository (depth <= 5) searching for TruffleHog references, payload
  * artifacts, and exfiltration endpoints in script & code files. Skips detector sources
  * via path/content heuristics.
+ *
+ * Issue #45 Improvements:
+ * - Context-aware TruffleHog detection (distinguishes attack from legitimate use)
+ * - Skips Homebrew formulas, security configs, documentation
+ * - Only flags TruffleHog when used in attack patterns (npm scripts, output files)
+ *
+ * Issue #46 Improvements:
+ * - Skips .d.ts type definition files (no executable code)
+ * - Skips files in trusted namespaces (@microsoft, @octokit, etc.)
+ *
  * @param directory Root directory to scan.
  * @returns SecurityFinding list of critical indicators.
  */
