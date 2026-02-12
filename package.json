@@ -1,6 +1,6 @@
 {
 	"name": "shai-hulud-detector",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"description": "GitHub Action to detect Shai-Hulud 2.0 supply chain attack with SHA256 hash matching, on:discussion trigger detection, and runner installation scanning",
 	"main": "dist/index.js",
 	"scripts": {
