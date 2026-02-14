@@ -1,0 +1,68 @@
+# Self-protection workflow - The detector protects itself
+# Runs the Shai-Hulud 2.0 Detector on its own repository
+
+name: Self-Protection Scan
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'package.json'
+      - 'package-lock.json'
+      - 'src/**'
+      - 'compromised-packages.json'
+  pull_request:
+    branches: [main]
+  schedule:
+    # Run daily at 06:00 UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  self-scan:
+    name: Scan Own Repository
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Shai-Hulud 2.0 Detector
+        id: detector
+        uses: ./
+        with:
+          fail-on-critical: true
+          fail-on-high: true
+          scan-lockfiles: true
+          scan-node-modules: false
+          output-format: sarif
+          allowlist-path: '.shai-hulud-allowlist.json'
+
+      - name: Upload SARIF to GitHub Security
+        if: always() && hashFiles('shai-hulud-results.sarif') != ''
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: shai-hulud-results.sarif
+        continue-on-error: true
+
+      - name: Security Summary
+        if: always()
+        run: |
+          echo "## Self-Protection Scan Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Status | ${{ steps.detector.outputs.status }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Affected Packages | ${{ steps.detector.outputs.affected-count }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Security Findings | ${{ steps.detector.outputs.security-findings-count }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Scan Time | ${{ steps.detector.outputs.scan-time }}ms |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.detector.outputs.status }}" = "clean" ]; then
+            echo "✅ **Repository is clean** - No compromised packages or security issues detected." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ **Issues detected** - Review the security findings above." >> $GITHUB_STEP_SUMMARY
+          fi
