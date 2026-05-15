@@ -11,16 +11,23 @@ import masterPackagesData from '../compromised-packages.json';
  * Lightweight pnpm-lock.yaml parser extracting package name -> version mappings.
  * Only intended for identifying affected packages; not a full fidelity parser.
  * @param filePath pnpm-lock.yaml file path.
- * @returns Map of package names to versions or null on failure.
+ * @returns Map of package names to unique versions or null on failure.
  */
-export function parsePnpmLock(filePath: string): Map<string, string> | null {
+export function parsePnpmLock(filePath: string): Map<string, Set<string>> | null {
 	try {
 		const content = fs.readFileSync(filePath, 'utf8');
 		const doc = yaml.load(content) as any;
-		const packages = new Map<string, string>();
+		const packages = new Map<string, Set<string>>();
 		const normalizeVersion = (version: string): string => {
 			// Strip peer suffixes like "1.2.3(peer@4.5.6)" -> "1.2.3"
 			return version.split('(')[0];
+		};
+		const addPackageVersion = (name: string, version: string): void => {
+			const normalizedVersion = normalizeVersion(version);
+			if (!packages.has(name)) {
+				packages.set(name, new Set<string>());
+			}
+			packages.get(name)?.add(normalizedVersion);
 		};
 
 		if (doc && doc.packages) {
@@ -32,14 +39,14 @@ export function parsePnpmLock(filePath: string): Map<string, string> | null {
 				);
 
 				if (atStyleMatch) {
-					packages.set(atStyleMatch[1], normalizeVersion(atStyleMatch[2]));
+					addPackageVersion(atStyleMatch[1], atStyleMatch[2]);
 					continue;
 				}
 
 				// pnpm legacy key shape: '/@scope/name/1.2.3' or '/name/1.2.3'.
 				const slashStyleMatch = pkgKey.match(/^\/((?:@[^/]+\/)?[^/]+)\/(.+)$/);
 				if (slashStyleMatch) {
-					packages.set(slashStyleMatch[1], normalizeVersion(slashStyleMatch[2]));
+					addPackageVersion(slashStyleMatch[1], slashStyleMatch[2]);
 				}
 			}
 		}
@@ -73,8 +80,8 @@ export function parsePnpmLock(filePath: string): Map<string, string> | null {
 							rawVersion = depEntry.version;
 						}
 
-						if (rawVersion) {
-							packages.set(name, normalizeVersion(rawVersion));
+						if (rawVersion && !packages.has(name)) {
+							addPackageVersion(name, rawVersion);
 						}
 					}
 				}
@@ -98,16 +105,18 @@ export function scanPnpmLock(filePath: string): ScanResult[] {
 
 	if (!packages) return results;
 
-	for (const [name, version] of packages.entries()) {
-		if (isAffected(name, version)) {
-			results.push({
-				package: name,
-				affected: true,
-				version,
-				severity: getPackageSeverity(name),
-				isDirect: false, // pnpm-lock.yaml doesn't indicate direct vs transitive reliably
-				location: filePath,
-			});
+	for (const [name, versions] of packages.entries()) {
+		for (const version of versions) {
+			if (isAffected(name, version)) {
+				results.push({
+					package: name,
+					affected: true,
+					version,
+					severity: getPackageSeverity(name),
+					isDirect: false, // pnpm-lock.yaml doesn't indicate direct vs transitive reliably
+					location: filePath,
+				});
+			}
 		}
 	}
 

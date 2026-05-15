@@ -30,8 +30,8 @@ packages:
 
 		const parsed = parsePnpmLock(lockfilePath);
 		expect(parsed).not.toBeNull();
-		expect(parsed?.get('@actions/core')).toBe('1.11.1');
-		expect(parsed?.get('ts-jest')).toBe('29.4.5');
+		expect(parsed?.get('@actions/core')).toEqual(new Set(['1.11.1']));
+		expect(parsed?.get('ts-jest')).toEqual(new Set(['29.4.5']));
 	});
 
 	it('parses importer-only dependencies when package entry is missing', () => {
@@ -51,7 +51,26 @@ packages:
 
 		const parsed = parsePnpmLock(lockfilePath);
 		expect(parsed).not.toBeNull();
-		expect(parsed?.get('@huntersofbook/core')).toBe('0.5.1');
+		expect(parsed?.get('@huntersofbook/core')).toEqual(new Set(['0.5.1']));
+	});
+
+	it('preserves and scans multiple versions for the same package name', () => {
+		const content = `
+lockfileVersion: '9.0'
+packages:
+  '@huntersofbook/core@0.5.0':
+    resolution: {integrity: sha512-a}
+  '@huntersofbook/core@0.5.1':
+    resolution: {integrity: sha512-b}
+`;
+		fs.writeFileSync(lockfilePath, content, 'utf8');
+
+		const parsed = parsePnpmLock(lockfilePath);
+		expect(parsed).not.toBeNull();
+		expect(parsed?.get('@huntersofbook/core')).toEqual(new Set(['0.5.0', '0.5.1']));
+
+		const results = scanPnpmLock(lockfilePath);
+		expect(results.some((r) => r.package === '@huntersofbook/core' && r.version === '0.5.1')).toBe(true);
 	});
 
 	it('detects known compromised importer dependency in scanPnpmLock', () => {
