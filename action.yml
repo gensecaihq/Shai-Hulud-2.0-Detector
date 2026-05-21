@@ -66,5 +66,5 @@ outputs:
     description: 'Number of findings excluded by allowlist'
 
 runs:
-  using: 'node20'
+  using: 'node24'
   main: 'dist/index.js'
