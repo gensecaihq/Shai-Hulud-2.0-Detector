@@ -14,6 +14,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     permissions:
       contents: write
+      pull-requests: write
 
     steps:
       - uses: actions/checkout@v7
@@ -179,11 +180,20 @@ jobs:
             echo "changed=true" >> $GITHUB_OUTPUT
           fi
 
-      - name: Commit and push
+      - name: Create Pull Request
         if: steps.changes.outputs.changed == 'true'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add README.md
-          git commit -m "docs: Update contributors in Thanks section [skip ci]"
-          git push
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "docs: Update contributors in Thanks section [skip ci]"
+          branch: automated/update-contributors
+          delete-branch: true
+          title: "docs: Update contributors in Thanks section"
+          body: |
+            Automated weekly refresh of the Thanks section in README.md.
+
+            Direct pushes to `main` are blocked by branch protection, so this
+            update goes through a PR like the IOC database updates.
+          labels: |
+            automated
+            documentation
