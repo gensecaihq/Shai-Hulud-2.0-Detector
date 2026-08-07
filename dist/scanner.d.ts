@@ -1,3 +1,16 @@
+/**
+ * Lightweight pnpm-lock.yaml parser extracting package name -> version mappings.
+ * Only intended for identifying affected packages; not a full fidelity parser.
+ * @param filePath pnpm-lock.yaml file path.
+ * @returns Map of package names to versions or null on failure.
+ */
+export declare function parsePnpmLock(filePath: string): Map<string, string> | null;
+/**
+ * Scan a pnpm-lock.yaml for affected packages. All findings are marked as transitive.
+ * @param filePath pnpm-lock.yaml path.
+ * @returns ScanResult list.
+ */
+export declare function scanPnpmLock(filePath: string): ScanResult[];
 import type { BunLock, PackageJson, PackageLock, SarifResult, ScanResult, ScanSummary, SecurityFinding } from './types';
 /**
  * Check if a package belongs to a trusted namespace.

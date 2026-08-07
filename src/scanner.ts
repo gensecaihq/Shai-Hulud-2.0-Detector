@@ -2,10 +2,126 @@ import * as crypto from 'crypto';
 import * as fs from 'fs';
 import * as path from 'path';
 import JSON5 from 'json5'
+import  yaml from 'js-yaml'
 import SemVer from 'semver/classes/semver';
 import intersects from 'semver/ranges/intersects';
 import satisfies from 'semver/functions/satisfies';
 import masterPackagesData from '../compromised-packages.json';
+/**
+ * Lightweight pnpm-lock.yaml parser extracting package name -> version mappings.
+ * Only intended for identifying affected packages; not a full fidelity parser.
+ * @param filePath pnpm-lock.yaml file path.
+ * @returns Map of package names to unique versions or null on failure.
+ */
+export function parsePnpmLock(filePath: string): Map<string, Set<string>> | null {
+	try {
+		const content = fs.readFileSync(filePath, 'utf8');
+		const doc = yaml.load(content) as any;
+		const packages = new Map<string, Set<string>>();
+		const normalizeVersion = (version: string): string => {
+			// Strip peer suffixes like "1.2.3(peer@4.5.6)" -> "1.2.3"
+			return version.split('(')[0];
+		};
+		const addPackageVersion = (name: string, version: string): void => {
+			const normalizedVersion = normalizeVersion(version);
+			if (!packages.has(name)) {
+				packages.set(name, new Set<string>());
+			}
+			packages.get(name)?.add(normalizedVersion);
+		};
+
+		if (doc && doc.packages) {
+			for (const pkgKey of Object.keys(doc.packages)) {
+				// pnpm v9 key shape: '@scope/name@1.2.3' or 'name@1.2.3'
+				// with optional peer suffixes, e.g. 'pkg@1.0.0(peer@2.0.0)'.
+				const atStyleMatch = pkgKey.match(
+					/^((?:@[^/]+\/)?[^@/()]+)@([^()]+)(?:\(.+\))?$/,
+				);
+
+				if (atStyleMatch) {
+					addPackageVersion(atStyleMatch[1], atStyleMatch[2]);
+					continue;
+				}
+
+				// pnpm legacy key shape: '/@scope/name/1.2.3' or '/name/1.2.3'.
+				const slashStyleMatch = pkgKey.match(/^\/((?:@[^/]+\/)?[^/]+)\/(.+)$/);
+				if (slashStyleMatch) {
+					addPackageVersion(slashStyleMatch[1], slashStyleMatch[2]);
+				}
+			}
+		}
+
+		// Fallback: also parse direct dependencies from importers.
+		// This handles partially-edited lockfiles where an importer entry exists
+		// but a matching key is missing from the packages section.
+		if (doc && doc.importers && typeof doc.importers === 'object') {
+			for (const importer of Object.values(doc.importers as Record<string, any>)) {
+				if (!importer || typeof importer !== 'object') continue;
+
+				for (const section of [
+					'dependencies',
+					'devDependencies',
+					'optionalDependencies',
+					'peerDependencies',
+				]) {
+					const deps = importer[section] as Record<string, any> | undefined;
+					if (!deps || typeof deps !== 'object') continue;
+
+					for (const [name, depEntry] of Object.entries(deps)) {
+						let rawVersion: string | undefined;
+
+						if (typeof depEntry === 'string') {
+							rawVersion = depEntry;
+						} else if (
+							depEntry &&
+							typeof depEntry === 'object' &&
+							typeof depEntry.version === 'string'
+						) {
+							rawVersion = depEntry.version;
+						}
+
+						if (rawVersion && !packages.has(name)) {
+							addPackageVersion(name, rawVersion);
+						}
+					}
+				}
+			}
+		}
+
+		return packages;
+	} catch {
+		return null;
+	}
+}
+
+/**
+ * Scan a pnpm-lock.yaml for affected packages. All findings are marked as transitive.
+ * @param filePath pnpm-lock.yaml path.
+ * @returns ScanResult list.
+ */
+export function scanPnpmLock(filePath: string): ScanResult[] {
+	const results: ScanResult[] = [];
+	const packages = parsePnpmLock(filePath);
+
+	if (!packages) return results;
+
+	for (const [name, versions] of packages.entries()) {
+		for (const version of versions) {
+			if (isAffected(name, version)) {
+				results.push({
+					package: name,
+					affected: true,
+					version,
+					severity: getPackageSeverity(name),
+					isDirect: false, // pnpm-lock.yaml doesn't indicate direct vs transitive reliably
+					location: filePath,
+				});
+			}
+		}
+	}
+
+	return results;
+}
 import type {
 	BunLock,
 	MasterPackages,
@@ -1905,7 +2021,10 @@ export function runScan(
 			} else if (file.endsWith('bun.lock')) {
 				results = scanBunLock(file);
 			}
-			// TODO: Add pnpm-lock.yaml support
+
+			if (file.endsWith('pnpm-lock.yaml')) {
+				results = scanPnpmLock(file);
+			}
 
 			for (const result of results) {
 				const key = `${result.package}@${result.version}`;
