@@ -1477,13 +1477,13 @@ A huge thank you to all the community members who have contributed to this proje
 | | Contributor | Contributions |
 |---|-------------|---------------|
 | <img src=https://github.com/albe.png width=32 height=32 alt=@albe> | [@albe](https://github.com/albe) | Code contributions, Pull requests |
-| <img src=https://github.com/alokemajumder.png width=32 height=32 alt=@alokemajumder> | [@alokemajumder](https://github.com/alokemajumder) | Code contributions, Issue reports, Pull requests |
+| <img src=https://github.com/alokemajumder.png width=32 height=32 alt=@alokemajumder> | [@alokemajumder](https://github.com/alokemajumder) | Code contributions, Pull requests |
+| <img src=https://github.com/arlogilbert.png width=32 height=32 alt=@arlogilbert> | [@arlogilbert](https://github.com/arlogilbert) | Discussions |
 | <img src=https://github.com/buggedcom.png width=32 height=32 alt=@buggedcom> | [@buggedcom](https://github.com/buggedcom) | Discussions |
+| <img src=https://github.com/daniel-toth-leeder.png width=32 height=32 alt=@daniel-toth-leeder> | [@daniel-toth-leeder](https://github.com/daniel-toth-leeder) | Code contributions, Pull requests |
 | <img src=https://github.com/fhafner2.png width=32 height=32 alt=@fhafner2> | [@fhafner2](https://github.com/fhafner2) | Discussions |
-| <img src=https://github.com/gaellafond.png width=32 height=32 alt=@gaellafond> | [@gaellafond](https://github.com/gaellafond) | Issue reports |
-| <img src=https://github.com/Gaurav0.png width=32 height=32 alt=@Gaurav0> | [@Gaurav0](https://github.com/Gaurav0) | Issue reports |
 | <img src=https://github.com/giulietta-dev.png width=32 height=32 alt=@giulietta-dev> | [@giulietta-dev](https://github.com/giulietta-dev) | Code contributions |
-| <img src=https://github.com/jeis4wpi.png width=32 height=32 alt=@jeis4wpi> | [@jeis4wpi](https://github.com/jeis4wpi) | Issue reports |
+| <img src=https://github.com/jhigareda-atg.png width=32 height=32 alt=@jhigareda-atg> | [@jhigareda-atg](https://github.com/jhigareda-atg) | Pull requests |
 | <img src=https://github.com/julia-infocaster.png width=32 height=32 alt=@julia-infocaster> | [@julia-infocaster](https://github.com/julia-infocaster) | Code contributions, Pull requests |
 | <img src=https://github.com/julien1619.png width=32 height=32 alt=@julien1619> | [@julien1619](https://github.com/julien1619) | Code contributions, Pull requests |
 | <img src=https://github.com/kevinmui-atg.png width=32 height=32 alt=@kevinmui-atg> | [@kevinmui-atg](https://github.com/kevinmui-atg) | Pull requests |
@@ -1491,13 +1491,14 @@ A huge thank you to all the community members who have contributed to this proje
 | <img src=https://github.com/luca-cond.png width=32 height=32 alt=@luca-cond> | [@luca-cond](https://github.com/luca-cond) | Discussions |
 | <img src=https://github.com/lucascco.png width=32 height=32 alt=@lucascco> | [@lucascco](https://github.com/lucascco) | Pull requests |
 | <img src=https://github.com/maxie7.png width=32 height=32 alt=@maxie7> | [@maxie7](https://github.com/maxie7) | Code contributions, Discussions, Pull requests |
+| <img src=https://github.com/mh5.png width=32 height=32 alt=@mh5> | [@mh5](https://github.com/mh5) | Discussions |
 | <img src=https://github.com/noahhsec.png width=32 height=32 alt=@noahhsec> | [@noahhsec](https://github.com/noahhsec) | Code contributions, Pull requests |
 | <img src=https://github.com/sampov2.png width=32 height=32 alt=@sampov2> | [@sampov2](https://github.com/sampov2) | Discussions |
-| <img src=https://github.com/seezee.png width=32 height=32 alt=@seezee> | [@seezee](https://github.com/seezee) | Issue reports |
+| <img src=https://github.com/Shaumik-Ashraf.png width=32 height=32 alt=@Shaumik-Ashraf> | [@Shaumik-Ashraf](https://github.com/Shaumik-Ashraf) | Discussions |
 | <img src=https://github.com/teesa-chai.png width=32 height=32 alt=@teesa-chai> | [@teesa-chai](https://github.com/teesa-chai) | Discussions |
 | <img src=https://github.com/Th3S4mur41.png width=32 height=32 alt=@Th3S4mur41> | [@Th3S4mur41](https://github.com/Th3S4mur41) | Discussions |
 | <img src=https://github.com/topsinfonimesh.png width=32 height=32 alt=@topsinfonimesh> | [@topsinfonimesh](https://github.com/topsinfonimesh) | Discussions |
-| <img src=https://github.com/warrickhill.png width=32 height=32 alt=@warrickhill> | [@warrickhill](https://github.com/warrickhill) | Issue reports |
+| <img src=https://github.com/woss.png width=32 height=32 alt=@woss> | [@woss](https://github.com/woss) | Code contributions, Pull requests |
 
 
 Your contributions help protect millions of developers worldwide. 🙏
