@@ -428,7 +428,7 @@ node dist/index.js
 ```yaml
 # .gitlab-ci.yml
 shai-hulud-scan:
-  image: node:20
+  image: node:24
   stage: test
   script:
     - git clone https://github.com/gensecaihq/Shai-Hulud-2.0-Detector.git /tmp/detector
@@ -482,7 +482,7 @@ pool:
 steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: '20.x'
+      versionSpec: '24.x'
 
   - script: |
       git clone https://github.com/gensecaihq/Shai-Hulud-2.0-Detector.git /tmp/detector
@@ -501,7 +501,7 @@ version: 2.1
 jobs:
   security-scan:
     docker:
-      - image: cimg/node:20.0
+      - image: cimg/node:24.0
     steps:
       - checkout
       - run:
