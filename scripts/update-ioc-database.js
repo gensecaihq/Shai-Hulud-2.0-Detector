@@ -20,6 +20,8 @@ const fs = require('fs');
 const path = require('path');
 
 const CONSOLIDATED_IOC_URL = 'https://raw.githubusercontent.com/DataDog/indicators-of-compromise/main/shai-hulud-2.0/consolidated_iocs.csv';
+// ChainDrop wave (Aug 2026, "Shai-Hulud: Here We Go Again") - Wiz Research maintained list
+const CHAINDROP_IOC_URL = 'https://raw.githubusercontent.com/wiz-sec-public/wiz-research-iocs/main/reports/keyv-packages.csv';
 const OUTPUT_FILE = path.join(__dirname, '..', 'compromised-packages.json');
 
 /**
@@ -105,6 +107,58 @@ function parseConsolidatedCSV(csvContent) {
 }
 
 /**
+ * Parse the Wiz Research ChainDrop CSV (format: Package,"v1, v2, ...")
+ */
+function parseChainDropCSV(csvContent) {
+    const lines = csvContent.trim().split('\n');
+    const packages = [];
+
+    // Skip header
+    for (let i = 1; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line) continue;
+
+        const [packageName, packageVersions] = parseCSVLine(line);
+        if (!packageName || !packageVersions) continue;
+
+        const versions = packageVersions
+            .split(',')
+            .map(v => v.trim())
+            .filter(v => v.length > 0);
+
+        packages.push({
+            name: packageName,
+            severity: 'critical',
+            affectedVersions: versions,
+            sources: ['wiz-chaindrop']
+        });
+    }
+
+    return packages;
+}
+
+/**
+ * Merge package lists from multiple campaign feeds, unioning affected
+ * versions when the same package appears in more than one feed.
+ */
+function mergePackageLists(...lists) {
+    const byName = new Map();
+    for (const list of lists) {
+        for (const pkg of list) {
+            const existing = byName.get(pkg.name);
+            if (existing) {
+                const versions = new Set([...existing.affectedVersions, ...pkg.affectedVersions]);
+                existing.affectedVersions = [...versions];
+                existing.sources = [...new Set([...existing.sources, ...pkg.sources])];
+            } else {
+                byName.set(pkg.name, { ...pkg, affectedVersions: [...pkg.affectedVersions], sources: [...pkg.sources] });
+            }
+        }
+    }
+    return [...byName.values()].sort((a, b) => a.name.localeCompare(b.name));
+}
+
+/**
  * Load existing database to preserve metadata
  */
 function loadExistingDatabase() {
@@ -124,14 +178,29 @@ async function updateDatabase() {
     console.log('Shai-Hulud 2.0 IOC Database Updater');
     console.log('===================================\n');
 
-    // Fetch consolidated IOCs
+    // Fetch consolidated IOCs (Shai-Hulud 2.0 wave, Nov 2025)
     console.log(`Fetching: ${CONSOLIDATED_IOC_URL}`);
     const csvContent = await fetchUrl(CONSOLIDATED_IOC_URL);
     console.log(`Downloaded ${csvContent.length} bytes\n`);
 
-    // Parse CSV
-    const packages = parseConsolidatedCSV(csvContent);
-    console.log(`Parsed ${packages.length} packages from consolidated IOCs\n`);
+    const shaiHulud2Packages = parseConsolidatedCSV(csvContent);
+    console.log(`Parsed ${shaiHulud2Packages.length} packages from Shai-Hulud 2.0 consolidated IOCs\n`);
+
+    // Fetch ChainDrop IOCs (Aug 2026 wave)
+    console.log(`Fetching: ${CHAINDROP_IOC_URL}`);
+    let chainDropPackages = [];
+    try {
+        const chainDropCsv = await fetchUrl(CHAINDROP_IOC_URL);
+        console.log(`Downloaded ${chainDropCsv.length} bytes\n`);
+        chainDropPackages = parseChainDropCSV(chainDropCsv);
+        console.log(`Parsed ${chainDropPackages.length} packages from ChainDrop (Wiz Research) IOCs\n`);
+    } catch (err) {
+        console.error(`Warning: Could not fetch ChainDrop feed (${err.message}); keeping Shai-Hulud 2.0 data only`);
+    }
+
+    // Merge both campaign waves
+    const packages = mergePackageLists(shaiHulud2Packages, chainDropPackages);
+    console.log(`Merged total: ${packages.length} unique packages\n`);
 
     // Load existing database
     const existing = loadExistingDatabase();
@@ -155,19 +224,20 @@ async function updateDatabase() {
     // Build updated database
     const now = new Date().toISOString();
     const database = {
-        version: existing?.version || '2.1.0',
+        version: existing?.version || '2.2.0',
         lastUpdated: now,
         dataSource: {
             url: 'https://github.com/DataDog/indicators-of-compromise/tree/main/shai-hulud-2.0',
-            description: 'Consolidated IOCs from multiple security vendors',
+            description: 'Consolidated IOCs from multiple security vendors (Shai-Hulud 2.0 wave) merged with the Wiz Research ChainDrop package list (Aug 2026 wave)',
+            chainDropUrl: 'https://github.com/wiz-sec-public/wiz-research-iocs/blob/main/reports/keyv-packages.csv',
             sources: Object.keys(sourceCounts).sort(),
             fetchedAt: now
         },
-        attackInfo: existing?.attackInfo || {
-            name: 'Shai-Hulud 2.0',
-            alias: 'The Second Coming',
+        attackInfo: {
+            name: 'Shai-Hulud 2.0 / ChainDrop',
+            alias: 'The Second Coming / Here We Go Again',
             firstDetected: '2025-11-24T03:16:00Z',
-            description: 'Self-replicating npm worm targeting credential theft and supply chain compromise.'
+            description: 'Self-replicating npm worm targeting credential theft and supply chain compromise. The ChainDrop wave (Aug 4, 2026) hit keyv, cacheable, flat-cache and 450+ packages.'
         },
         indicators: existing?.indicators || {},
         acknowledgements: existing?.acknowledgements || [],

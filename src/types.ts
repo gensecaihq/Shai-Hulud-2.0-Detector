@@ -75,7 +75,8 @@ export type SecurityFindingType =
   | 'malicious-runner'
   | 'malware-hash-match'
   | 'runner-installation'
-  | 'malicious-workflow-trigger';
+  | 'malicious-workflow-trigger'
+  | 'ide-persistence';
 
 export interface SecurityFinding {
   type: SecurityFindingType;

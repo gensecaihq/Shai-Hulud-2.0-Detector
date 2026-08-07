@@ -155,6 +155,19 @@ const SUSPICIOUS_SCRIPT_PATTERNS = [
 	},
 
 	// ==========================================================================
+	// CRITICAL: ChainDrop wave IoCs (Aug 2026, "Shai-Hulud: Here We Go Again")
+	// ==========================================================================
+	{
+		// ChainDrop dropper invoked from lifecycle scripts (preinstall: node setup.mjs)
+		pattern: /(?:^|[\s;&|'"])node\s+(?:\.\/)?setup\.mjs/i,
+		description: 'ChainDrop dropper invocation (node setup.mjs)',
+	},
+	{
+		pattern: /Math_Symbol\.js|math_init\.js|router_runtime\.js/i,
+		description: 'ChainDrop malicious payload script',
+	},
+
+	// ==========================================================================
 	// HIGH RISK: Remote code execution patterns
 	// ==========================================================================
 	{
@@ -390,6 +403,19 @@ const SHAI_HULUD_REPO_PATTERNS = [
 		description: 'Shai-Hulud campaign description',
 	},
 	{ pattern: /sha1hulud/i, description: 'SHA1HULUD variant' },
+	// ChainDrop wave (Aug 2026) markers
+	{
+		pattern: /here\s+we\s+go\s+again.{0,40}shai|shai[-_\s]?hulud:?\s*here\s+we\s+go\s+again/i,
+		description: 'ChainDrop campaign description ("Shai-Hulud: Here We Go Again")',
+	},
+	{
+		pattern: /thebeautifulmarchoftime|thebeautifulsnadsoftime/i,
+		description: 'ChainDrop C2 dead-drop commit marker',
+	},
+	{
+		pattern: /IfYouBlockThisAPIKeyItWillCrashTheLiveProductionServers/i,
+		description: 'ChainDrop token-leak commit marker',
+	},
 ];
 
 // =============================================================================
@@ -479,7 +505,17 @@ const MALICIOUS_WORKFLOW_PATTERNS = [
 		pattern: /discussion\.ya?ml$/i,
 		description: 'Shai-Hulud discussion workflow',
 	},
+	{
+		// ChainDrop secrets-exfiltration workflow. Note the underscore: the
+		// legitimate GitHub-provided workflow is named codeql-analysis.yml.
+		pattern: /^codeql_analysis\.ya?ml$/i,
+		description: 'ChainDrop fake CodeQL workflow (codeql_analysis.yml with underscore)',
+	},
 ];
+
+// Workflow content pattern that dumps all repository secrets (used by the
+// ChainDrop codeql_analysis.yml workflow to exfiltrate secrets)
+const SECRETS_DUMP_PATTERN = /toJSON\s*\(\s*secrets\s*\)/;
 
 // Malicious workflow trigger patterns (content-based detection)
 const MALICIOUS_WORKFLOW_TRIGGERS = [
@@ -494,6 +530,7 @@ const MALICIOUS_WORKFLOW_TRIGGERS = [
 ];
 
 // Known SHA256 hashes of malicious files (from Datadog Security Labs)
+// ChainDrop hashes (Aug 2026) corroborated by Elastic Security Labs, Unit 42 and GitGuardian
 const KNOWN_MALWARE_HASHES: Record<string, string[]> = {
 	'setup_bun.js': ['a3894003ad1d293ba96d77881ccd2071446dc3f65f434669b49b3da92421901a'],
 	'bun_environment.js': [
@@ -504,7 +541,34 @@ const KNOWN_MALWARE_HASHES: Record<string, string[]> = {
 		'9d59fd0bcc14b671079824c704575f201b74276238dc07a9c12a93a84195648a',
 		'e0250076c1d2ac38777ea8f542431daf61fcbaab0ca9c196614b28065ef5b918',
 	],
+	'Math_Symbol.js': ['9fc2570b7cef51c1b8df116d144d11ff4096357be7d2c4c6367cfc2509cf1bcc'],
+	'math_init.js': ['9fc2570b7cef51c1b8df116d144d11ff4096357be7d2c4c6367cfc2509cf1bcc'],
+	'setup.mjs': [
+		'fd3ca4007b225fdf8de7af4345a19179d5efa8c4bb9205f88cda806e5684b1eb',
+		'54dc7ea54a1317cca0e890a2770630cf7fa6c97813e0cb9d2caa93012b350668',
+		'b27b82afa5f15512f3856e549fb83d873fd0049759a4b62ce64c8d7d4dc2c678',
+	],
 };
+
+// ChainDrop payload filenames that are distinctive enough to flag by name alone.
+// NOTE: setup.mjs is intentionally NOT here (common legitimate filename); it is
+// only flagged via hash match or when dropped into .claude/.vscode directories.
+const CHAINDROP_PAYLOAD_FILENAMES = ['Math_Symbol.js', 'math_init.js', 'router_runtime.js'];
+
+// Hidden directories that must still be traversed: ChainDrop drops payloads and
+// persistence hooks inside IDE/agent config directories.
+const SCANNED_HIDDEN_DIRS = new Set(['.claude', '.vscode', '.github', '.config']);
+
+/**
+ * Decide whether a directory entry should be descended into during recursive
+ * security scans. Skips node_modules and hidden directories except the
+ * IDE/agent config directories abused by the ChainDrop wave.
+ */
+function shouldDescendInto(name: string): boolean {
+	if (name === 'node_modules') return false;
+	if (name.startsWith('.')) return SCANNED_HIDDEN_DIRS.has(name);
+	return true;
+}
 
 // Shai-Hulud runner installation paths
 const RUNNER_INSTALLATION_PATTERNS = [
@@ -527,6 +591,23 @@ const WEBHOOK_EXFIL_PATTERNS = [
 	{
 		pattern: /bb8ca5f6-4175-45d2-b042-fc9ebb8170b7/i,
 		description: 'Known malicious webhook UUID',
+	},
+	// ChainDrop wave (Aug 2026) C2 / dead-drop infrastructure
+	{
+		pattern: /\bnpm-cache\.com\b/i,
+		description: 'ChainDrop C2 domain (npm-cache.com)',
+	},
+	{
+		pattern: /\bawqhnjewqjkl\.icu\b/i,
+		description: 'ChainDrop C2 domain (awqhnjewqjkl.icu)',
+	},
+	{
+		pattern: /\bpypi-get\.com\b|\bjs-mirror\.com\b/i,
+		description: 'ChainDrop historical C2 domain',
+	},
+	{
+		pattern: /0xE1f2395ee43e45A1556EC6438a88c31B83493103|0x55f9780e1492344b7417fa723aedc4d0b97f31cd/i,
+		description: 'ChainDrop Ethereum C2 resolver contract/wallet',
 	},
 ];
 
@@ -641,6 +722,9 @@ const AFFECTED_NAMESPACES = [
 	'@ngx',
 	'@nativescript-community',
 	'@oku-ui',
+	// ChainDrop wave (Aug 2026)
+	'@cacheable',
+	'@keyv',
 ];
 
 // =============================================================================
@@ -1208,9 +1292,11 @@ export function checkSuspiciousScripts(filePath: string): SecurityFinding[] {
 					'prepublishOnly',
 				].includes(scriptName);
 
-				// Shai-Hulud IoCs are always critical
+				// Shai-Hulud IoCs are always critical (both 2.0 and ChainDrop waves)
 				const isShaiHuludIoC =
-					/setup_bun\.js|bun_environment\.js/i.test(scriptContent);
+					/setup_bun\.js|bun_environment\.js|Math_Symbol\.js|math_init\.js|router_runtime\.js|(?:^|[\s;&|'"])node\s+(?:\.\/)?setup\.mjs/i.test(
+						scriptContent,
+					);
 
 				// Remote code execution patterns are critical in lifecycle hooks
 				const isRemoteCodeExec =
@@ -1276,6 +1362,26 @@ export function checkTrufflehogActivity(directory: string): SecurityFinding[] {
 						suspiciousFiles.push({
 							path: fullPath,
 							reason: 'Shai-Hulud attack payload',
+						});
+					}
+
+					// ChainDrop wave (Aug 2026) payload files - distinctive names
+					if (CHAINDROP_PAYLOAD_FILENAMES.includes(entry.name)) {
+						suspiciousFiles.push({
+							path: fullPath,
+							reason: 'ChainDrop attack payload (Shai-Hulud, Aug 2026 wave)',
+						});
+					}
+
+					// setup.mjs is only suspicious inside IDE/agent config directories
+					// (ChainDrop drops its dropper at .claude/setup.mjs and .vscode/setup.mjs)
+					if (
+						entry.name === 'setup.mjs' &&
+						/[\\/]\.(claude|vscode)[\\/]?$/i.test(dir)
+					) {
+						suspiciousFiles.push({
+							path: fullPath,
+							reason: 'ChainDrop dropper in IDE/agent config directory',
 						});
 					}
 
@@ -1386,11 +1492,9 @@ export function checkTrufflehogActivity(directory: string): SecurityFinding[] {
 							// Skip files we can't read
 						}
 					}
-				} else if (
-					entry.isDirectory() &&
-					!entry.name.startsWith('.') &&
-					entry.name !== 'node_modules'
-				) {
+				} else if (entry.isDirectory() && shouldDescendInto(entry.name)) {
+					// Descends into .claude/.vscode/.github/.config as well:
+					// ChainDrop drops payloads inside IDE/agent config directories
 					searchDir(fullPath, depth + 1);
 				}
 			}
@@ -1519,11 +1623,9 @@ export function checkSecretsExfiltration(directory: string): SecurityFinding[] {
 							// Skip files we can't read
 						}
 					}
-				} else if (
-					entry.isDirectory() &&
-					!entry.name.startsWith('.') &&
-					entry.name !== 'node_modules'
-				) {
+				} else if (entry.isDirectory() && shouldDescendInto(entry.name)) {
+					// Descends into .claude/.vscode/.github/.config as well:
+					// ChainDrop drops payloads inside IDE/agent config directories
 					searchDir(fullPath, depth + 1);
 				}
 			}
@@ -1606,6 +1708,19 @@ export function checkMaliciousRunners(directory: string): SecurityFinding[] {
 								sha256: contentSha256,
 							});
 						}
+					}
+
+					// Check for workflows dumping all secrets (ChainDrop exfiltration technique)
+					if (SECRETS_DUMP_PATTERN.test(content)) {
+						findings.push({
+							type: 'malicious-runner',
+							severity: 'high',
+							title: `Workflow dumps all repository secrets`,
+							description: `Workflow uses toJSON(secrets) which serializes every repository secret. The ChainDrop wave uses this in a fake codeql_analysis.yml workflow to exfiltrate secrets. Verify this is intentional.`,
+							location: fullPath,
+							evidence: 'toJSON(secrets)',
+							sha256: contentSha256,
+						});
 					}
 
 					// Check for malicious workflow triggers (on: discussion)
@@ -1855,11 +1970,9 @@ export function checkMalwareHashes(directory: string): SecurityFinding[] {
 							//sha256: hash, // Do not add this sha here, as we don't want to accidentally allowlist this
 						});
 					}
-				} else if (
-					entry.isDirectory() &&
-					!entry.name.startsWith('.') &&
-					entry.name !== 'node_modules'
-				) {
+				} else if (entry.isDirectory() && shouldDescendInto(entry.name)) {
+					// Descends into .claude/.vscode/.github/.config as well:
+					// ChainDrop drops payloads inside IDE/agent config directories
 					searchDir(fullPath, depth + 1);
 				}
 			}
@@ -1940,8 +2053,120 @@ export function checkRunnerInstallation(directory: string): SecurityFinding[] {
 				location: devEnvPath,
 			});
 		}
+
+		// ChainDrop persistence artifacts (gh-token-monitor) in home directory
+		const ghTokenMonitorPaths = [
+			path.join(homeDir, 'Library', 'LaunchAgents', 'com.user.gh-token-monitor.plist'),
+			path.join(homeDir, '.config', 'systemd', 'user', 'gh-token-monitor.service'),
+			path.join(homeDir, '.local', 'bin', 'gh-token-monitor.sh'),
+		];
+		for (const artifactPath of ghTokenMonitorPaths) {
+			if (fs.existsSync(artifactPath)) {
+				findings.push({
+					type: 'malicious-runner',
+					severity: 'critical',
+					title: `ChainDrop persistence artifact: ${path.basename(artifactPath)}`,
+					description: `Found "${artifactPath}" which matches the gh-token-monitor persistence mechanism embedded in the ChainDrop payload for continuous GitHub token harvesting. Immediate investigation required.`,
+					location: artifactPath,
+				});
+			}
+		}
 	}
 
+	return findings;
+}
+
+/**
+ * Detect ChainDrop (Aug 2026) IDE/agent persistence hooks:
+ * - .claude/settings.json SessionStart hooks executing the dropper
+ * - .vscode/tasks.json folderOpen tasks executing the dropper
+ * - Dropper/payload files inside .claude and .vscode directories
+ * @param directory Root directory to scan.
+ * @returns SecurityFinding list.
+ */
+export function checkIdePersistence(directory: string): SecurityFinding[] {
+	const findings: SecurityFinding[] = [];
+	const dropperRef = /setup\.mjs|math_init\.js|Math_Symbol\.js|router_runtime\.js/i;
+
+	const inspectConfigDir = (configDir: string, kind: 'claude' | 'vscode') => {
+		if (!fs.existsSync(configDir)) return;
+
+		// Payload files dropped into the config directory
+		for (const payloadName of ['setup.mjs', 'math_init.js', 'Math_Symbol.js']) {
+			const payloadPath = path.join(configDir, payloadName);
+			if (fs.existsSync(payloadPath)) {
+				findings.push({
+					type: 'ide-persistence',
+					severity: 'critical',
+					title: `ChainDrop payload in ${kind} config: ${payloadName}`,
+					description: `Found "${payloadName}" inside "${configDir}". The ChainDrop wave drops its payload into IDE/agent config directories so it re-executes when the editor or agent starts.`,
+					location: payloadPath,
+				});
+			}
+		}
+
+		// Hook/task configuration referencing the dropper
+		const configFile =
+			kind === 'claude'
+				? path.join(configDir, 'settings.json')
+				: path.join(configDir, 'tasks.json');
+		if (!fs.existsSync(configFile)) return;
+
+		try {
+			const content = fs.readFileSync(configFile, 'utf8');
+			const contentSha256 = SHA256(content);
+
+			if (kind === 'claude' && /SessionStart/i.test(content) && dropperRef.test(content)) {
+				findings.push({
+					type: 'ide-persistence',
+					severity: 'critical',
+					title: `ChainDrop persistence: Claude Code SessionStart hook`,
+					description: `"${configFile}" contains a SessionStart hook referencing a known ChainDrop dropper/payload file. This executes malware every time Claude Code starts in this project.`,
+					location: configFile,
+					evidence: 'SessionStart hook + dropper reference',
+					sha256: contentSha256,
+				});
+			}
+
+			if (kind === 'vscode' && /folderOpen/i.test(content) && dropperRef.test(content)) {
+				findings.push({
+					type: 'ide-persistence',
+					severity: 'critical',
+					title: `ChainDrop persistence: VS Code folderOpen task`,
+					description: `"${configFile}" contains a folderOpen task referencing a known ChainDrop dropper/payload file. This executes malware every time the folder is opened in VS Code.`,
+					location: configFile,
+					evidence: 'folderOpen task + dropper reference',
+					sha256: contentSha256,
+				});
+			}
+		} catch {
+			// Skip files we can't read
+		}
+	};
+
+	const searchDir = (dir: string, depth: number = 0) => {
+		if (depth > 5) return;
+
+		inspectConfigDir(path.join(dir, '.claude'), 'claude');
+		inspectConfigDir(path.join(dir, '.vscode'), 'vscode');
+
+		try {
+			const entries = fs.readdirSync(dir, { withFileTypes: true });
+			for (const entry of entries) {
+				if (
+					entry.isDirectory() &&
+					!entry.name.startsWith('.') &&
+					entry.name !== 'node_modules'
+				) {
+					searchDir(path.join(dir, entry.name), depth + 1);
+				}
+			}
+		} catch {
+			// Skip directories we can't read
+		}
+	};
+
+	searchDir(directory);
 	return findings;
 }
 
@@ -2112,6 +2337,16 @@ export function runScan(
 		}
 	}
 
+	// Check for ChainDrop IDE/agent persistence hooks (.claude / .vscode)
+	const idePersistenceFindings = checkIdePersistence(directory);
+	for (const finding of idePersistenceFindings) {
+		const key = `${finding.type}:${finding.location}:${finding.title}`;
+		if (!seenFindings.has(key)) {
+			seenFindings.add(key);
+			allSecurityFindings.push(finding);
+		}
+	}
+
 	// Sort results by severity
 	const severityOrder = { critical: 0, high: 1, medium: 2, low: 3, none: 4 };
 	allResults.sort(
@@ -2198,6 +2433,7 @@ export function generateSarifReport(summary: ScanSummary): SarifResult {
 		'secrets-exfiltration': 'EXFIL',
 		'malicious-runner': 'RUNNER',
 		'compromised-package': 'PKG',
+		'ide-persistence': 'PERSIST',
 	};
 
 	for (const finding of summary.securityFindings) {
@@ -2268,7 +2504,7 @@ export function generateSarifReport(summary: ScanSummary): SarifResult {
 				tool: {
 					driver: {
 						name: 'shai-hulud-detector',
-						version: '2.0.0',
+						version: '2.2.0',
 						informationUri:
 							'https://github.com/gensecaihq/Shai-Hulud-2.0-Detector',
 						rules,

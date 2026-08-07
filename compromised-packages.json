@@ -1,9 +1,10 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-08-07T19:31:33.053Z",
+  "lastUpdated": "2026-08-07T19:43:26.196Z",
   "dataSource": {
     "url": "https://github.com/DataDog/indicators-of-compromise/tree/main/shai-hulud-2.0",
-    "description": "Consolidated IOCs from multiple security vendors",
+    "description": "Consolidated IOCs from multiple security vendors (Shai-Hulud 2.0 wave) merged with the Wiz Research ChainDrop package list (Aug 2026 wave)",
+    "chainDropUrl": "https://github.com/wiz-sec-public/wiz-research-iocs/blob/main/reports/keyv-packages.csv",
     "sources": [
       "datadog",
       "helixguard",
@@ -11,15 +12,16 @@
       "reversinglabs",
       "socketdev",
       "stepsecurity",
-      "wiz"
+      "wiz",
+      "wiz-chaindrop"
     ],
-    "fetchedAt": "2026-08-07T19:31:33.053Z"
+    "fetchedAt": "2026-08-07T19:43:26.196Z"
   },
   "attackInfo": {
-    "name": "Shai-Hulud 2.0",
-    "alias": "The Second Coming",
+    "name": "Shai-Hulud 2.0 / ChainDrop",
+    "alias": "The Second Coming / Here We Go Again",
     "firstDetected": "2025-11-24T03:16:00Z",
-    "description": "Self-replicating npm worm targeting credential theft and supply chain compromise. Spread to 30,000+ repositories and 790+ npm packages within 72 hours."
+    "description": "Self-replicating npm worm targeting credential theft and supply chain compromise. The ChainDrop wave (Aug 4, 2026) hit keyv, cacheable, flat-cache and 450+ packages."
   },
   "indicators": {
     "maliciousFiles": [
@@ -106,13 +108,6 @@
     ]
   },
   "packages": [
-    {
-      "name": "02-echo",
-      "severity": "critical",
-      "affectedVersions": [
-        "0.0.7"
-      ]
-    },
     {
       "name": "@accordproject/concerto-analysis",
       "severity": "critical",
@@ -268,6 +263,20 @@
       ]
     },
     {
+      "name": "@adminide-stack/clock-tik-browser",
+      "severity": "critical",
+      "affectedVersions": [
+        "12.0.24"
+      ]
+    },
+    {
+      "name": "@adminide-stack/yantra-mobile",
+      "severity": "critical",
+      "affectedVersions": [
+        "12.0.33"
+      ]
+    },
+    {
       "name": "@afetcan/api",
       "severity": "critical",
       "affectedVersions": [
@@ -365,6 +374,46 @@
       "severity": "critical",
       "affectedVersions": [
         "1.1.7"
+      ]
+    },
+    {
+      "name": "@arv-bedrock/auth",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.1.7",
+        "1.1.8"
+      ]
+    },
+    {
+      "name": "@arv-bedrock/auth-admin",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.2",
+        "1.0.3"
+      ]
+    },
+    {
+      "name": "@arv-bedrock/auth-sso",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.6.1",
+        "1.6.2"
+      ]
+    },
+    {
+      "name": "@arv-bedrock/auth-sso-backend",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.7.1",
+        "1.7.2"
+      ]
+    },
+    {
+      "name": "@arv-bedrock/logger",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.7.1",
+        "1.7.2"
       ]
     },
     {
@@ -722,6 +771,34 @@
       ]
     },
     {
+      "name": "@cacheable/memory",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.2.1"
+      ]
+    },
+    {
+      "name": "@cacheable/net",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.1.1"
+      ]
+    },
+    {
+      "name": "@cacheable/node-cache",
+      "severity": "critical",
+      "affectedVersions": [
+        "3.1.2"
+      ]
+    },
+    {
+      "name": "@cacheable/utils",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.5.1"
+      ]
+    },
+    {
       "name": "@caretive/caret-cli",
       "severity": "critical",
       "affectedVersions": [
@@ -799,6 +876,20 @@
       ]
     },
     {
+      "name": "@deliveroo/determinator",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.2.1"
+      ]
+    },
+    {
+      "name": "@deliveroo/reevent",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.1"
+      ]
+    },
+    {
       "name": "@dev-blinq/ai-qa-logic",
       "severity": "critical",
       "affectedVersions": [
@@ -813,19 +904,19 @@
       ]
     },
     {
-      "name": "@dev-blinq/cucumber-js",
-      "severity": "critical",
-      "affectedVersions": [
-        "1.0.131"
-      ]
-    },
-    {
       "name": "@dev-blinq/cucumber_client",
       "severity": "critical",
       "affectedVersions": [
         "1.0.1637-dev",
         "1.0.738",
         "1.0.739"
+      ]
+    },
+    {
+      "name": "@dev-blinq/cucumber-js",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.131"
       ]
     },
     {
@@ -1238,6 +1329,39 @@
       ]
     },
     {
+      "name": "@hubsync/web-sdk-react",
+      "severity": "critical",
+      "affectedVersions": [
+        "6.3.7",
+        "6.3.8",
+        "6.3.9",
+        "6.3.10",
+        "6.3.11",
+        "6.3.12",
+        "6.3.13",
+        "6.3.14",
+        "6.3.15",
+        "6.3.16",
+        "6.3.17",
+        "6.3.18",
+        "6.3.19",
+        "6.3.20",
+        "6.3.21",
+        "6.3.22",
+        "6.3.23",
+        "6.3.24",
+        "6.3.25",
+        "6.3.26",
+        "6.3.27",
+        "6.3.28",
+        "6.3.29",
+        "6.3.30",
+        "6.3.31",
+        "6.3.32",
+        "6.3.33"
+      ]
+    },
+    {
       "name": "@huntersofbook/auth-vue",
       "severity": "critical",
       "affectedVersions": [
@@ -1560,6 +1684,153 @@
       ]
     },
     {
+      "name": "@nebula.js/cli",
+      "severity": "critical",
+      "affectedVersions": [
+        "7.1.2"
+      ]
+    },
+    {
+      "name": "@nebula.js/cli-build",
+      "severity": "critical",
+      "affectedVersions": [
+        "7.1.2"
+      ]
+    },
+    {
+      "name": "@nebula.js/cli-sense",
+      "severity": "critical",
+      "affectedVersions": [
+        "7.1.2"
+      ]
+    },
+    {
+      "name": "@nebula.js/locale",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.6.2"
+      ]
+    },
+    {
+      "name": "@nebula.js/nucleus",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.5.1"
+      ]
+    },
+    {
+      "name": "@nebula.js/sn-action-button",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.3.1"
+      ]
+    },
+    {
+      "name": "@nebula.js/sn-animator",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.13.1"
+      ]
+    },
+    {
+      "name": "@nebula.js/sn-distributionplot",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.7"
+      ]
+    },
+    {
+      "name": "@nebula.js/sn-layout-container",
+      "severity": "critical",
+      "affectedVersions": [
+        "4.4.1"
+      ]
+    },
+    {
+      "name": "@nebula.js/sn-line-chart",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.7.1"
+      ]
+    },
+    {
+      "name": "@nebula.js/sn-listbox",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.19.3"
+      ]
+    },
+    {
+      "name": "@nebula.js/sn-map",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.12.7"
+      ]
+    },
+    {
+      "name": "@nebula.js/sn-nav-menu",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.14.2"
+      ]
+    },
+    {
+      "name": "@nebula.js/sn-org-chart",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.7.1"
+      ]
+    },
+    {
+      "name": "@nebula.js/sn-shape",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.5.1"
+      ]
+    },
+    {
+      "name": "@nebula.js/sn-slider",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.20.1"
+      ]
+    },
+    {
+      "name": "@nebula.js/sn-tabbed-container",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.4.1"
+      ]
+    },
+    {
+      "name": "@nebula.js/snapshooter",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.6.1"
+      ]
+    },
+    {
+      "name": "@nebula.js/stardust",
+      "severity": "critical",
+      "affectedVersions": [
+        "7.1.2"
+      ]
+    },
+    {
+      "name": "@nebula.js/test-utils",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.6.1"
+      ]
+    },
+    {
+      "name": "@nebula.js/theme",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.6.1"
+      ]
+    },
+    {
       "name": "@ntnx/passport-wso2",
       "severity": "critical",
       "affectedVersions": [
@@ -1875,6 +2146,1375 @@
       ]
     },
     {
+      "name": "@onereach/authorizer-helper",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.11",
+        "0.0.12",
+        "0.0.13"
+      ]
+    },
+    {
+      "name": "@onereach/bandwidth-steps-voice-bxml",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.1.1",
+        "0.1.2",
+        "0.1.3"
+      ]
+    },
+    {
+      "name": "@onereach/billing-dto",
+      "severity": "critical",
+      "affectedVersions": [
+        "27.2.1",
+        "27.2.2",
+        "27.2.3"
+      ]
+    },
+    {
+      "name": "@onereach/billing-shared",
+      "severity": "critical",
+      "affectedVersions": [
+        "27.2.1",
+        "27.2.2",
+        "27.2.3"
+      ]
+    },
+    {
+      "name": "@onereach/cb-schema-translator",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.3.1",
+        "1.3.2",
+        "1.3.3"
+      ]
+    },
+    {
+      "name": "@onereach/channel-transformer",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.66",
+        "0.0.67",
+        "0.0.68"
+      ]
+    },
+    {
+      "name": "@onereach/channel-transformers",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.5",
+        "0.0.6",
+        "0.0.7"
+      ]
+    },
+    {
+      "name": "@onereach/ckeditor5-build-classic",
+      "severity": "critical",
+      "affectedVersions": [
+        "30.0.1",
+        "30.0.2",
+        "30.0.3"
+      ]
+    },
+    {
+      "name": "@onereach/condition-builder",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.8",
+        "1.0.9",
+        "1.0.10"
+      ]
+    },
+    {
+      "name": "@onereach/content-builder",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.18",
+        "0.0.19",
+        "0.0.20"
+      ]
+    },
+    {
+      "name": "@onereach/content-builder-template-compiler",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.3",
+        "0.0.4",
+        "0.0.5"
+      ]
+    },
+    {
+      "name": "@onereach/expression-components",
+      "severity": "critical",
+      "affectedVersions": [
+        "9.1.1",
+        "9.1.2",
+        "9.1.3"
+      ]
+    },
+    {
+      "name": "@onereach/font-icons",
+      "severity": "critical",
+      "affectedVersions": [
+        "27.0.2",
+        "27.0.3",
+        "27.0.4"
+      ]
+    },
+    {
+      "name": "@onereach/get-version-data",
+      "severity": "critical",
+      "affectedVersions": [
+        "3.1.2",
+        "3.1.3",
+        "3.1.4"
+      ]
+    },
+    {
+      "name": "@onereach/idw-apps",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.1.3",
+        "0.1.4",
+        "0.1.5"
+      ]
+    },
+    {
+      "name": "@onereach/idw-contracts",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.1.2",
+        "0.1.3",
+        "0.1.4"
+      ]
+    },
+    {
+      "name": "@onereach/idw-init-account-resources",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.1",
+        "1.0.2",
+        "1.0.3"
+      ]
+    },
+    {
+      "name": "@onereach/idw-sdk",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.1.2",
+        "0.1.3",
+        "0.1.4"
+      ]
+    },
+    {
+      "name": "@onereach/idw-ui-components",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.1.2",
+        "0.1.3",
+        "0.1.4"
+      ]
+    },
+    {
+      "name": "@onereach/lambda-invocation",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.2.1",
+        "1.2.2",
+        "1.2.3"
+      ]
+    },
+    {
+      "name": "@onereach/messengers-infobip-sdk",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.1.1",
+        "0.1.2",
+        "0.1.3"
+      ]
+    },
+    {
+      "name": "@onereach/or-browser",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.48",
+        "0.0.49",
+        "0.0.50"
+      ]
+    },
+    {
+      "name": "@onereach/or-browser-next",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.11",
+        "0.0.12",
+        "0.0.13"
+      ]
+    },
+    {
+      "name": "@onereach/or-content-builder-renderer",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.2",
+        "0.0.3",
+        "0.0.4"
+      ]
+    },
+    {
+      "name": "@onereach/or-file-uploader-next",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.8",
+        "0.0.9",
+        "0.0.10"
+      ]
+    },
+    {
+      "name": "@onereach/or-pro",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.13.1",
+        "1.13.2",
+        "1.13.3"
+      ]
+    },
+    {
+      "name": "@onereach/or-sdk-agent-cli",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.6",
+        "0.0.7",
+        "0.0.8"
+      ]
+    },
+    {
+      "name": "@onereach/orest-cli",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.4.1",
+        "2.4.2",
+        "2.4.3"
+      ]
+    },
+    {
+      "name": "@onereach/orest-input-cli",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.18.1",
+        "1.18.2",
+        "1.18.3"
+      ]
+    },
+    {
+      "name": "@onereach/orest-jest-presets",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.3",
+        "0.0.4",
+        "0.0.5"
+      ]
+    },
+    {
+      "name": "@onereach/orest-vue-demi-vue2",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.4",
+        "0.0.5",
+        "0.0.6"
+      ]
+    },
+    {
+      "name": "@onereach/orest-vue-demi-vue3",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.4",
+        "0.0.5",
+        "0.0.6"
+      ]
+    },
+    {
+      "name": "@onereach/orest-vue3",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.4",
+        "0.0.5",
+        "0.0.6"
+      ]
+    },
+    {
+      "name": "@onereach/phonenumber-interpreter",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.18",
+        "0.0.19",
+        "0.0.20"
+      ]
+    },
+    {
+      "name": "@onereach/pnpm-audit-junit",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.3",
+        "1.0.4",
+        "1.0.5"
+      ]
+    },
+    {
+      "name": "@onereach/postcss-scoped-selector",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.2.1",
+        "1.2.2",
+        "1.2.3"
+      ]
+    },
+    {
+      "name": "@onereach/regex-helper",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.5.16",
+        "0.5.17",
+        "0.5.18"
+      ]
+    },
+    {
+      "name": "@onereach/regular-expressions",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.5.23",
+        "0.5.24",
+        "0.5.25"
+      ]
+    },
+    {
+      "name": "@onereach/regular-expressions-test",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.4",
+        "0.0.5",
+        "0.0.6"
+      ]
+    },
+    {
+      "name": "@onereach/rwc-client",
+      "severity": "critical",
+      "affectedVersions": [
+        "6.4.7",
+        "6.4.8",
+        "6.4.9"
+      ]
+    },
+    {
+      "name": "@onereach/salesforce-miaw-client",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.3",
+        "0.0.4",
+        "0.0.5"
+      ]
+    },
+    {
+      "name": "@onereach/si-a-button",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.3",
+        "0.0.4",
+        "0.0.5"
+      ]
+    },
+    {
+      "name": "@onereach/si-alert",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.4.11",
+        "0.4.12",
+        "0.4.13"
+      ]
+    },
+    {
+      "name": "@onereach/si-checkbox",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.6.5",
+        "0.6.6",
+        "0.6.7"
+      ]
+    },
+    {
+      "name": "@onereach/si-checkbox-group",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.3.5",
+        "0.3.6",
+        "0.3.7"
+      ]
+    },
+    {
+      "name": "@onereach/si-code",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.6.4",
+        "0.6.5",
+        "0.6.6"
+      ]
+    },
+    {
+      "name": "@onereach/si-collapsible-group",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.6.4",
+        "0.6.5",
+        "0.6.6"
+      ]
+    },
+    {
+      "name": "@onereach/si-copyable-text",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.4.11",
+        "0.4.12",
+        "0.4.13"
+      ]
+    },
+    {
+      "name": "@onereach/si-datepicker",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.4.5",
+        "0.4.6",
+        "0.4.7"
+      ]
+    },
+    {
+      "name": "@onereach/si-divider",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.4.11",
+        "0.4.12",
+        "0.4.13"
+      ]
+    },
+    {
+      "name": "@onereach/si-dropdown-advanced",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.4.5",
+        "0.4.6",
+        "0.4.7"
+      ]
+    },
+    {
+      "name": "@onereach/si-dropdown-simple",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.4.5",
+        "0.4.6",
+        "0.4.7"
+      ]
+    },
+    {
+      "name": "@onereach/si-header",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.4.11",
+        "0.4.12",
+        "0.4.13",
+        "0.4.14"
+      ]
+    },
+    {
+      "name": "@onereach/si-list",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.7.4",
+        "0.7.5",
+        "0.7.6"
+      ]
+    },
+    {
+      "name": "@onereach/si-merge-tag-input",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.4.5",
+        "0.4.6",
+        "0.4.7"
+      ]
+    },
+    {
+      "name": "@onereach/si-radio-group",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.3.5",
+        "0.3.6",
+        "0.3.7"
+      ]
+    },
+    {
+      "name": "@onereach/si-root",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.9.4",
+        "0.9.5",
+        "0.9.6"
+      ]
+    },
+    {
+      "name": "@onereach/si-select",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.1.3",
+        "0.1.4",
+        "0.1.5"
+      ]
+    },
+    {
+      "name": "@onereach/si-step-chooser",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.4.4",
+        "0.4.5",
+        "0.4.6"
+      ]
+    },
+    {
+      "name": "@onereach/si-switch",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.4.5",
+        "0.4.6",
+        "0.4.7"
+      ]
+    },
+    {
+      "name": "@onereach/si-text-message",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.4.5",
+        "0.4.6",
+        "0.4.7"
+      ]
+    },
+    {
+      "name": "@onereach/si-textinput",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.5.5",
+        "0.5.6",
+        "0.5.7"
+      ]
+    },
+    {
+      "name": "@onereach/si-validated-timestring-input",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.3.5",
+        "0.3.6",
+        "0.3.7"
+      ]
+    },
+    {
+      "name": "@onereach/slack-helpers",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.3",
+        "1.0.4",
+        "1.0.5"
+      ]
+    },
+    {
+      "name": "@onereach/ssml-editor",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.0.12",
+        "2.0.13",
+        "2.0.14"
+      ]
+    },
+    {
+      "name": "@onereach/step-components",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.1.37",
+        "0.1.38",
+        "0.1.39"
+      ]
+    },
+    {
+      "name": "@onereach/step-conversation",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.41",
+        "1.0.42",
+        "1.0.43"
+      ]
+    },
+    {
+      "name": "@onereach/step-run-snowflake-query",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.1.1",
+        "0.1.2",
+        "0.1.3"
+      ]
+    },
+    {
+      "name": "@onereach/step-voice",
+      "severity": "critical",
+      "affectedVersions": [
+        "7.0.32",
+        "7.0.33",
+        "7.0.34"
+      ]
+    },
+    {
+      "name": "@onereach/styles",
+      "severity": "critical",
+      "affectedVersions": [
+        "27.0.2",
+        "27.0.3",
+        "27.0.4"
+      ]
+    },
+    {
+      "name": "@onereach/time-interpreter",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.30",
+        "1.0.31",
+        "1.0.32"
+      ]
+    },
+    {
+      "name": "@onereach/ts-memoize",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.2",
+        "1.0.3",
+        "1.0.4"
+      ]
+    },
+    {
+      "name": "@onereach/types-contacts-api",
+      "severity": "critical",
+      "affectedVersions": [
+        "9.0.8",
+        "9.0.9",
+        "9.0.10"
+      ]
+    },
+    {
+      "name": "@onereach/ui-components",
+      "severity": "critical",
+      "affectedVersions": [
+        "27.0.2",
+        "27.0.3",
+        "27.0.4"
+      ]
+    },
+    {
+      "name": "@onereach/ui-components-common",
+      "severity": "critical",
+      "affectedVersions": [
+        "27.0.2",
+        "27.0.3",
+        "27.0.4"
+      ]
+    },
+    {
+      "name": "@onereach/ui-components-vue2",
+      "severity": "critical",
+      "affectedVersions": [
+        "27.0.2",
+        "27.0.3",
+        "27.0.4"
+      ]
+    },
+    {
+      "name": "@onereach/v-event-calendar",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.1.22",
+        "0.1.23",
+        "0.1.24"
+      ]
+    },
+    {
+      "name": "@onereach/webform",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.3.13",
+        "0.3.14",
+        "0.3.15"
+      ]
+    },
+    {
+      "name": "@or-sdk/account-settings",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.3.6",
+        "1.3.7",
+        "1.3.8"
+      ]
+    },
+    {
+      "name": "@or-sdk/accounts",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.3.5",
+        "2.3.6",
+        "2.3.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/adapters",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.3.6",
+        "0.3.7",
+        "0.3.8"
+      ]
+    },
+    {
+      "name": "@or-sdk/agents",
+      "severity": "critical",
+      "affectedVersions": [
+        "4.21.3",
+        "4.21.4",
+        "4.21.5"
+      ]
+    },
+    {
+      "name": "@or-sdk/api-tokens",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.4.2",
+        "1.4.3",
+        "1.4.4"
+      ]
+    },
+    {
+      "name": "@or-sdk/api-tokens-lambda",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.4.2",
+        "1.4.3",
+        "1.4.4"
+      ]
+    },
+    {
+      "name": "@or-sdk/apps",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.2.6",
+        "1.2.7",
+        "1.2.8"
+      ]
+    },
+    {
+      "name": "@or-sdk/auth",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.38.1",
+        "0.38.2",
+        "0.38.3"
+      ]
+    },
+    {
+      "name": "@or-sdk/authorizer",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.26.7",
+        "0.26.8",
+        "0.26.9"
+      ]
+    },
+    {
+      "name": "@or-sdk/base",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.44.4",
+        "0.44.5",
+        "0.44.6"
+      ]
+    },
+    {
+      "name": "@or-sdk/billing",
+      "severity": "critical",
+      "affectedVersions": [
+        "27.2.1",
+        "27.2.2",
+        "27.2.3"
+      ]
+    },
+    {
+      "name": "@or-sdk/billing-internal",
+      "severity": "critical",
+      "affectedVersions": [
+        "27.2.1",
+        "27.2.2",
+        "27.2.3"
+      ]
+    },
+    {
+      "name": "@or-sdk/bot-templates",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.2.5",
+        "2.2.6",
+        "2.2.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/bots",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.7.1",
+        "1.7.2",
+        "1.7.3"
+      ]
+    },
+    {
+      "name": "@or-sdk/card-templates",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.2.5",
+        "2.2.6",
+        "2.2.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/cards",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.2.5",
+        "1.2.6",
+        "1.2.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/ccp",
+      "severity": "critical",
+      "affectedVersions": [
+        "10.15.4",
+        "10.15.5",
+        "10.15.6"
+      ]
+    },
+    {
+      "name": "@or-sdk/chat",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.3.1",
+        "0.3.2",
+        "0.3.3"
+      ]
+    },
+    {
+      "name": "@or-sdk/contacts",
+      "severity": "critical",
+      "affectedVersions": [
+        "4.7.5",
+        "4.7.6",
+        "4.7.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/content-request",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.2.6",
+        "0.2.7",
+        "0.2.8"
+      ]
+    },
+    {
+      "name": "@or-sdk/data-hub",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.26.5",
+        "0.26.6",
+        "0.26.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/data-hub-svc",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.3.5",
+        "2.3.6",
+        "2.3.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/deployer",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.7.5",
+        "1.7.6",
+        "1.7.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/deployments",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.1.5",
+        "2.1.6",
+        "2.1.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/discovery",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.12.1",
+        "1.12.2",
+        "1.12.3"
+      ]
+    },
+    {
+      "name": "@or-sdk/druid",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.4.7",
+        "1.4.8",
+        "1.4.9"
+      ]
+    },
+    {
+      "name": "@or-sdk/event-manager",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.1.5",
+        "1.1.6",
+        "1.1.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/files",
+      "severity": "critical",
+      "affectedVersions": [
+        "3.11.6",
+        "3.11.7",
+        "3.11.8"
+      ]
+    },
+    {
+      "name": "@or-sdk/files-sync-node",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.1.8",
+        "0.1.9",
+        "0.1.10"
+      ]
+    },
+    {
+      "name": "@or-sdk/flow-templates",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.1.5",
+        "2.1.6",
+        "2.1.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/flows",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.7.8",
+        "2.7.9",
+        "2.7.10"
+      ]
+    },
+    {
+      "name": "@or-sdk/graph",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.10.5",
+        "1.10.6",
+        "1.10.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/hitl",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.41.1",
+        "0.41.2",
+        "0.41.3"
+      ]
+    },
+    {
+      "name": "@or-sdk/identifiers",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.27.6",
+        "0.27.7",
+        "0.27.8"
+      ]
+    },
+    {
+      "name": "@or-sdk/idw",
+      "severity": "critical",
+      "affectedVersions": [
+        "9.0.4",
+        "9.0.5",
+        "9.0.6"
+      ]
+    },
+    {
+      "name": "@or-sdk/idw-public",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.6.6",
+        "1.6.7",
+        "1.6.8"
+      ]
+    },
+    {
+      "name": "@or-sdk/idw-skill",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.4.1",
+        "1.4.2",
+        "1.4.3"
+      ]
+    },
+    {
+      "name": "@or-sdk/invitations",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.4.8",
+        "1.4.9",
+        "1.4.10"
+      ]
+    },
+    {
+      "name": "@or-sdk/key-value-storage",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.28.6",
+        "0.28.7",
+        "0.28.8"
+      ]
+    },
+    {
+      "name": "@or-sdk/keys",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.2.6",
+        "1.2.7",
+        "1.2.8"
+      ]
+    },
+    {
+      "name": "@or-sdk/knowledge-models",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.25.5",
+        "0.25.6",
+        "0.25.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/library",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.5.6",
+        "0.5.7",
+        "0.5.8"
+      ]
+    },
+    {
+      "name": "@or-sdk/library-categories",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.2.6",
+        "0.2.7",
+        "0.2.8"
+      ]
+    },
+    {
+      "name": "@or-sdk/library-source",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.4.5",
+        "0.4.6",
+        "0.4.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/library-types-v1",
+      "severity": "critical",
+      "affectedVersions": [
+        "9.0.1",
+        "9.0.2",
+        "9.0.3"
+      ]
+    },
+    {
+      "name": "@or-sdk/library-types-v2",
+      "severity": "critical",
+      "affectedVersions": [
+        "9.0.1",
+        "9.0.2",
+        "9.0.3"
+      ]
+    },
+    {
+      "name": "@or-sdk/lookup",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.25.1",
+        "1.25.2",
+        "1.25.3"
+      ]
+    },
+    {
+      "name": "@or-sdk/markdowner",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.5.1",
+        "0.5.2",
+        "0.5.3"
+      ]
+    },
+    {
+      "name": "@or-sdk/mcp-tools",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.5.2",
+        "0.5.3",
+        "0.5.4"
+      ]
+    },
+    {
+      "name": "@or-sdk/notifications",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.7.5",
+        "1.7.6",
+        "1.7.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/password",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.3.6",
+        "1.3.7",
+        "1.3.8"
+      ]
+    },
+    {
+      "name": "@or-sdk/payments",
+      "severity": "critical",
+      "affectedVersions": [
+        "3.2.5",
+        "3.2.6",
+        "3.2.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/permissions",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.8.1",
+        "2.8.2",
+        "2.8.3"
+      ]
+    },
+    {
+      "name": "@or-sdk/permissions-cli",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.4.1",
+        "1.4.2",
+        "1.4.3"
+      ]
+    },
+    {
+      "name": "@or-sdk/permissions-lambda",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.5.1",
+        "2.5.2",
+        "2.5.3"
+      ]
+    },
+    {
+      "name": "@or-sdk/pgsql",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.5.1",
+        "1.5.2",
+        "1.5.3"
+      ]
+    },
+    {
+      "name": "@or-sdk/providers",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.3.6",
+        "0.3.7",
+        "0.3.8"
+      ]
+    },
+    {
+      "name": "@or-sdk/qna",
+      "severity": "critical",
+      "affectedVersions": [
+        "3.4.2",
+        "3.4.3",
+        "3.4.4"
+      ]
+    },
+    {
+      "name": "@or-sdk/queue-manager",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.4.6",
+        "1.4.7",
+        "1.4.8"
+      ]
+    },
+    {
+      "name": "@or-sdk/sdk-api",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.29.2",
+        "0.29.3",
+        "0.29.4"
+      ]
+    },
+    {
+      "name": "@or-sdk/settings",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.25.6",
+        "0.25.7",
+        "0.25.8"
+      ]
+    },
+    {
+      "name": "@or-sdk/sku-builder",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.5.1",
+        "2.5.2",
+        "2.5.3"
+      ]
+    },
+    {
+      "name": "@or-sdk/source",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.1.5",
+        "2.1.6",
+        "2.1.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/source-api",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.1.1",
+        "1.1.2",
+        "1.1.3"
+      ]
+    },
+    {
+      "name": "@or-sdk/step-templates",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.2.5",
+        "2.2.6",
+        "2.2.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/store",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.1.5",
+        "2.1.6",
+        "2.1.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/tables",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.28.5",
+        "0.28.6",
+        "0.28.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/tags",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.1.5",
+        "1.1.6",
+        "1.1.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/tickets",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.9.5",
+        "1.9.6",
+        "1.9.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/transcripts",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.2.5",
+        "1.2.6",
+        "1.2.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/users",
+      "severity": "critical",
+      "affectedVersions": [
+        "3.8.1",
+        "3.8.2",
+        "3.8.3"
+      ]
+    },
+    {
+      "name": "@or-sdk/view-templates",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.2.5",
+        "2.2.6",
+        "2.2.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/views",
+      "severity": "critical",
+      "affectedVersions": [
+        "3.1.5",
+        "3.1.6",
+        "3.1.7"
+      ]
+    },
+    {
+      "name": "@or-sdk/web-search",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.6.1",
+        "0.6.2",
+        "0.6.3"
+      ]
+    },
+    {
       "name": "@orbitgtbelgium/mapbox-gl-draw-cut-polygon-mode",
       "severity": "critical",
       "affectedVersions": [
@@ -1900,6 +3540,713 @@
       "severity": "critical",
       "affectedVersions": [
         "1.0.187"
+      ]
+    },
+    {
+      "name": "@ornikar/apollo-link-timeout",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.4.2",
+        "1.4.3",
+        "1.4.4",
+        "1.4.5",
+        "1.4.6",
+        "1.4.7",
+        "1.4.8",
+        "1.4.9",
+        "1.4.10",
+        "1.4.11"
+      ]
+    },
+    {
+      "name": "@ornikar/babel-preset-base",
+      "severity": "critical",
+      "affectedVersions": [
+        "6.0.3",
+        "6.0.4",
+        "6.0.5",
+        "6.0.6",
+        "6.0.7",
+        "6.0.8",
+        "6.0.9",
+        "6.0.10",
+        "6.0.11",
+        "6.0.12",
+        "6.0.13",
+        "6.0.14"
+      ]
+    },
+    {
+      "name": "@ornikar/babel-preset-kitt-universal",
+      "severity": "critical",
+      "affectedVersions": [
+        "8.0.3",
+        "8.0.4",
+        "8.0.5",
+        "8.0.6",
+        "8.0.7",
+        "8.0.8",
+        "8.0.9",
+        "8.0.10",
+        "8.0.11",
+        "8.0.12"
+      ]
+    },
+    {
+      "name": "@ornikar/babel-preset-react",
+      "severity": "critical",
+      "affectedVersions": [
+        "6.1.4",
+        "6.1.5",
+        "6.1.6",
+        "6.1.7",
+        "6.1.8",
+        "6.1.9",
+        "6.1.10",
+        "6.1.11",
+        "6.1.12",
+        "6.1.13",
+        "6.1.14"
+      ]
+    },
+    {
+      "name": "@ornikar/browserslist-config",
+      "severity": "critical",
+      "affectedVersions": [
+        "8.0.3",
+        "8.0.4",
+        "8.0.5",
+        "8.0.6",
+        "8.0.7",
+        "8.0.8",
+        "8.0.9",
+        "8.0.10",
+        "8.0.11"
+      ]
+    },
+    {
+      "name": "@ornikar/commitlint-config",
+      "severity": "critical",
+      "affectedVersions": [
+        "8.3.2",
+        "8.3.3",
+        "8.3.4",
+        "8.3.5",
+        "8.3.6",
+        "8.3.7",
+        "8.3.8",
+        "8.3.9",
+        "8.3.10",
+        "8.3.11",
+        "8.3.12"
+      ]
+    },
+    {
+      "name": "@ornikar/eslint-config",
+      "severity": "critical",
+      "affectedVersions": [
+        "24.0.1",
+        "24.0.2",
+        "24.0.3",
+        "24.0.4",
+        "24.0.5",
+        "24.0.6",
+        "24.0.7",
+        "24.0.8",
+        "24.0.9",
+        "24.0.10",
+        "24.0.11",
+        "24.0.12"
+      ]
+    },
+    {
+      "name": "@ornikar/eslint-config-babel",
+      "severity": "critical",
+      "affectedVersions": [
+        "24.0.1",
+        "24.0.2",
+        "24.0.3",
+        "24.0.4",
+        "24.0.5",
+        "24.0.6",
+        "24.0.7",
+        "24.0.8",
+        "24.0.9",
+        "24.0.10",
+        "24.0.11",
+        "24.0.12"
+      ]
+    },
+    {
+      "name": "@ornikar/eslint-config-babel-use",
+      "severity": "critical",
+      "affectedVersions": [
+        "13.2.1",
+        "13.2.2",
+        "13.2.3",
+        "13.2.4",
+        "13.2.5",
+        "13.2.6",
+        "13.2.7",
+        "13.2.8",
+        "13.2.9",
+        "13.2.10",
+        "13.2.11",
+        "13.2.12"
+      ]
+    },
+    {
+      "name": "@ornikar/eslint-config-formatjs",
+      "severity": "critical",
+      "affectedVersions": [
+        "24.0.1",
+        "24.0.2",
+        "24.0.3",
+        "24.0.4",
+        "24.0.5",
+        "24.0.6",
+        "24.0.7",
+        "24.0.8",
+        "24.0.9",
+        "24.0.10"
+      ]
+    },
+    {
+      "name": "@ornikar/eslint-config-node",
+      "severity": "critical",
+      "affectedVersions": [
+        "12.2.1",
+        "12.2.2",
+        "12.2.3",
+        "12.2.4",
+        "12.2.5",
+        "12.2.6",
+        "12.2.7",
+        "12.2.8",
+        "12.2.9",
+        "12.2.10"
+      ]
+    },
+    {
+      "name": "@ornikar/eslint-config-react",
+      "severity": "critical",
+      "affectedVersions": [
+        "24.0.1",
+        "24.0.2",
+        "24.0.3",
+        "24.0.4",
+        "24.0.5",
+        "24.0.6",
+        "24.0.7",
+        "24.0.8",
+        "24.0.9",
+        "24.0.10",
+        "24.0.11"
+      ]
+    },
+    {
+      "name": "@ornikar/eslint-config-typescript",
+      "severity": "critical",
+      "affectedVersions": [
+        "24.0.1",
+        "24.0.2",
+        "24.0.3",
+        "24.0.4",
+        "24.0.5",
+        "24.0.6",
+        "24.0.7",
+        "24.0.8",
+        "24.0.9",
+        "24.0.10"
+      ]
+    },
+    {
+      "name": "@ornikar/eslint-config-typescript-nestjs",
+      "severity": "critical",
+      "affectedVersions": [
+        "24.0.1",
+        "24.0.2",
+        "24.0.3",
+        "24.0.4",
+        "24.0.5",
+        "24.0.6",
+        "24.0.7",
+        "24.0.8",
+        "24.0.9",
+        "24.0.10",
+        "24.0.11"
+      ]
+    },
+    {
+      "name": "@ornikar/eslint-config-typescript-react",
+      "severity": "critical",
+      "affectedVersions": [
+        "24.0.1",
+        "24.0.2",
+        "24.0.3",
+        "24.0.4",
+        "24.0.5",
+        "24.0.6",
+        "24.0.7",
+        "24.0.8",
+        "24.0.9",
+        "24.0.10",
+        "24.0.11"
+      ]
+    },
+    {
+      "name": "@ornikar/eslint-plugin-neverthrow",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.3.1",
+        "1.3.2",
+        "1.3.3",
+        "1.3.4",
+        "1.3.5",
+        "1.3.6",
+        "1.3.7",
+        "1.3.8",
+        "1.3.9",
+        "1.3.10",
+        "1.3.11",
+        "1.3.12"
+      ]
+    },
+    {
+      "name": "@ornikar/eslint-plugin-ornikar",
+      "severity": "critical",
+      "affectedVersions": [
+        "24.0.1",
+        "24.0.2",
+        "24.0.3",
+        "24.0.4",
+        "24.0.5",
+        "24.0.6",
+        "24.0.7",
+        "24.0.8",
+        "24.0.9",
+        "24.0.10",
+        "24.0.11"
+      ]
+    },
+    {
+      "name": "@ornikar/graphql-config",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.1.1",
+        "1.1.2",
+        "1.1.3",
+        "1.1.4",
+        "1.1.5",
+        "1.1.6",
+        "1.1.7",
+        "1.1.8",
+        "1.1.9",
+        "1.1.10",
+        "1.1.11"
+      ]
+    },
+    {
+      "name": "@ornikar/intl-config",
+      "severity": "critical",
+      "affectedVersions": [
+        "10.0.2",
+        "10.0.3",
+        "10.0.4",
+        "10.0.5",
+        "10.0.6",
+        "10.0.7",
+        "10.0.8",
+        "10.0.9",
+        "10.0.10"
+      ]
+    },
+    {
+      "name": "@ornikar/jest-config",
+      "severity": "critical",
+      "affectedVersions": [
+        "13.0.3",
+        "13.0.4",
+        "13.0.5",
+        "13.0.6",
+        "13.0.7",
+        "13.0.8",
+        "13.0.9",
+        "13.0.10",
+        "13.0.11",
+        "13.0.12",
+        "13.0.13"
+      ]
+    },
+    {
+      "name": "@ornikar/jest-config-react",
+      "severity": "critical",
+      "affectedVersions": [
+        "18.0.2",
+        "18.0.3",
+        "18.0.4",
+        "18.0.5",
+        "18.0.6",
+        "18.0.7",
+        "18.0.8",
+        "18.0.9",
+        "18.0.10",
+        "18.0.11"
+      ]
+    },
+    {
+      "name": "@ornikar/jest-config-react-native",
+      "severity": "critical",
+      "affectedVersions": [
+        "17.0.2",
+        "17.0.3",
+        "17.0.4",
+        "17.0.5",
+        "17.0.6",
+        "17.0.7",
+        "17.0.8",
+        "17.0.9",
+        "17.0.10",
+        "17.0.11",
+        "17.0.12"
+      ]
+    },
+    {
+      "name": "@ornikar/jest-config-react-native-web",
+      "severity": "critical",
+      "affectedVersions": [
+        "12.0.3",
+        "12.0.4",
+        "12.0.5",
+        "12.0.6",
+        "12.0.7",
+        "12.0.8",
+        "12.0.9",
+        "12.0.10",
+        "12.0.11",
+        "12.0.12",
+        "12.0.13"
+      ]
+    },
+    {
+      "name": "@ornikar/kitt2",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.1",
+        "1.0.2",
+        "1.0.3",
+        "1.0.4",
+        "1.0.5",
+        "1.0.6",
+        "1.0.7",
+        "1.0.8",
+        "1.0.9",
+        "1.0.10",
+        "1.0.11"
+      ]
+    },
+    {
+      "name": "@ornikar/lerna-config",
+      "severity": "critical",
+      "affectedVersions": [
+        "11.0.1",
+        "11.0.2",
+        "11.0.3",
+        "11.0.4",
+        "11.0.5",
+        "11.0.6",
+        "11.0.7",
+        "11.0.8",
+        "11.0.9",
+        "11.0.10",
+        "11.0.11"
+      ]
+    },
+    {
+      "name": "@ornikar/monorepo-config",
+      "severity": "critical",
+      "affectedVersions": [
+        "14.3.2",
+        "14.3.3",
+        "14.3.4",
+        "14.3.5",
+        "14.3.6",
+        "14.3.7",
+        "14.3.8",
+        "14.3.9",
+        "14.3.10",
+        "14.3.11",
+        "14.3.12",
+        "14.3.13"
+      ]
+    },
+    {
+      "name": "@ornikar/postcss-config",
+      "severity": "critical",
+      "affectedVersions": [
+        "9.1.2",
+        "9.1.3",
+        "9.1.4",
+        "9.1.5",
+        "9.1.6",
+        "9.1.7",
+        "9.1.8",
+        "9.1.9",
+        "9.1.10",
+        "9.1.11",
+        "9.1.12"
+      ]
+    },
+    {
+      "name": "@ornikar/prettier-config",
+      "severity": "critical",
+      "affectedVersions": [
+        "9.0.3",
+        "9.0.4",
+        "9.0.5",
+        "9.0.6",
+        "9.0.7",
+        "9.0.8",
+        "9.0.9",
+        "9.0.10",
+        "9.0.11"
+      ]
+    },
+    {
+      "name": "@ornikar/prismic-components",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.2",
+        "0.0.3",
+        "0.0.4",
+        "0.0.5",
+        "0.0.6",
+        "0.0.7",
+        "0.0.8",
+        "0.0.9",
+        "0.0.10",
+        "0.0.11",
+        "0.0.12"
+      ]
+    },
+    {
+      "name": "@ornikar/react-modern-calendar-datepicker",
+      "severity": "critical",
+      "affectedVersions": [
+        "3.2.1",
+        "3.2.2",
+        "3.2.3",
+        "3.2.4",
+        "3.2.5",
+        "3.2.6",
+        "3.2.7",
+        "3.2.8",
+        "3.2.9",
+        "3.2.10",
+        "3.2.11"
+      ]
+    },
+    {
+      "name": "@ornikar/react-native-svg-transformer",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.6",
+        "1.0.7",
+        "1.0.8",
+        "1.0.9",
+        "1.0.10",
+        "1.0.11",
+        "1.0.12",
+        "1.0.13"
+      ]
+    },
+    {
+      "name": "@ornikar/renovate-config",
+      "severity": "critical",
+      "affectedVersions": [
+        "9.0.2",
+        "9.0.3",
+        "9.0.4",
+        "9.0.5",
+        "9.0.6",
+        "9.0.7",
+        "9.0.8",
+        "9.0.9",
+        "9.0.10",
+        "9.0.11",
+        "9.0.12",
+        "9.0.13"
+      ]
+    },
+    {
+      "name": "@ornikar/repo-config",
+      "severity": "critical",
+      "affectedVersions": [
+        "15.3.3",
+        "15.3.4",
+        "15.3.5",
+        "15.3.6",
+        "15.3.7",
+        "15.3.8",
+        "15.3.9",
+        "15.3.10",
+        "15.3.11",
+        "15.3.12",
+        "15.3.13"
+      ]
+    },
+    {
+      "name": "@ornikar/repo-config-react",
+      "severity": "critical",
+      "affectedVersions": [
+        "13.0.8",
+        "13.0.9",
+        "13.0.10",
+        "13.0.11",
+        "13.0.12",
+        "13.0.13",
+        "13.0.14",
+        "13.0.15",
+        "13.0.16",
+        "13.0.17",
+        "13.0.18",
+        "13.0.19"
+      ]
+    },
+    {
+      "name": "@ornikar/repo-config-react-legacy-css",
+      "severity": "critical",
+      "affectedVersions": [
+        "15.1.2",
+        "15.1.3",
+        "15.1.4",
+        "15.1.5",
+        "15.1.6",
+        "15.1.7",
+        "15.1.8",
+        "15.1.9",
+        "15.1.10",
+        "15.1.11",
+        "15.1.12",
+        "15.1.13"
+      ]
+    },
+    {
+      "name": "@ornikar/rollup-config",
+      "severity": "critical",
+      "affectedVersions": [
+        "11.1.2",
+        "11.1.3",
+        "11.1.4",
+        "11.1.5",
+        "11.1.6",
+        "11.1.7",
+        "11.1.8",
+        "11.1.9",
+        "11.1.10",
+        "11.1.11",
+        "11.1.12",
+        "11.1.13"
+      ]
+    },
+    {
+      "name": "@ornikar/rollup-plugin-postcss",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.0.5",
+        "2.0.6",
+        "2.0.7",
+        "2.0.8",
+        "2.0.9",
+        "2.0.10",
+        "2.0.11",
+        "2.0.12",
+        "2.0.13",
+        "2.0.14",
+        "2.0.15"
+      ]
+    },
+    {
+      "name": "@ornikar/slate-react-fork",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.1",
+        "1.0.2",
+        "1.0.3",
+        "1.0.4",
+        "1.0.5",
+        "1.0.6",
+        "1.0.7",
+        "1.0.8",
+        "1.0.9",
+        "1.0.10",
+        "1.0.11"
+      ]
+    },
+    {
+      "name": "@ornikar/storybook-config",
+      "severity": "critical",
+      "affectedVersions": [
+        "12.1.2",
+        "12.1.3",
+        "12.1.4",
+        "12.1.5",
+        "12.1.6",
+        "12.1.7",
+        "12.1.8",
+        "12.1.9",
+        "12.1.10"
+      ]
+    },
+    {
+      "name": "@ornikar/stylelint-config",
+      "severity": "critical",
+      "affectedVersions": [
+        "14.0.3",
+        "14.0.4",
+        "14.0.5",
+        "14.0.6",
+        "14.0.7",
+        "14.0.8",
+        "14.0.9",
+        "14.0.10",
+        "14.0.11",
+        "14.0.12",
+        "14.0.13"
+      ]
+    },
+    {
+      "name": "@ornikar/typed-css-modules-loader",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.8.2",
+        "0.8.3",
+        "0.8.4",
+        "0.8.5",
+        "0.8.6",
+        "0.8.7",
+        "0.8.8",
+        "0.8.9",
+        "0.8.10",
+        "0.8.11",
+        "0.8.12"
+      ]
+    },
+    {
+      "name": "@ornikar/webpack-config",
+      "severity": "critical",
+      "affectedVersions": [
+        "12.0.2",
+        "12.0.3",
+        "12.0.4",
+        "12.0.5",
+        "12.0.6",
+        "12.0.7",
+        "12.0.8",
+        "12.0.9",
+        "12.0.10",
+        "12.0.11",
+        "12.0.12"
       ]
     },
     {
@@ -1949,6 +4296,20 @@
       "severity": "critical",
       "affectedVersions": [
         "0.25.5"
+      ]
+    },
+    {
+      "name": "@picsart/ai-sdk",
+      "severity": "critical",
+      "affectedVersions": [
+        "3.32.2"
+      ]
+    },
+    {
+      "name": "@picsart/gen-ai",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.55.11"
       ]
     },
     {
@@ -2546,6 +4907,202 @@
       ]
     },
     {
+      "name": "@qlik/api",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.14.2"
+      ]
+    },
+    {
+      "name": "@qlik/browserslist-config",
+      "severity": "critical",
+      "affectedVersions": [
+        "3.0.2"
+      ]
+    },
+    {
+      "name": "@qlik/carbon-core",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.1.1"
+      ]
+    },
+    {
+      "name": "@qlik/carboncopy",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.1.6"
+      ]
+    },
+    {
+      "name": "@qlik/design-tokens",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.3.13"
+      ]
+    },
+    {
+      "name": "@qlik/dts-bundler",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.0.3"
+      ]
+    },
+    {
+      "name": "@qlik/embed-react",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.5.3"
+      ]
+    },
+    {
+      "name": "@qlik/embed-runtime",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.6.4"
+      ]
+    },
+    {
+      "name": "@qlik/embed-svelte",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.1.4"
+      ]
+    },
+    {
+      "name": "@qlik/embed-web-components",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.7.3"
+      ]
+    },
+    {
+      "name": "@qlik/eslint-config",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.0.20"
+      ]
+    },
+    {
+      "name": "@qlik/eslint-config-base",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.1.1"
+      ]
+    },
+    {
+      "name": "@qlik/eslint-config-react",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.1.1"
+      ]
+    },
+    {
+      "name": "@qlik/eslint-config-svelte",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.1.1"
+      ]
+    },
+    {
+      "name": "@qlik/eslint-config-vue",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.1.1"
+      ]
+    },
+    {
+      "name": "@qlik/nebula-table-utils",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.6.9"
+      ]
+    },
+    {
+      "name": "@qlik/oxfmt-config",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.1.6"
+      ]
+    },
+    {
+      "name": "@qlik/oxlint-config",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.7.2"
+      ]
+    },
+    {
+      "name": "@qlik/prettier-config",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.3"
+      ]
+    },
+    {
+      "name": "@qlik/react-native-simple-grid",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.5.5"
+      ]
+    },
+    {
+      "name": "@qlik/runtime-module-loader",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.5.1"
+      ]
+    },
+    {
+      "name": "@qlik/sdk",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.28.1"
+      ]
+    },
+    {
+      "name": "@qlik/sprout-design-docs",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.2"
+      ]
+    },
+    {
+      "name": "@qlik/sprout-gesture",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.13"
+      ]
+    },
+    {
+      "name": "@qlik/sprout-icons",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.12.3"
+      ]
+    },
+    {
+      "name": "@qlik/sprout-react",
+      "severity": "critical",
+      "affectedVersions": [
+        "6.45.3"
+      ]
+    },
+    {
+      "name": "@qlik/sprout-react-table",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.16.7"
+      ]
+    },
+    {
+      "name": "@qlik/tsconfig",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.3"
+      ]
+    },
+    {
       "name": "@quick-start-soft/quick-document-translator",
       "severity": "critical",
       "affectedVersions": [
@@ -2648,6 +5205,1838 @@
       "severity": "critical",
       "affectedVersions": [
         "0.0.5"
+      ]
+    },
+    {
+      "name": "@servicetitan/acquisition-functions",
+      "severity": "critical",
+      "affectedVersions": [
+        "5.22.1",
+        "5.22.2",
+        "5.22.3",
+        "5.22.4",
+        "5.22.5",
+        "5.22.6",
+        "5.22.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/admin-layout",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.4.3",
+        "2.4.4",
+        "2.4.5",
+        "2.4.6",
+        "2.4.7",
+        "2.4.8",
+        "2.4.9"
+      ]
+    },
+    {
+      "name": "@servicetitan/admin-sql-table",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.14",
+        "1.0.15",
+        "1.0.16",
+        "1.0.17",
+        "1.0.18",
+        "1.0.19",
+        "1.0.20"
+      ]
+    },
+    {
+      "name": "@servicetitan/ajax-handlers",
+      "severity": "critical",
+      "affectedVersions": [
+        "38.1.1",
+        "38.1.2",
+        "38.1.3",
+        "38.1.4",
+        "38.1.5",
+        "38.1.6",
+        "38.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/anvil-css-utilities",
+      "severity": "critical",
+      "affectedVersions": [
+        "14.5.4",
+        "14.5.5",
+        "14.5.6",
+        "14.5.7",
+        "14.5.8",
+        "14.5.9",
+        "14.5.10"
+      ]
+    },
+    {
+      "name": "@servicetitan/anvil-fonts",
+      "severity": "critical",
+      "affectedVersions": [
+        "14.5.4",
+        "14.5.5",
+        "14.5.6",
+        "14.5.7",
+        "14.5.8",
+        "14.5.9",
+        "14.5.10"
+      ]
+    },
+    {
+      "name": "@servicetitan/anvil-icon",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.5.1",
+        "0.5.2",
+        "0.5.3",
+        "0.5.4",
+        "0.5.5",
+        "0.5.6",
+        "0.5.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/anvil-icons",
+      "severity": "critical",
+      "affectedVersions": [
+        "14.5.4",
+        "14.5.5",
+        "14.5.6",
+        "14.5.7",
+        "14.5.8",
+        "14.5.9",
+        "14.5.10"
+      ]
+    },
+    {
+      "name": "@servicetitan/anvil-react",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.11.3",
+        "0.11.4",
+        "0.11.5",
+        "0.11.6",
+        "0.11.7",
+        "0.11.8",
+        "0.11.9"
+      ]
+    },
+    {
+      "name": "@servicetitan/anvil-themes",
+      "severity": "critical",
+      "affectedVersions": [
+        "14.5.4",
+        "14.5.5",
+        "14.5.6",
+        "14.5.7",
+        "14.5.8",
+        "14.5.9",
+        "14.5.10"
+      ]
+    },
+    {
+      "name": "@servicetitan/anvil-token",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.4.1",
+        "0.4.2",
+        "0.4.3",
+        "0.4.4",
+        "0.4.5",
+        "0.4.6",
+        "0.4.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/anvil2",
+      "severity": "critical",
+      "affectedVersions": [
+        "3.9.1",
+        "3.9.2",
+        "3.9.3",
+        "3.9.4",
+        "3.9.5",
+        "3.9.6",
+        "3.9.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/anvil2-codemods",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.11.2",
+        "0.11.3",
+        "0.11.4",
+        "0.11.5",
+        "0.11.6",
+        "0.11.7",
+        "0.11.8"
+      ]
+    },
+    {
+      "name": "@servicetitan/anvil2-ext-atlas",
+      "severity": "critical",
+      "affectedVersions": [
+        "4.0.2",
+        "4.0.3",
+        "4.0.4",
+        "4.0.5",
+        "4.0.6",
+        "4.0.7",
+        "4.0.8"
+      ]
+    },
+    {
+      "name": "@servicetitan/anvil2-ext-charts",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.2.4",
+        "0.2.5",
+        "0.2.6",
+        "0.2.7",
+        "0.2.8",
+        "0.2.9",
+        "0.2.10"
+      ]
+    },
+    {
+      "name": "@servicetitan/anvil2-ext-common",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.7.1",
+        "0.7.2",
+        "0.7.3",
+        "0.7.4",
+        "0.7.5",
+        "0.7.6",
+        "0.7.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/anvil2-ext-mwv",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.5",
+        "0.0.6",
+        "0.0.7",
+        "0.0.8",
+        "0.0.9",
+        "0.0.10",
+        "0.0.11"
+      ]
+    },
+    {
+      "name": "@servicetitan/anvil2-illustrations",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.2",
+        "1.0.3",
+        "1.0.4",
+        "1.0.5",
+        "1.0.6",
+        "1.0.7",
+        "1.0.8"
+      ]
+    },
+    {
+      "name": "@servicetitan/anvil2-mcp",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.9",
+        "0.0.10",
+        "0.0.11",
+        "0.0.12",
+        "0.0.13",
+        "0.0.14",
+        "0.0.15"
+      ]
+    },
+    {
+      "name": "@servicetitan/assist-ui",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.1.1",
+        "2.1.2",
+        "2.1.3",
+        "2.1.4",
+        "2.1.5",
+        "2.1.6",
+        "2.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/assist-utils",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.1.2",
+        "1.1.3",
+        "1.1.4",
+        "1.1.5",
+        "1.1.6",
+        "1.1.7",
+        "1.1.8"
+      ]
+    },
+    {
+      "name": "@servicetitan/carto-charts-core",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.2",
+        "0.0.3",
+        "0.0.4",
+        "0.0.5",
+        "0.0.6",
+        "0.0.7",
+        "0.0.8"
+      ]
+    },
+    {
+      "name": "@servicetitan/carto-charts-react",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.2",
+        "0.0.3",
+        "0.0.4",
+        "0.0.5",
+        "0.0.6",
+        "0.0.7",
+        "0.0.8"
+      ]
+    },
+    {
+      "name": "@servicetitan/carto-charts-rn",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.2",
+        "0.0.3",
+        "0.0.4",
+        "0.0.5",
+        "0.0.6",
+        "0.0.7",
+        "0.0.8"
+      ]
+    },
+    {
+      "name": "@servicetitan/carto-react-kit",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.8.4",
+        "0.8.5",
+        "0.8.6",
+        "0.8.7",
+        "0.8.8",
+        "0.8.9",
+        "0.8.10"
+      ]
+    },
+    {
+      "name": "@servicetitan/carto-rn-kit",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.10",
+        "0.0.11",
+        "0.0.12",
+        "0.0.13",
+        "0.0.14",
+        "0.0.15",
+        "0.0.16"
+      ]
+    },
+    {
+      "name": "@servicetitan/carto-tokens",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.3.1",
+        "0.3.2",
+        "0.3.3",
+        "0.3.4",
+        "0.3.5",
+        "0.3.6",
+        "0.3.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/component-usage",
+      "severity": "critical",
+      "affectedVersions": [
+        "28.5.1",
+        "28.5.2",
+        "28.5.3",
+        "28.5.4",
+        "28.5.5",
+        "28.5.6",
+        "28.5.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/confirm",
+      "severity": "critical",
+      "affectedVersions": [
+        "41.3.1",
+        "41.3.2",
+        "41.3.3",
+        "41.3.4",
+        "41.3.5",
+        "41.3.6",
+        "41.3.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/confirm-navigation",
+      "severity": "critical",
+      "affectedVersions": [
+        "41.3.1",
+        "41.3.2",
+        "41.3.3",
+        "41.3.4",
+        "41.3.5",
+        "41.3.6",
+        "41.3.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/contentful",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.3",
+        "0.0.4",
+        "0.0.5",
+        "0.0.6",
+        "0.0.7",
+        "0.0.8",
+        "0.0.9"
+      ]
+    },
+    {
+      "name": "@servicetitan/contentful-proxy",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.1.12",
+        "1.1.13",
+        "1.1.14",
+        "1.1.15",
+        "1.1.16",
+        "1.1.17",
+        "1.1.18"
+      ]
+    },
+    {
+      "name": "@servicetitan/cp-api",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.115.1",
+        "1.115.2",
+        "1.115.3",
+        "1.115.4",
+        "1.115.5",
+        "1.115.6",
+        "1.115.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/cp-mfe",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.115.1",
+        "1.115.2",
+        "1.115.3",
+        "1.115.4",
+        "1.115.5",
+        "1.115.6",
+        "1.115.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/cp-mfe-dev",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.115.1",
+        "1.115.2",
+        "1.115.3",
+        "1.115.4",
+        "1.115.5",
+        "1.115.6",
+        "1.115.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/cp-react-hooks",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.115.1",
+        "1.115.2",
+        "1.115.3",
+        "1.115.4",
+        "1.115.5",
+        "1.115.6",
+        "1.115.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/cp-ui",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.115.1",
+        "1.115.2",
+        "1.115.3",
+        "1.115.4",
+        "1.115.5",
+        "1.115.6",
+        "1.115.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/culture",
+      "severity": "critical",
+      "affectedVersions": [
+        "41.3.1",
+        "41.3.2",
+        "41.3.3",
+        "41.3.4",
+        "41.3.5",
+        "41.3.6",
+        "41.3.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/data-query",
+      "severity": "critical",
+      "affectedVersions": [
+        "41.3.1",
+        "41.3.2",
+        "41.3.3",
+        "41.3.4",
+        "41.3.5",
+        "41.3.6",
+        "41.3.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/datadog-rum",
+      "severity": "critical",
+      "affectedVersions": [
+        "38.1.1",
+        "38.1.2",
+        "38.1.3",
+        "38.1.4",
+        "38.1.5",
+        "38.1.6",
+        "38.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/datetime-utils",
+      "severity": "critical",
+      "affectedVersions": [
+        "41.3.1",
+        "41.3.2",
+        "41.3.3",
+        "41.3.4",
+        "41.3.5",
+        "41.3.6",
+        "41.3.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/design-system",
+      "severity": "critical",
+      "affectedVersions": [
+        "14.5.4",
+        "14.5.5",
+        "14.5.6",
+        "14.5.7",
+        "14.5.8",
+        "14.5.9",
+        "14.5.10"
+      ]
+    },
+    {
+      "name": "@servicetitan/docs-anvil-uikit-contrib",
+      "severity": "critical",
+      "affectedVersions": [
+        "41.3.1",
+        "41.3.2",
+        "41.3.3",
+        "41.3.4",
+        "41.3.5",
+        "41.3.6",
+        "41.3.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/docs-uikit",
+      "severity": "critical",
+      "affectedVersions": [
+        "38.1.1",
+        "38.1.2",
+        "38.1.3",
+        "38.1.4",
+        "38.1.5",
+        "38.1.6",
+        "38.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/document-title",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.4.1",
+        "2.4.2",
+        "2.4.3",
+        "2.4.4",
+        "2.4.5",
+        "2.4.6",
+        "2.4.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/dte-pdf-editor",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.76.1",
+        "1.76.2",
+        "1.76.3",
+        "1.76.4",
+        "1.76.5",
+        "1.76.6",
+        "1.76.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/dte-unlayer",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.150.1",
+        "0.150.2",
+        "0.150.3",
+        "0.150.4",
+        "0.150.5",
+        "0.150.6",
+        "0.150.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/eh-module-communication",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.2.1",
+        "0.2.2",
+        "0.2.3",
+        "0.2.4",
+        "0.2.5",
+        "0.2.6",
+        "0.2.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/error-boundary",
+      "severity": "critical",
+      "affectedVersions": [
+        "38.1.1",
+        "38.1.2",
+        "38.1.3",
+        "38.1.4",
+        "38.1.5",
+        "38.1.6",
+        "38.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/eslint-config",
+      "severity": "critical",
+      "affectedVersions": [
+        "38.1.1",
+        "38.1.2",
+        "38.1.3",
+        "38.1.4",
+        "38.1.5",
+        "38.1.6",
+        "38.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/eslint-plugin",
+      "severity": "critical",
+      "affectedVersions": [
+        "38.1.1",
+        "38.1.2",
+        "38.1.3",
+        "38.1.4",
+        "38.1.5",
+        "38.1.6",
+        "38.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/eslint-plugin-decorators-declare",
+      "severity": "critical",
+      "affectedVersions": [
+        "12.8.15",
+        "12.8.16",
+        "12.8.17",
+        "12.8.18",
+        "12.8.19",
+        "12.8.20",
+        "12.8.21"
+      ]
+    },
+    {
+      "name": "@servicetitan/eslint-plugin-folder-schema",
+      "severity": "critical",
+      "affectedVersions": [
+        "38.1.1",
+        "38.1.2",
+        "38.1.3",
+        "38.1.4",
+        "38.1.5",
+        "38.1.6",
+        "38.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/eslint-plugin-mobx-6",
+      "severity": "critical",
+      "affectedVersions": [
+        "12.8.15",
+        "12.8.16",
+        "12.8.17",
+        "12.8.18",
+        "12.8.19",
+        "12.8.20"
+      ]
+    },
+    {
+      "name": "@servicetitan/eslint-plugin-processors-stub",
+      "severity": "critical",
+      "affectedVersions": [
+        "12.8.15",
+        "12.8.16",
+        "12.8.17",
+        "12.8.18",
+        "12.8.19",
+        "12.8.20",
+        "12.8.21"
+      ]
+    },
+    {
+      "name": "@servicetitan/examples",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.2.5",
+        "1.2.6",
+        "1.2.7",
+        "1.2.8",
+        "1.2.9",
+        "1.2.10",
+        "1.2.11"
+      ]
+    },
+    {
+      "name": "@servicetitan/feature-spotlight",
+      "severity": "critical",
+      "affectedVersions": [
+        "3.9.1",
+        "3.9.2",
+        "3.9.3",
+        "3.9.4",
+        "3.9.5",
+        "3.9.6",
+        "3.9.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/folder-lint",
+      "severity": "critical",
+      "affectedVersions": [
+        "38.1.1",
+        "38.1.2",
+        "38.1.3",
+        "38.1.4",
+        "38.1.5",
+        "38.1.6",
+        "38.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/forge",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.5.1",
+        "0.5.2",
+        "0.5.3",
+        "0.5.4",
+        "0.5.5",
+        "0.5.6",
+        "0.5.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/form",
+      "severity": "critical",
+      "affectedVersions": [
+        "41.3.1",
+        "41.3.2",
+        "41.3.3",
+        "41.3.4",
+        "41.3.5",
+        "41.3.6",
+        "41.3.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/form-state",
+      "severity": "critical",
+      "affectedVersions": [
+        "41.3.1",
+        "41.3.2",
+        "41.3.3",
+        "41.3.4",
+        "41.3.5",
+        "41.3.6",
+        "41.3.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/grid",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.63",
+        "0.0.64",
+        "0.0.65",
+        "0.0.66",
+        "0.0.67",
+        "0.0.68",
+        "0.0.69"
+      ]
+    },
+    {
+      "name": "@servicetitan/hammer-icon",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.2.1",
+        "1.2.2",
+        "1.2.3",
+        "1.2.4",
+        "1.2.5",
+        "1.2.6",
+        "1.2.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/hammer-react",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.42.2",
+        "1.42.3",
+        "1.42.4",
+        "1.42.5",
+        "1.42.6",
+        "1.42.7",
+        "1.42.8"
+      ]
+    },
+    {
+      "name": "@servicetitan/hammer-token",
+      "severity": "critical",
+      "affectedVersions": [
+        "3.1.1",
+        "3.1.2",
+        "3.1.3",
+        "3.1.4",
+        "3.1.5",
+        "3.1.6",
+        "3.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/hash-browser-router",
+      "severity": "critical",
+      "affectedVersions": [
+        "38.1.1",
+        "38.1.2",
+        "38.1.3",
+        "38.1.4",
+        "38.1.5",
+        "38.1.6",
+        "38.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/help-center",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.8",
+        "1.0.9",
+        "1.0.10",
+        "1.0.11",
+        "1.0.12",
+        "1.0.13",
+        "1.0.14"
+      ]
+    },
+    {
+      "name": "@servicetitan/html-sketchapp",
+      "severity": "critical",
+      "affectedVersions": [
+        "4.2.8",
+        "4.2.9",
+        "4.2.10",
+        "4.2.11",
+        "4.2.12",
+        "4.2.13",
+        "4.2.14"
+      ]
+    },
+    {
+      "name": "@servicetitan/install",
+      "severity": "critical",
+      "affectedVersions": [
+        "38.1.1",
+        "38.1.2",
+        "38.1.3",
+        "38.1.4",
+        "38.1.5",
+        "38.1.6",
+        "38.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/intl",
+      "severity": "critical",
+      "affectedVersions": [
+        "7.2.1",
+        "7.2.2",
+        "7.2.3",
+        "7.2.4",
+        "7.2.5",
+        "7.2.6",
+        "7.2.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/json-render-react",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.4.6",
+        "0.4.7",
+        "0.4.8",
+        "0.4.9",
+        "0.4.10",
+        "0.4.11",
+        "0.4.12"
+      ]
+    },
+    {
+      "name": "@servicetitan/kendo-theme",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.27",
+        "0.0.28",
+        "0.0.29",
+        "0.0.30",
+        "0.0.31",
+        "0.0.32",
+        "0.0.33"
+      ]
+    },
+    {
+      "name": "@servicetitan/ko-bridge",
+      "severity": "critical",
+      "affectedVersions": [
+        "38.1.1",
+        "38.1.2",
+        "38.1.3",
+        "38.1.4",
+        "38.1.5",
+        "38.1.6",
+        "38.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/launchdarkly-service",
+      "severity": "critical",
+      "affectedVersions": [
+        "38.1.1",
+        "38.1.2",
+        "38.1.3",
+        "38.1.4",
+        "38.1.5",
+        "38.1.6",
+        "38.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/lazy-module",
+      "severity": "critical",
+      "affectedVersions": [
+        "38.1.1",
+        "38.1.2",
+        "38.1.3",
+        "38.1.4",
+        "38.1.5",
+        "38.1.6",
+        "38.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/ld-type-generator",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.2.1",
+        "0.2.2",
+        "0.2.3",
+        "0.2.4",
+        "0.2.5",
+        "0.2.6",
+        "0.2.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/line-item-editor",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.5.1",
+        "1.5.2",
+        "1.5.3",
+        "1.5.4",
+        "1.5.5",
+        "1.5.6",
+        "1.5.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/link-item",
+      "severity": "critical",
+      "affectedVersions": [
+        "41.3.1",
+        "41.3.2",
+        "41.3.3",
+        "41.3.4",
+        "41.3.5",
+        "41.3.6",
+        "41.3.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/log-service",
+      "severity": "critical",
+      "affectedVersions": [
+        "38.1.1",
+        "38.1.2",
+        "38.1.3",
+        "38.1.4",
+        "38.1.5",
+        "38.1.6",
+        "38.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/marketing-direct-mail-components",
+      "severity": "critical",
+      "affectedVersions": [
+        "20.1.1",
+        "20.1.2",
+        "20.1.3",
+        "20.1.4",
+        "20.1.5",
+        "20.1.6",
+        "20.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/marketing-email-components",
+      "severity": "critical",
+      "affectedVersions": [
+        "20.2.3",
+        "20.2.4",
+        "20.2.5",
+        "20.2.6",
+        "20.2.7",
+        "20.2.8",
+        "20.2.9"
+      ]
+    },
+    {
+      "name": "@servicetitan/marketing-form",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.1.2",
+        "0.1.3",
+        "0.1.4",
+        "0.1.5",
+        "0.1.6",
+        "0.1.7",
+        "0.1.8"
+      ]
+    },
+    {
+      "name": "@servicetitan/marketing-global-route",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.14.1",
+        "1.14.2",
+        "1.14.3",
+        "1.14.4",
+        "1.14.5",
+        "1.14.6",
+        "1.14.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/marketing-integration-widgets",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.40",
+        "1.0.41",
+        "1.0.42",
+        "1.0.43",
+        "1.0.44",
+        "1.0.45",
+        "1.0.46"
+      ]
+    },
+    {
+      "name": "@servicetitan/marketing-route",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.2.1",
+        "1.2.2",
+        "1.2.3",
+        "1.2.4",
+        "1.2.5",
+        "1.2.6",
+        "1.2.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/marketing-ui",
+      "severity": "critical",
+      "affectedVersions": [
+        "9.3.1",
+        "9.3.2",
+        "9.3.3",
+        "9.3.4",
+        "9.3.5",
+        "9.3.6",
+        "9.3.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/marketing-widgets",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.1",
+        "1.0.2",
+        "1.0.3",
+        "1.0.4",
+        "1.0.5",
+        "1.0.6",
+        "1.0.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/measure-sheet-data",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.6.1",
+        "2.6.2",
+        "2.6.3",
+        "2.6.4",
+        "2.6.5",
+        "2.6.6",
+        "2.6.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/mfe-quick-actions",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.5.49",
+        "0.5.50",
+        "0.5.51",
+        "0.5.52",
+        "0.5.53",
+        "0.5.54",
+        "0.5.55"
+      ]
+    },
+    {
+      "name": "@servicetitan/micro-frontend",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.4",
+        "0.0.5",
+        "0.0.6",
+        "0.0.7",
+        "0.0.8",
+        "0.0.9",
+        "0.0.10"
+      ]
+    },
+    {
+      "name": "@servicetitan/microfront",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.2",
+        "0.0.3",
+        "0.0.4",
+        "0.0.5",
+        "0.0.6",
+        "0.0.7",
+        "0.0.8"
+      ]
+    },
+    {
+      "name": "@servicetitan/microfront-auth",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.5",
+        "0.0.6",
+        "0.0.7",
+        "0.0.8",
+        "0.0.9",
+        "0.0.10",
+        "0.0.11"
+      ]
+    },
+    {
+      "name": "@servicetitan/microfront-tests",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.11",
+        "0.0.12",
+        "0.0.13",
+        "0.0.14",
+        "0.0.15",
+        "0.0.16",
+        "0.0.17"
+      ]
+    },
+    {
+      "name": "@servicetitan/microfront-utils",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.4.1",
+        "1.4.2",
+        "1.4.3",
+        "1.4.4",
+        "1.4.5",
+        "1.4.6",
+        "1.4.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/modularpayments-webfields",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.53",
+        "1.0.54",
+        "1.0.55",
+        "1.0.56",
+        "1.0.57",
+        "1.0.58",
+        "1.0.59"
+      ]
+    },
+    {
+      "name": "@servicetitan/moneyout-api-client",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.29.1",
+        "1.29.2",
+        "1.29.3",
+        "1.29.4",
+        "1.29.5",
+        "1.29.6",
+        "1.29.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/mpa-components",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.5.1",
+        "2.5.2",
+        "2.5.3",
+        "2.5.4",
+        "2.5.5",
+        "2.5.6",
+        "2.5.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/navigation",
+      "severity": "critical",
+      "affectedVersions": [
+        "14.1.1",
+        "14.1.2",
+        "14.1.3",
+        "14.1.4",
+        "14.1.5",
+        "14.1.6",
+        "14.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/notifications",
+      "severity": "critical",
+      "affectedVersions": [
+        "41.3.1",
+        "41.3.2",
+        "41.3.3",
+        "41.3.4",
+        "41.3.5",
+        "41.3.6",
+        "41.3.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/onboarding-ui",
+      "severity": "critical",
+      "affectedVersions": [
+        "18.5.1",
+        "18.5.2",
+        "18.5.3",
+        "18.5.4",
+        "18.5.5",
+        "18.5.6",
+        "18.5.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/quick-actions",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.15.2",
+        "1.15.3",
+        "1.15.4",
+        "1.15.5",
+        "1.15.6",
+        "1.15.7",
+        "1.15.8"
+      ]
+    },
+    {
+      "name": "@servicetitan/react-hooks",
+      "severity": "critical",
+      "affectedVersions": [
+        "7.7.1",
+        "7.7.2",
+        "7.7.3",
+        "7.7.4",
+        "7.7.5",
+        "7.7.6",
+        "7.7.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/react-ioc",
+      "severity": "critical",
+      "affectedVersions": [
+        "38.1.1",
+        "38.1.2",
+        "38.1.3",
+        "38.1.4",
+        "38.1.5",
+        "38.1.6",
+        "38.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/responsive",
+      "severity": "critical",
+      "affectedVersions": [
+        "6.1.1",
+        "6.1.2",
+        "6.1.3",
+        "6.1.4",
+        "6.1.5",
+        "6.1.6",
+        "6.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/restrict-imports",
+      "severity": "critical",
+      "affectedVersions": [
+        "38.1.1",
+        "38.1.2",
+        "38.1.3",
+        "38.1.4",
+        "38.1.5",
+        "38.1.6",
+        "38.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/schema-comparison",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.1.3",
+        "0.1.4",
+        "0.1.5",
+        "0.1.6",
+        "0.1.7",
+        "0.1.8",
+        "0.1.9"
+      ]
+    },
+    {
+      "name": "@servicetitan/skeleton",
+      "severity": "critical",
+      "affectedVersions": [
+        "9.2.4",
+        "9.2.5",
+        "9.2.6",
+        "9.2.7",
+        "9.2.8",
+        "9.2.9",
+        "9.2.10"
+      ]
+    },
+    {
+      "name": "@servicetitan/standalone-core-feature-gates",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.11.4",
+        "1.11.5",
+        "1.11.6",
+        "1.11.7",
+        "1.11.8",
+        "1.11.9",
+        "1.11.10"
+      ]
+    },
+    {
+      "name": "@servicetitan/standalone-feature-flags",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.3.2",
+        "2.3.3",
+        "2.3.4",
+        "2.3.5",
+        "2.3.6",
+        "2.3.7",
+        "2.3.8"
+      ]
+    },
+    {
+      "name": "@servicetitan/standalone-root",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.11.3",
+        "1.11.4",
+        "1.11.5",
+        "1.11.6",
+        "1.11.7",
+        "1.11.8",
+        "1.11.9"
+      ]
+    },
+    {
+      "name": "@servicetitan/standalone-tm-api",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.1.1",
+        "1.1.2",
+        "1.1.3",
+        "1.1.4",
+        "1.1.5",
+        "1.1.6",
+        "1.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/standalone-ui",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.2.4",
+        "2.2.5",
+        "2.2.6",
+        "2.2.7",
+        "2.2.8",
+        "2.2.9",
+        "2.2.10"
+      ]
+    },
+    {
+      "name": "@servicetitan/startup",
+      "severity": "critical",
+      "affectedVersions": [
+        "38.1.1",
+        "38.1.2",
+        "38.1.3",
+        "38.1.4",
+        "38.1.5",
+        "38.1.6",
+        "38.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/startup-jest",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.2.1",
+        "2.2.2",
+        "2.2.3",
+        "2.2.4",
+        "2.2.5",
+        "2.2.6",
+        "2.2.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/startup-mfe-compat",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.5.1",
+        "0.5.2",
+        "0.5.3",
+        "0.5.4",
+        "0.5.5",
+        "0.5.6",
+        "0.5.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/startup-utils",
+      "severity": "critical",
+      "affectedVersions": [
+        "38.1.1",
+        "38.1.2",
+        "38.1.3",
+        "38.1.4",
+        "38.1.5",
+        "38.1.6",
+        "38.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/stylelint-config",
+      "severity": "critical",
+      "affectedVersions": [
+        "38.1.1",
+        "38.1.2",
+        "38.1.3",
+        "38.1.4",
+        "38.1.5",
+        "38.1.6",
+        "38.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/suppress-warnings",
+      "severity": "critical",
+      "affectedVersions": [
+        "38.1.1",
+        "38.1.2",
+        "38.1.3",
+        "38.1.4",
+        "38.1.5",
+        "38.1.6",
+        "38.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/table",
+      "severity": "critical",
+      "affectedVersions": [
+        "41.3.1",
+        "41.3.2",
+        "41.3.3",
+        "41.3.4",
+        "41.3.5",
+        "41.3.6",
+        "41.3.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/tanstack-query-mobx",
+      "severity": "critical",
+      "affectedVersions": [
+        "6.2.1",
+        "6.2.2",
+        "6.2.3",
+        "6.2.4",
+        "6.2.5",
+        "6.2.6",
+        "6.2.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/temporal-lite",
+      "severity": "critical",
+      "affectedVersions": [
+        "3.4.1",
+        "3.4.2",
+        "3.4.3",
+        "3.4.4",
+        "3.4.5",
+        "3.4.6",
+        "3.4.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/testing-library",
+      "severity": "critical",
+      "affectedVersions": [
+        "6.6.1",
+        "6.6.2",
+        "6.6.3",
+        "6.6.4",
+        "6.6.5",
+        "6.6.6",
+        "6.6.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/thoughtspot-theme",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.7.1",
+        "1.7.2",
+        "1.7.3",
+        "1.7.4",
+        "1.7.5",
+        "1.7.6",
+        "1.7.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/time-zones",
+      "severity": "critical",
+      "affectedVersions": [
+        "3.8.1",
+        "3.8.2",
+        "3.8.3",
+        "3.8.4",
+        "3.8.5",
+        "3.8.6",
+        "3.8.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/titan-chat-ui",
+      "severity": "critical",
+      "affectedVersions": [
+        "7.1.3",
+        "7.1.4",
+        "7.1.5",
+        "7.1.6",
+        "7.1.7",
+        "7.1.8",
+        "7.1.9"
+      ]
+    },
+    {
+      "name": "@servicetitan/titan-chat-ui-anvil2",
+      "severity": "critical",
+      "affectedVersions": [
+        "9.0.1",
+        "9.0.2",
+        "9.0.3",
+        "9.0.4",
+        "9.0.5",
+        "9.0.6",
+        "9.0.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/titan-chat-ui-common",
+      "severity": "critical",
+      "affectedVersions": [
+        "9.0.1",
+        "9.0.2",
+        "9.0.3",
+        "9.0.4",
+        "9.0.5",
+        "9.0.6",
+        "9.0.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/titan-chat-ui-cypress",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.1.3",
+        "2.1.4",
+        "2.1.5",
+        "2.1.6",
+        "2.1.7",
+        "2.1.8",
+        "2.1.9"
+      ]
+    },
+    {
+      "name": "@servicetitan/titan-chatbot-api",
+      "severity": "critical",
+      "affectedVersions": [
+        "9.0.1",
+        "9.0.2",
+        "9.0.3",
+        "9.0.4",
+        "9.0.5",
+        "9.0.6",
+        "9.0.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/titan-chatbot-client",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.1.3",
+        "2.1.4",
+        "2.1.5",
+        "2.1.6",
+        "2.1.7",
+        "2.1.8",
+        "2.1.9"
+      ]
+    },
+    {
+      "name": "@servicetitan/titan-chatbot-ui",
+      "severity": "critical",
+      "affectedVersions": [
+        "7.1.3",
+        "7.1.4",
+        "7.1.5",
+        "7.1.6",
+        "7.1.7",
+        "7.1.8",
+        "7.1.9"
+      ]
+    },
+    {
+      "name": "@servicetitan/titan-chatbot-ui-anvil2",
+      "severity": "critical",
+      "affectedVersions": [
+        "9.0.1",
+        "9.0.2",
+        "9.0.3",
+        "9.0.4",
+        "9.0.5",
+        "9.0.6",
+        "9.0.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/titan-chatbot-ui-cypress",
+      "severity": "critical",
+      "affectedVersions": [
+        "9.0.1",
+        "9.0.2",
+        "9.0.3",
+        "9.0.4",
+        "9.0.5",
+        "9.0.6",
+        "9.0.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/tokens",
+      "severity": "critical",
+      "affectedVersions": [
+        "12.9.1",
+        "12.9.2",
+        "12.9.3",
+        "12.9.4",
+        "12.9.5",
+        "12.9.6",
+        "12.9.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/toolbelt-shared-registry",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.14.1",
+        "1.14.2",
+        "1.14.3",
+        "1.14.4",
+        "1.14.5",
+        "1.14.6",
+        "1.14.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/uikit-docs",
+      "severity": "critical",
+      "affectedVersions": [
+        "22.11.1",
+        "22.11.2",
+        "22.11.3",
+        "22.11.4",
+        "22.11.5",
+        "22.11.6",
+        "22.11.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/unit-tests",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.2",
+        "0.0.3",
+        "0.0.4",
+        "0.0.5",
+        "0.0.6",
+        "0.0.7",
+        "0.0.8"
+      ]
+    },
+    {
+      "name": "@servicetitan/va-mfe-loader",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.1.1",
+        "1.1.2",
+        "1.1.3",
+        "1.1.4",
+        "1.1.5",
+        "1.1.6",
+        "1.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/web-components",
+      "severity": "critical",
+      "affectedVersions": [
+        "38.1.1",
+        "38.1.2",
+        "38.1.3",
+        "38.1.4",
+        "38.1.5",
+        "38.1.6",
+        "38.1.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/widget-platform",
+      "severity": "critical",
+      "affectedVersions": [
+        "5.6.1",
+        "5.6.2",
+        "5.6.3",
+        "5.6.4",
+        "5.6.5",
+        "5.6.6",
+        "5.6.7"
+      ]
+    },
+    {
+      "name": "@servicetitan/widget-platform-monolith",
+      "severity": "critical",
+      "affectedVersions": [
+        "5.6.1",
+        "5.6.2",
+        "5.6.3",
+        "5.6.4",
+        "5.6.5",
+        "5.6.6",
+        "5.6.7"
       ]
     },
     {
@@ -2795,6 +7184,15 @@
       "severity": "critical",
       "affectedVersions": [
         "1.0.2"
+      ]
+    },
+    {
+      "name": "@thiennq/docs-viewer",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.6.2",
+        "1.6.3",
+        "1.6.4"
       ]
     },
     {
@@ -3000,6 +7398,62 @@
       "severity": "critical",
       "affectedVersions": [
         "0.1.4"
+      ]
+    },
+    {
+      "name": "@umacloud/cli-darwin-arm64",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.74"
+      ]
+    },
+    {
+      "name": "@umacloud/cli-darwin-x64",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.74"
+      ]
+    },
+    {
+      "name": "@umacloud/cli-linux-arm64",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.74"
+      ]
+    },
+    {
+      "name": "@umacloud/cli-linux-musl-arm64",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.74"
+      ]
+    },
+    {
+      "name": "@umacloud/cli-linux-musl-x64",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.74"
+      ]
+    },
+    {
+      "name": "@umacloud/cli-linux-x64",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.74"
+      ]
+    },
+    {
+      "name": "@umacloud/cli-win32-x64",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.74"
+      ]
+    },
+    {
+      "name": "@umacloud/knowledge",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.74"
       ]
     },
     {
@@ -3503,6 +7957,13 @@
       ]
     },
     {
+      "name": "@workbench-stack/core",
+      "severity": "critical",
+      "affectedVersions": [
+        "3.9.8"
+      ]
+    },
+    {
       "name": "@zapier/ai-actions",
       "severity": "critical",
       "affectedVersions": [
@@ -3593,6 +8054,13 @@
       ]
     },
     {
+      "name": "02-echo",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.7"
+      ]
+    },
+    {
       "name": "ai-crowl-shield",
       "severity": "critical",
       "affectedVersions": [
@@ -3670,6 +8138,29 @@
       "affectedVersions": [
         "1.0.1",
         "1.0.2"
+      ]
+    },
+    {
+      "name": "babel-plugin-linaria-css-to-undefined",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.3.1",
+        "0.3.2",
+        "0.3.3",
+        "0.3.4",
+        "0.3.5",
+        "0.3.6",
+        "0.3.7",
+        "0.3.8",
+        "0.3.9",
+        "0.3.10",
+        "0.3.11",
+        "0.3.12",
+        "0.3.13",
+        "0.3.14",
+        "0.3.15",
+        "0.3.16",
+        "0.3.17"
       ]
     },
     {
@@ -3778,6 +8269,27 @@
       ]
     },
     {
+      "name": "cache-manager",
+      "severity": "critical",
+      "affectedVersions": [
+        "7.2.10"
+      ]
+    },
+    {
+      "name": "cacheable",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.5.1"
+      ]
+    },
+    {
+      "name": "cacheable-request",
+      "severity": "critical",
+      "affectedVersions": [
+        "13.0.20"
+      ]
+    },
+    {
       "name": "calc-loan-interest",
       "severity": "critical",
       "affectedVersions": [
@@ -3879,6 +8391,22 @@
         "1.0.3",
         "1.0.4",
         "1.0.5"
+      ]
+    },
+    {
+      "name": "conv-context-next",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.1",
+        "1.0.2",
+        "1.0.3",
+        "1.0.4",
+        "1.0.5",
+        "1.0.6",
+        "1.0.7",
+        "1.0.8",
+        "1.0.9",
+        "1.0.10"
       ]
     },
     {
@@ -4039,6 +8567,35 @@
       ]
     },
     {
+      "name": "ecto",
+      "severity": "critical",
+      "affectedVersions": [
+        "5.0.1"
+      ]
+    },
+    {
+      "name": "editable-contracts",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.12",
+        "0.0.13",
+        "0.0.14",
+        "0.0.15",
+        "0.0.16",
+        "0.0.17",
+        "0.0.18",
+        "0.0.19",
+        "0.0.20",
+        "0.0.21",
+        "0.0.22",
+        "0.0.23",
+        "0.0.24",
+        "0.0.25",
+        "0.0.26",
+        "0.0.27"
+      ]
+    },
+    {
       "name": "electron-volt",
       "severity": "critical",
       "affectedVersions": [
@@ -4109,6 +8666,28 @@
       ]
     },
     {
+      "name": "eslint-plugin-folder-schema",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.6",
+        "1.0.7",
+        "1.0.8",
+        "1.0.9",
+        "1.0.10",
+        "1.0.11",
+        "1.0.12",
+        "1.0.13",
+        "1.0.14",
+        "1.0.15",
+        "1.0.16",
+        "1.0.17",
+        "1.0.18",
+        "1.0.19",
+        "1.0.20",
+        "1.0.21"
+      ]
+    },
+    {
       "name": "ethereum-ens",
       "severity": "critical",
       "affectedVersions": [
@@ -4130,6 +8709,22 @@
       "severity": "critical",
       "affectedVersions": [
         "0.3.5"
+      ]
+    },
+    {
+      "name": "example-js-project",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.2",
+        "1.0.3",
+        "1.0.4",
+        "1.0.5",
+        "1.0.6",
+        "1.0.7",
+        "1.0.8",
+        "1.0.9",
+        "1.0.10",
+        "1.0.11"
       ]
     },
     {
@@ -4177,6 +8772,13 @@
       ]
     },
     {
+      "name": "file-entry-cache",
+      "severity": "critical",
+      "affectedVersions": [
+        "11.1.6"
+      ]
+    },
+    {
       "name": "firestore-search-engine",
       "severity": "critical",
       "affectedVersions": [
@@ -4200,11 +8802,40 @@
       ]
     },
     {
+      "name": "flat-cache",
+      "severity": "critical",
+      "affectedVersions": [
+        "6.1.24"
+      ]
+    },
+    {
       "name": "flatten-unflatten",
       "severity": "critical",
       "affectedVersions": [
         "1.0.1",
         "1.0.2"
+      ]
+    },
+    {
+      "name": "folder-lint",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.6",
+        "1.0.7",
+        "1.0.8",
+        "1.0.9",
+        "1.0.10",
+        "1.0.11",
+        "1.0.12",
+        "1.0.13",
+        "1.0.14",
+        "1.0.15",
+        "1.0.16",
+        "1.0.17",
+        "1.0.18",
+        "1.0.19",
+        "1.0.20",
+        "1.0.21"
       ]
     },
     {
@@ -4219,6 +8850,30 @@
       "severity": "critical",
       "affectedVersions": [
         "1.0.1"
+      ]
+    },
+    {
+      "name": "frontend-orb",
+      "severity": "critical",
+      "affectedVersions": [
+        "4.4.1",
+        "4.4.2",
+        "4.4.3",
+        "4.4.4",
+        "4.4.5",
+        "4.4.6",
+        "4.4.7",
+        "4.4.8",
+        "4.4.9",
+        "4.4.10",
+        "4.4.11",
+        "4.4.12",
+        "4.4.13",
+        "4.4.14",
+        "4.4.15",
+        "4.4.16",
+        "4.4.17",
+        "4.4.18"
       ]
     },
     {
@@ -4301,6 +8956,106 @@
       ]
     },
     {
+      "name": "github.com/adieuu-llc/adieuu-2026",
+      "severity": "critical",
+      "affectedVersions": [
+        "v0.4.9",
+        "v0.4.10",
+        "v0.0.0-20260805040439-27421527967b",
+        "v0.4.11",
+        "v0.4.12"
+      ]
+    },
+    {
+      "name": "github.com/evilgodfahim/kal",
+      "severity": "critical",
+      "affectedVersions": [
+        "v0.0.0-20260805062327-23dc26d5459b"
+      ]
+    },
+    {
+      "name": "github.com/juxtaposition1/v.a.p.e",
+      "severity": "critical",
+      "affectedVersions": [
+        "v0.0.0-20260806100501-bde6a26bd440",
+        "v0.0.0-20260806094957-43d505694256",
+        "v0.0.0-20260806093409-c5c5fcc4e0b1",
+        "v0.0.0-20260806091959-ae0b39dcc70f",
+        "v0.0.0-20260806090334-bbfbbfcf1262",
+        "v0.0.0-20260806083709-55eb26fa9f3e",
+        "v0.0.0-20260806081758-f0978eaf84f0",
+        "v0.0.0-20260806074653-eeb0c44624db",
+        "v0.0.0-20260806072501-177df800e270",
+        "v0.0.0-20260806070155-d8559dbbb0ba",
+        "v0.0.0-20260806063112-12a180ea9dfb",
+        "v0.0.0-20260806061600-1f9c1f1a8316",
+        "v0.0.0-20260806055049-3b933ad0d43d",
+        "v0.0.0-20260806051440-a8eacd308e3e",
+        "v0.0.0-20260806045914-059a503366ea",
+        "v0.0.0-20260806042832-d8137245c046",
+        "v0.0.0-20260806041330-0a41580a4823",
+        "v0.0.0-20260806035836-837ee11a4674",
+        "v0.0.0-20260806034831-0b830950925e",
+        "v0.0.0-20260806031328-23fce7ca2be4",
+        "v0.0.0-20260806025838-528f91597058",
+        "v0.0.0-20260806023252-4db2eb1a7954",
+        "v0.0.0-20260806015918-32bd78818d72",
+        "v0.0.0-20260806014057-af12bf53eb16",
+        "v0.0.0-20260806011031-914d19a0a708",
+        "v0.0.0-20260806005540-a0731ec7b451",
+        "v0.0.0-20260806004040-e8e99338dbfc",
+        "v0.0.0-20260806002542-b347e6b696b4",
+        "v0.0.0-20260806000746-9b2e17a0848f",
+        "v0.0.0-20260805234047-cbf5253ac558",
+        "v0.0.0-20260805231847-085f8dfc81e3",
+        "v0.0.0-20260805224049-cc6ae51f5de1",
+        "v0.0.0-20260805222601-98582ceab7dd",
+        "v0.0.0-20260805215606-597f6f6481a0",
+        "v0.0.0-20260805213530-744cc0dd3ef3",
+        "v0.0.0-20260805211124-e77887f58b93",
+        "v0.0.0-20260805211042-0b0f2f67c57a",
+        "v0.0.0-20260805204037-ca48947f8a31",
+        "v0.0.0-20260805202517-5c862603d9f5",
+        "v0.0.0-20260805200518-ab6dc8c4446c",
+        "v0.0.0-20260805195833-428363c0e2c5",
+        "v0.0.0-20260805193709-50587cb98197",
+        "v0.0.0-20260805190902-09f55a08f8a7",
+        "v0.0.0-20260805185339-f12d833172c1",
+        "v0.0.0-20260805183840-851084b92f8b",
+        "v0.0.0-20260805182343-a1bcaf99c97c",
+        "v0.0.0-20260805175512-3d32000f14a1",
+        "v0.0.0-20260805173922-b4e09c7b0ae7",
+        "v0.0.0-20260805172240-5402ee6af6d0",
+        "v0.0.0-20260805170738-4a03dad0af5b",
+        "v0.0.0-20260805164404-c27e2a0b2ed0",
+        "v0.0.0-20260805162144-8a5792ca59b4",
+        "v0.0.0-20260805160440-cae1af004815",
+        "v0.0.0-20260805155541-6e200f48bed4",
+        "v0.0.0-20260805153012-03817d9dcb06",
+        "v0.0.0-20260805150258-2dd8de5f8b82",
+        "v0.0.0-20260805143749-f2b2c421e37c",
+        "v0.0.0-20260805141432-e1b9b59e611a",
+        "v0.0.0-20260805135941-e95c44f99bb9",
+        "v0.0.0-20260805135237-28a7c47d4017",
+        "v0.0.0-20260805131702-56e7d684a7a6",
+        "v0.0.0-20260805125931-566d41742f4c",
+        "v0.0.0-20260805125426-65fa5b7ba144",
+        "v0.0.0-20260805122728-bfb00c75aa48",
+        "v0.0.0-20260805121229-0c330a3d16cd",
+        "v0.0.0-20260805114232-76b7500ec99e",
+        "v0.0.0-20260805112245-3e6a394afda3",
+        "v0.0.0-20260805105744-2e3821fe0134",
+        "v0.0.0-20260805103721-6c35385e306e",
+        "v0.0.0-20260805102734-fa13efcb0021",
+        "v0.0.0-20260805095815-e2821268cb56",
+        "v0.0.0-20260805094244-a5ad050e5764",
+        "v0.0.0-20260805091749-3577fc492f9c",
+        "v0.0.0-20260805085748-6b70acca383d",
+        "v0.0.0-20260805084238-a34d6435a226",
+        "v0.0.0-20260805081246-648cd8543c4f"
+      ]
+    },
+    {
       "name": "gitsafe",
       "severity": "critical",
       "affectedVersions": [
@@ -4321,6 +9076,13 @@
       "affectedVersions": [
         "1.2.1",
         "1.2.2"
+      ]
+    },
+    {
+      "name": "hamus.js",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.4.1"
       ]
     },
     {
@@ -4350,6 +9112,13 @@
       "severity": "critical",
       "affectedVersions": [
         "0.0.5"
+      ]
+    },
+    {
+      "name": "http-metrics-middleware",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.2.2"
       ]
     },
     {
@@ -4501,6 +9270,13 @@
       "severity": "critical",
       "affectedVersions": [
         "1.7.1"
+      ]
+    },
+    {
+      "name": "keyv",
+      "severity": "critical",
+      "affectedVersions": [
+        "6.0.0"
       ]
     },
     {
@@ -4707,6 +9483,28 @@
       ]
     },
     {
+      "name": "native-frontend-orb",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.1.4",
+        "1.1.5",
+        "1.1.6",
+        "1.1.7",
+        "1.1.8",
+        "1.1.9",
+        "1.1.10",
+        "1.1.11",
+        "1.1.12",
+        "1.1.13",
+        "1.1.14",
+        "1.1.15",
+        "1.1.16",
+        "1.1.17",
+        "1.1.18",
+        "1.1.19"
+      ]
+    },
+    {
       "name": "next-circular-dependency",
       "severity": "critical",
       "affectedVersions": [
@@ -4883,6 +9681,27 @@
       ]
     },
     {
+      "name": "picasso-plugin-hammer",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.11.6"
+      ]
+    },
+    {
+      "name": "picasso-plugin-q",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.11.6"
+      ]
+    },
+    {
+      "name": "picasso.js",
+      "severity": "critical",
+      "affectedVersions": [
+        "2.11.6"
+      ]
+    },
+    {
       "name": "piclite",
       "severity": "critical",
       "affectedVersions": [
@@ -4902,6 +9721,51 @@
       "severity": "critical",
       "affectedVersions": [
         "1.1.1"
+      ]
+    },
+    {
+      "name": "pob-test-package-in-monorepo",
+      "severity": "critical",
+      "affectedVersions": [
+        "5.2.1",
+        "5.2.2",
+        "5.2.3",
+        "5.2.4",
+        "5.2.5",
+        "5.2.6",
+        "5.2.7",
+        "5.2.8",
+        "5.2.9",
+        "5.2.10",
+        "5.2.11",
+        "5.2.12",
+        "5.2.13",
+        "5.2.14",
+        "5.2.15",
+        "5.2.16"
+      ]
+    },
+    {
+      "name": "pob-test-typescript-package-in-monorepo",
+      "severity": "critical",
+      "affectedVersions": [
+        "4.2.1",
+        "4.2.2",
+        "4.2.3",
+        "4.2.4",
+        "4.2.5",
+        "4.2.6",
+        "4.2.7",
+        "4.2.8",
+        "4.2.9",
+        "4.2.10",
+        "4.2.11",
+        "4.2.12",
+        "4.2.13",
+        "4.2.14",
+        "4.2.15",
+        "4.2.16",
+        "4.2.17"
       ]
     },
     {
@@ -4982,6 +9846,27 @@
       "severity": "critical",
       "affectedVersions": [
         "1.0.3"
+      ]
+    },
+    {
+      "name": "qlik-chart-modules",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.1.1"
+      ]
+    },
+    {
+      "name": "qlik-modifiers",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.10.1"
+      ]
+    },
+    {
+      "name": "qlik-object-conversion",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.17.2"
       ]
     },
     {
@@ -5317,6 +10202,22 @@
       ]
     },
     {
+      "name": "rwc-client",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.29.10",
+        "0.29.11",
+        "0.29.12",
+        "0.29.13",
+        "0.29.14",
+        "0.29.15",
+        "0.29.16",
+        "0.29.17",
+        "0.29.18",
+        "0.29.19"
+      ]
+    },
+    {
       "name": "sa-company-registration-number-regex",
       "severity": "critical",
       "affectedVersions": [
@@ -5375,6 +10276,13 @@
       ]
     },
     {
+      "name": "server-hemera-mongo",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.12"
+      ]
+    },
+    {
       "name": "set-nested-prop",
       "severity": "critical",
       "affectedVersions": [
@@ -5424,6 +10332,13 @@
       "affectedVersions": [
         "0.1.1",
         "0.1.2"
+      ]
+    },
+    {
+      "name": "sn-listbox",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.3.3"
       ]
     },
     {
@@ -5640,6 +10555,28 @@
       ]
     },
     {
+      "name": "tslint-folder-schema",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.6",
+        "1.0.7",
+        "1.0.8",
+        "1.0.9",
+        "1.0.10",
+        "1.0.11",
+        "1.0.12",
+        "1.0.13",
+        "1.0.14",
+        "1.0.15",
+        "1.0.16",
+        "1.0.17",
+        "1.0.18",
+        "1.0.19",
+        "1.0.20",
+        "1.0.21"
+      ]
+    },
+    {
       "name": "typeface-antonio-complete",
       "severity": "critical",
       "affectedVersions": [
@@ -5659,6 +10596,13 @@
       "severity": "critical",
       "affectedVersions": [
         "0.2.27"
+      ]
+    },
+    {
+      "name": "umadev",
+      "severity": "critical",
+      "affectedVersions": [
+        "1.0.74"
       ]
     },
     {
@@ -5760,6 +10704,50 @@
       "severity": "critical",
       "affectedVersions": [
         "3.0.5"
+      ]
+    },
+    {
+      "name": "verdaccio-okta-oauth",
+      "severity": "critical",
+      "affectedVersions": [
+        "38.1.1",
+        "38.1.2",
+        "38.1.3",
+        "38.1.4",
+        "38.1.5",
+        "38.1.6",
+        "38.1.7",
+        "38.1.8",
+        "38.1.9",
+        "38.1.10",
+        "38.1.11",
+        "38.1.12",
+        "38.1.13",
+        "38.1.14",
+        "38.1.15",
+        "38.1.16"
+      ]
+    },
+    {
+      "name": "verdaccio-tarball-local-storage",
+      "severity": "critical",
+      "affectedVersions": [
+        "38.1.1",
+        "38.1.2",
+        "38.1.3",
+        "38.1.4",
+        "38.1.5",
+        "38.1.6",
+        "38.1.7",
+        "38.1.8",
+        "38.1.9",
+        "38.1.10",
+        "38.1.11",
+        "38.1.12",
+        "38.1.13",
+        "38.1.14",
+        "38.1.15",
+        "38.1.16"
       ]
     },
     {
@@ -5891,6 +10879,13 @@
       "affectedVersions": [
         "1.0.10",
         "1.0.9"
+      ]
+    },
+    {
+      "name": "workbench-browser-server",
+      "severity": "critical",
+      "affectedVersions": [
+        "0.0.2"
       ]
     },
     {
