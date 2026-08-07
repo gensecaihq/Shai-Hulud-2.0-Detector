@@ -2,9 +2,9 @@
  * Lightweight pnpm-lock.yaml parser extracting package name -> version mappings.
  * Only intended for identifying affected packages; not a full fidelity parser.
  * @param filePath pnpm-lock.yaml file path.
- * @returns Map of package names to versions or null on failure.
+ * @returns Map of package names to unique versions or null on failure.
  */
-export declare function parsePnpmLock(filePath: string): Map<string, string> | null;
+export declare function parsePnpmLock(filePath: string): Map<string, Set<string>> | null;
 /**
  * Scan a pnpm-lock.yaml for affected packages. All findings are marked as transitive.
  * @param filePath pnpm-lock.yaml path.
@@ -186,6 +186,15 @@ export declare function checkMalwareHashes(directory: string): SecurityFinding[]
  * @returns SecurityFinding list (critical severity).
  */
 export declare function checkRunnerInstallation(directory: string): SecurityFinding[];
+/**
+ * Detect ChainDrop (Aug 2026) IDE/agent persistence hooks:
+ * - .claude/settings.json SessionStart hooks executing the dropper
+ * - .vscode/tasks.json folderOpen tasks executing the dropper
+ * - Dropper/payload files inside .claude and .vscode directories
+ * @param directory Root directory to scan.
+ * @returns SecurityFinding list.
+ */
+export declare function checkIdePersistence(directory: string): SecurityFinding[];
 /**
  * Orchestrate full scan: package.json files, optional lockfiles, and advanced security
  * checks (scripts, TruffleHog activity, exfiltration files, malicious runners, repo refs,

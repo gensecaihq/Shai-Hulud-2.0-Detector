@@ -13,10 +13,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: '24'
           cache: 'npm'
@@ -51,7 +51,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Create test package.json
         run: |
@@ -84,7 +84,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Create test package.json with affected package
         run: |
@@ -115,3 +115,33 @@ jobs:
             exit 1
           fi
           echo "Detection test passed - action correctly identified compromised package"
+
+      - name: Create test package.json with ChainDrop-affected package
+        run: |
+          mkdir -p test-chaindrop
+          cat > test-chaindrop/package.json << 'EOF'
+          {
+            "name": "test-chaindrop",
+            "version": "1.0.0",
+            "dependencies": {
+              "keyv": "6.0.0"
+            }
+          }
+          EOF
+
+      - name: Run action on ChainDrop-affected project (should fail)
+        id: detect-chaindrop
+        uses: ./
+        with:
+          working-directory: test-chaindrop
+          fail-on-critical: true
+          output-format: json
+        continue-on-error: true
+
+      - name: Verify ChainDrop detection
+        run: |
+          if [ "${{ steps.detect-chaindrop.outcome }}" != "failure" ]; then
+            echo "Expected action to fail on keyv@6.0.0 but it succeeded"
+            exit 1
+          fi
+          echo "ChainDrop detection test passed - action correctly identified keyv@6.0.0"

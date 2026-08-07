@@ -75,15 +75,17 @@
 
 On **November 24, 2025**, a sophisticated supply chain attack dubbed **"Shai-Hulud 2.0"** (also known as "The Second Coming") compromised the npm ecosystem in one of the largest coordinated attacks on open-source software.
 
+On **August 4, 2026**, the campaign returned as **"ChainDrop"** (repo marker: *"Shai-Hulud: Here We Go Again"*). Attackers compromised the maintainer account behind `keyv`, `cacheable`, `flat-cache` and `file-entry-cache`, publishing `keyv@6.0.0` with a `preinstall: node setup.mjs` dropper. The worm steals npm/GitHub/cloud/AI-tool credentials, persists via **Claude Code SessionStart hooks** (`.claude/settings.json`) and **VS Code folderOpen tasks** (`.vscode/tasks.json`), resolves C2 through an **Ethereum smart contract**, and self-propagates to every package the stolen tokens can publish — 450+ unique packages (~2 billion monthly downloads). This detector covers **both waves**.
+
 ### Attack Statistics
 
-| Metric | Value |
-|--------|-------|
-| Compromised Packages | **790+** unique packages |
-| Monthly Downloads Affected | **132+ million** |
-| Malicious GitHub Repos Created | **25,000+** |
-| Compromised GitHub Users | **350+** |
-| Attack Start Time | Nov 24, 2025 03:16 GMT |
+| Metric | Shai-Hulud 2.0 (Nov 2025) | ChainDrop (Aug 2026) |
+|--------|---------------------------|----------------------|
+| Compromised Packages | **795+** unique packages | **446+** unique packages |
+| Monthly Downloads Affected | **132+ million** | **~2 billion** |
+| Malicious GitHub Repos Created | **25,000+** | **800+** |
+| Attack Start Time | Nov 24, 2025 03:16 GMT | Aug 4, 2026 09:00 UTC |
+| Repo Marker | "The Second Coming" | "Here We Go Again" |
 
 ### Major Organizations Affected
 
@@ -95,6 +97,8 @@ On **November 24, 2025**, a sophisticated supply chain attack dubbed **"Shai-Hul
 - **Voiceflow** - Conversational AI
 - **BrowserBase** - Browser automation
 - **Oku UI** - Vue components
+
+**ChainDrop wave (Aug 2026):** keyv / cacheable / flat-cache / file-entry-cache maintainer, plus packages from **Deliveroo**, **Ornikar**, **OneReach**, **Picsart**, **Qlik** and **ServiceTitan**.
 
 ### How the Attack Works
 
@@ -197,15 +201,18 @@ This significantly reduces false positives by:
 
 | Check | Description |
 |-------|-------------|
-| **Compromised Packages** | Scans against database of 790+ known compromised packages |
-| **Malicious Scripts** | Detects `setup_bun.js`, `bun_environment.js` in postinstall/preinstall hooks |
-| **SHA256 Hash Matching** | 🆕 Verifies file hashes against known malware signatures from Datadog IOC database |
+| **Compromised Packages** | Scans against database of 1,240+ known compromised packages (both waves) |
+| **Malicious Scripts** | Detects `setup_bun.js`, `bun_environment.js`, `node setup.mjs`, `Math_Symbol.js`, `math_init.js` in lifecycle hooks |
+| **SHA256 Hash Matching** | Verifies file hashes against known malware signatures (Datadog, Elastic, Unit 42, GitGuardian) |
+| **IDE/Agent Persistence** | 🆕 Detects ChainDrop hooks in `.claude/settings.json` (SessionStart) and `.vscode/tasks.json` (folderOpen) |
+| **C2 Infrastructure** | 🆕 Flags `npm-cache.com`, `awqhnjewqjkl.icu` and other ChainDrop dead-drop domains + Ethereum C2 contracts |
+| **Fake CodeQL Workflow** | 🆕 Detects ChainDrop `codeql_analysis.yml` and `toJSON(secrets)` secret dumps |
 | **TruffleHog Activity** | Identifies credential scanning patterns and TruffleHog downloads |
 | **Malicious Runners** | Detects SHA1HULUD GitHub Actions self-hosted runner references |
-| **Runner Installation** | 🆕 Finds `.dev-env/` directories and runner tarballs used by the attack |
-| **Workflow Triggers** | 🆕 Detects `on: discussion` workflow triggers used for command injection backdoors |
+| **Runner Installation** | Finds `.dev-env/` directories, runner tarballs, and `gh-token-monitor` persistence artifacts |
+| **Workflow Triggers** | Detects `on: discussion` workflow triggers used for command injection backdoors |
 | **Secrets Exfiltration** | Finds `actionsSecrets.json`, `truffleSecrets.json`, `cloud.json`, `environment.json` files |
-| **Shai-Hulud Repos** | Identifies git remotes/repos named "Shai-Hulud" |
+| **Shai-Hulud Repos** | Identifies git remotes/repos named "Shai-Hulud" or carrying "Here We Go Again" markers |
 
 ### Medium Risk Detection
 
@@ -307,15 +314,15 @@ If you're doing systematic analysis and finding multiple packages:
 
 | Metric | Value |
 |--------|-------|
-| Total Packages | **795+** |
-| Data Sources | **7 security vendors** |
+| Total Packages | **1,241** (795 Shai-Hulud 2.0 + 446 ChainDrop) |
+| Data Sources | **7 security vendors + Wiz ChainDrop feed** |
 | Update Frequency | **Daily (automated)** |
 | Version Precision | **Specific versions only** |
 | Last Updated | See `compromised-packages.json` |
 
 > **📖 Full Documentation:** [docs/PACKAGE_DATABASE.md](docs/PACKAGE_DATABASE.md)
 >
-> **🔄 Auto-Updated:** Database syncs daily from [Datadog Consolidated IOCs](https://github.com/DataDog/indicators-of-compromise/tree/main/shai-hulud-2.0)
+> **🔄 Auto-Updated:** Database syncs daily from [Datadog Consolidated IOCs](https://github.com/DataDog/indicators-of-compromise/tree/main/shai-hulud-2.0) and the [Wiz Research ChainDrop list](https://github.com/wiz-sec-public/wiz-research-iocs/blob/main/reports/keyv-packages.csv)
 >
 > **🙏 Thank you to everyone who contributes. Together, we're making npm safer for everyone.**
 
@@ -988,7 +995,7 @@ When running locally or in non-GitHub CI systems:
 
 ## Affected Packages Database
 
-The detector includes a database of **795+ unique packages** identified in the attack, with **precise version matching** to minimize false positives.
+The detector includes a database of **1,241 unique packages** identified across both attack waves (Shai-Hulud 2.0 and ChainDrop), with **precise version matching** to minimize false positives.
 
 | Organization | Count | Key Packages |
 |--------------|-------|--------------|

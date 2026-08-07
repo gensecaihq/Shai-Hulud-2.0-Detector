@@ -29,7 +29,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Run Shai-Hulud 2.0 Detector
         id: detector
@@ -44,7 +44,7 @@ jobs:
 
       - name: Upload SARIF to GitHub Security
         if: always() && hashFiles('shai-hulud-results.sarif') != ''
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: shai-hulud-results.sarif
         continue-on-error: true

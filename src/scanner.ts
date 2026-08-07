@@ -1294,16 +1294,24 @@ export function checkSuspiciousScripts(filePath: string): SecurityFinding[] {
 
 				// Shai-Hulud IoCs are always critical (both 2.0 and ChainDrop waves)
 				const isShaiHuludIoC =
-					/setup_bun\.js|bun_environment\.js|Math_Symbol\.js|math_init\.js|router_runtime\.js|(?:^|[\s;&|'"])node\s+(?:\.\/)?setup\.mjs/i.test(
+					/setup_bun\.js|bun_environment\.js|Math_Symbol\.js|math_init\.js|router_runtime\.js/i.test(
 						scriptContent,
 					);
+
+				// ChainDrop dropper: critical only in lifecycle hooks (its real vector
+				// is "preinstall": "node setup.mjs"); high severity elsewhere since
+				// setup.mjs is a plausible legitimate script name
+				const isChainDropDropper = /(?:^|[\s;&|'"])node\s+(?:\.\/)?setup\.mjs/i.test(
+					scriptContent,
+				);
 
 				// Remote code execution patterns are critical in lifecycle hooks
 				const isRemoteCodeExec =
 					/curl|wget|fetch\(|\$\(curl|\$\(wget/i.test(scriptContent);
 
 				const isCritical =
-					isShaiHuludIoC || (isLifecycleHook && isRemoteCodeExec);
+					isShaiHuludIoC ||
+					(isLifecycleHook && (isRemoteCodeExec || isChainDropDropper));
 
 				findings.push({
 					type: 'suspicious-script',

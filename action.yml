@@ -1,5 +1,5 @@
 name: 'Shai-Hulud 2.0 Detector'
-description: 'Detect Shai-Hulud 2.0 npm supply chain attack - 790+ packages, SHA256 hashing, runner & backdoor detection'
+description: 'Detect Shai-Hulud npm supply chain attacks (2.0 + ChainDrop) - 1,240+ packages, SHA256 hashing, IDE persistence & backdoor detection'
 author: 'gensecaihq'
 branding:
   icon: 'shield'

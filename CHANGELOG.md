@@ -6,6 +6,56 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [2.2.0] - 2026-08-08
+
+### Why This Release?
+
+On **August 4, 2026** the Shai-Hulud campaign returned as **ChainDrop** ("Shai-Hulud: Here We Go Again"), compromising the maintainer of `keyv`, `cacheable`, `flat-cache` and `file-entry-cache` and worm-propagating to 450+ packages (~2 billion monthly downloads). This release adds full ChainDrop coverage, corroborated across Elastic Security Labs, Unit 42, Wiz Research, OX Security and GitGuardian.
+
+### Added
+
+#### ChainDrop Package Database (Critical)
+- Merged the [Wiz Research ChainDrop package list](https://github.com/wiz-sec-public/wiz-research-iocs/blob/main/reports/keyv-packages.csv) into the IOC database: **795 → 1,241 unique packages**, including `keyv@6.0.0`, `cacheable@2.5.1`, `flat-cache@6.1.24`, `file-entry-cache@11.1.6`, `cacheable-request@13.0.20`, `cache-manager@7.2.10`
+- `scripts/update-ioc-database.js` now fetches and merges both campaign feeds on the daily schedule
+
+#### ChainDrop Malware Detection (Critical)
+- SHA256 hashes for `Math_Symbol.js` / `math_init.js` and `setup.mjs` dropper variants
+- Payload filename detection: `Math_Symbol.js`, `math_init.js`, `router_runtime.js`
+- Lifecycle-script detection for the `preinstall: node setup.mjs` infection vector
+
+#### IDE/Agent Persistence Detection (Critical) — new `ide-persistence` finding type
+- `.claude/settings.json` **SessionStart** hooks referencing droppers (executes on every Claude Code start)
+- `.vscode/tasks.json` **folderOpen** tasks referencing droppers (executes on folder open)
+- Dropper/payload files inside `.claude/` and `.vscode/` directories
+- `gh-token-monitor` persistence artifacts (LaunchAgents plist, systemd user service, `~/.local/bin` script)
+
+#### C2 / Dead-Drop Infrastructure Detection (Critical)
+- Domains: `npm-cache.com`, `awqhnjewqjkl.icu`, `pypi-get.com`, `js-mirror.com`
+- Ethereum C2 resolver contract `0xE1f2395e...` and operator wallet
+- Commit markers: `thebeautifulmarchoftime`, `thebeautifulsnadsoftime`, `IfYouBlockThisAPIKey...`
+- Campaign marker: "Shai-Hulud: Here We Go Again"
+
+#### Malicious Workflow Detection
+- Fake `codeql_analysis.yml` workflow (underscore variant of GitHub's `codeql-analysis.yml`)
+- `toJSON(secrets)` full-secret dumps in any workflow (high severity)
+
+#### pnpm Support (community, PR #51 by @woss)
+- `pnpm-lock.yaml` scanning with vitest test coverage
+
+### Fixed
+- **Scanner blind spot**: security checks now descend into `.claude/`, `.vscode/`, `.github/` and `.config/` hidden directories — exactly where ChainDrop drops its payloads
+- `npm test` was broken (referenced jest, which was never installed); now runs vitest
+- SARIF report version string was stuck at 2.0.0
+- Removed unused `@actions/github` and `@actions/glob` dependencies (smaller bundle)
+
+### Changed
+- **Node.js runtime upgraded from node20 to node24** (Node 20 is EOL since April 2026) — PR #52 by @daniel-toth-leeder
+- GitHub Actions bumped to latest majors: `actions/checkout@v7`, `actions/setup-node@v7`, `github/codeql-action/upload-sarif@v4`, `peter-evans/create-pull-request@v8`, `actions/github-script@v9`
+- CI now includes a ChainDrop regression test (`keyv@6.0.0` must be detected)
+- Dependencies refreshed (`semver`, `@types/node@24`, `typescript@5.9`, `@vercel/ncc@0.38.4`)
+
+---
+
 ## [2.0.0] - 2025-12-02
 
 ### Why This Release?

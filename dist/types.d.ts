@@ -58,7 +58,7 @@ export interface ScanResult {
     isDirect: boolean;
     location: string;
 }
-export type SecurityFindingType = 'compromised-package' | 'suspicious-script' | 'trufflehog-activity' | 'shai-hulud-repo' | 'secrets-exfiltration' | 'malicious-runner' | 'malware-hash-match' | 'runner-installation' | 'malicious-workflow-trigger';
+export type SecurityFindingType = 'compromised-package' | 'suspicious-script' | 'trufflehog-activity' | 'shai-hulud-repo' | 'secrets-exfiltration' | 'malicious-runner' | 'malware-hash-match' | 'runner-installation' | 'malicious-workflow-trigger' | 'ide-persistence';
 export interface SecurityFinding {
     type: SecurityFindingType;
     severity: 'critical' | 'high' | 'medium' | 'low';
