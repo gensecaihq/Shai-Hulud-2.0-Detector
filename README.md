@@ -8,7 +8,13 @@
 <h1 align="center">Shai-Hulud 2.0 Detector</h1>
 
 <p align="center">
-  <strong>Protect your projects from the Shai-Hulud 2.0 npm supply chain attack</strong>
+  <strong>Protect your projects from the Shai-Hulud npm supply chain attacks — the original 2.0 wave (Nov 2025) and the ChainDrop wave (Aug 2026)</strong>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/IOC%20Database-1%2C241%20packages-blue?style=flat-square" alt="IOC Database">
+  <img src="https://img.shields.io/badge/Covers-ChainDrop%20(Aug%202026)-critical?style=flat-square" alt="ChainDrop Coverage">
+  <img src="https://img.shields.io/badge/Runtime-Node%2024-brightgreen?style=flat-square&logo=node.js" alt="Node 24">
 </p>
 
 <p align="center">
@@ -133,6 +139,40 @@ On **August 4, 2026**, the campaign returned as **"ChainDrop"** (repo marker: *"
 7. **Self-Propagation** - Attempts to infect up to 100 additional npm packages
 8. **Persistence** - Creates self-hosted GitHub runners named "SHA1HULUD"
 9. **Destructive Failsafe** - Wipes home directory if authentication fails
+
+### How the ChainDrop Wave Works (Aug 2026)
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                 CHAINDROP ATTACK FLOW (Aug 2026)                │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  1. npm install          2. preinstall hook       3. Download   │
+│  ───────────────► ─────────────────────► ──────────────────►    │
+│    keyv@6.0.0            node setup.mjs        Bun v1.3.13      │
+│                                                                 │
+│  4. Execute payload      5. Steal 300+ creds    6. C2 via ETH   │
+│  ───────────────────► ──────────────────► ─────────────────►    │
+│   Math_Symbol.js /      npm, GitHub, cloud,   smart contract    │
+│   math_init.js          AI tools, wallets     → npm-cache.com   │
+│                                                                 │
+│  7. IDE persistence      8. CI/CD theft         9. Propagate    │
+│  ────────────────────► ─────────────────► ─────────────────►    │
+│   .claude SessionStart   Runner.Worker mem     publish to all   │
+│   .vscode folderOpen     scrape, fake CodeQL   owned packages   │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Key differences from the 2.0 wave:**
+
+1. **Infection Vector** - `preinstall: node setup.mjs` dropper (instead of `setup_bun.js`)
+2. **Payloads** - `Math_Symbol.js` / `math_init.js` (Base91 + PBKDF2 + AES-256-GCM obfuscation)
+3. **IDE/Agent Persistence** - Injects `.claude/settings.json` SessionStart hooks and `.vscode/tasks.json` folderOpen tasks so the malware re-executes whenever Claude Code or VS Code opens the project
+4. **Ethereum Dead-Drop C2** - Resolves its C2 endpoint (`npm-cache.com`, later `awqhnjewqjkl.icu`) through an Ethereum smart contract, surviving domain takedowns
+5. **CI/CD Memory Scraping** - Reads OIDC tokens and secrets directly from GitHub Actions `Runner.Worker` process memory; plants a fake `codeql_analysis.yml` workflow that dumps `toJSON(secrets)`
+6. **Broader Credential Targeting** - 300+ patterns including AI tooling (Anthropic/Claude, OpenAI, Cursor, Gemini), cloud IAM, SSH keys, Kubernetes, Vault, and crypto wallets
+7. **Repo Marker** - Exfiltration repos described as "Shai-Hulud: Here We Go Again"
 
 ---
 
@@ -937,8 +977,8 @@ When running locally or in non-GitHub CI systems:
   Compromised packages: 2
   Security findings: 0
   Scan time: 67ms
-  Database version: 2.0.0
-  Last updated: 2025-12-04
+  Database version: 2.2.0
+  Last updated: 2026-08-08
 ============================================================
 
   IMMEDIATE ACTIONS REQUIRED:
@@ -1007,16 +1047,20 @@ The detector includes a database of **1,241 unique packages** identified across 
 | Postman | 17 | `@postman/tunnel-agent`, `@postman/mcp-server`, `@postman/csv-parse` |
 | BrowserBase | 7 | `@browserbasehq/stagehand`, `@browserbasehq/mcp`, `@browserbasehq/sdk-functions` |
 | Oku UI | 41 | `@oku-ui/primitives`, `@oku-ui/dialog`, `@oku-ui/toast` |
-| Others | 513 | Various community packages |
+| Others (2.0 wave) | 513 | Various community packages |
+| **ChainDrop wave (Aug 2026)** | **446** | `keyv`, `cacheable`, `flat-cache`, `file-entry-cache`, `cache-manager`, plus Deliveroo, Ornikar, OneReach, Picsart, Qlik, ServiceTitan packages |
 
 ### Automated Daily Updates
 
-The package database is **automatically updated daily** from the [Datadog Consolidated IOCs](https://github.com/DataDog/indicators-of-compromise/tree/main/shai-hulud-2.0), which aggregates data from **7 security vendors**:
+The package database is **automatically updated daily** from two feeds:
+
+1. **[Datadog Consolidated IOCs](https://github.com/DataDog/indicators-of-compromise/tree/main/shai-hulud-2.0)** (Shai-Hulud 2.0 wave), which aggregates data from **7 security vendors**
+2. **[Wiz Research ChainDrop list](https://github.com/wiz-sec-public/wiz-research-iocs/blob/main/reports/keyv-packages.csv)** (ChainDrop wave, continuously updated by Wiz)
 
 | Source | Description |
 |--------|-------------|
 | **[Datadog Security Labs](https://securitylabs.datadoghq.com)** | SHA256 hash IOCs & malware analysis |
-| **[Wiz](https://www.wiz.io)** | Threat investigation & attack analysis |
+| **[Wiz](https://www.wiz.io)** | Threat investigation, attack analysis & the ChainDrop package feed |
 | **[HelixGuard](https://helixguard.ai)** | Malware analysis and IOC identification |
 | **[ReversingLabs](https://www.reversinglabs.com)** | Software supply chain security |
 | **[Socket.dev](https://socket.dev)** | npm security monitoring |
@@ -1030,8 +1074,8 @@ The package database is **automatically updated daily** from the [Datadog Consol
 │                    DAILY UPDATE PROCESS                         │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
-│  00:00 UTC      Fetch consolidated     Parse CSV &              │
-│  Daily ────► IOCs from Datadog ────► extract versions ────►    │
+│  00:00 UTC     Fetch Datadog +        Parse, merge &           │
+│  Daily ────► Wiz ChainDrop feeds ────► extract versions ────►  │
 │                                                                 │
 │      Update              Create PR              Merge           │
 │  ──► compromised- ────► for review ────► (after approval)      │
@@ -1093,6 +1137,28 @@ If you find these files in your project or `node_modules`, you may be compromise
 | `environment.json` | - | - | Holds environment variables |
 | `truffleSecrets.json` | - | - | TruffleHog scan results |
 
+### ChainDrop Wave Files (Aug 2026)
+
+| File | SHA-256 Hash | Purpose |
+|------|--------------|---------|
+| `Math_Symbol.js` / `math_init.js` | `9fc2570b7cef51c1...` | Obfuscated payload (Base91 + PBKDF2 + AES-256-GCM) |
+| `setup.mjs` | `fd3ca4007b225fdf...`, `54dc7ea54a1317cc...` | Dropper run via `preinstall: node setup.mjs`; downloads Bun v1.3.13 |
+| `router_runtime.js` | - | C2 communication helper |
+| `.claude/settings.json` | - | Injected SessionStart hook (Claude Code persistence) |
+| `.vscode/tasks.json` | - | Injected folderOpen task labeled "Environment Setup" (VS Code persistence) |
+| `.github/workflows/codeql_analysis.yml` | - | Fake CodeQL workflow that dumps `toJSON(secrets)` |
+
+### ChainDrop C2 / Exfiltration Infrastructure
+
+| Indicator | Type | Notes |
+|-----------|------|-------|
+| `npm-cache[.]com` | C2 domain | Primary endpoint (`/router`) |
+| `awqhnjewqjkl[.]icu` | C2 domain | Deployed Aug 4, 2026 |
+| `pypi-get[.]com`, `js-mirror[.]com` | C2 domains | Historical |
+| `0xE1f2395ee43e45A1556EC6438a88c31B83493103` | Ethereum contract | Dead-drop C2 resolver |
+| `0x55f9780e1492344b7417fa723aedc4d0b97f31cd` | Ethereum wallet | Contract owner |
+| `thebeautifulmarchoftime` / `thebeautifulsnadsoftime` | Commit markers | GitHub commit-search C2 fallback |
+
 ### Runner Installation Artifacts
 
 The attack installs rogue GitHub Actions runners. Check for:
@@ -1103,6 +1169,9 @@ The attack installs rogue GitHub Actions runners. Check for:
 | `actions-runner-linux-x64-2.330.0.tar.gz` | Various | Specific runner version used by attack |
 | `.config/gcloud/application_default_credentials.json` | `$HOME/` | Targeted credential file |
 | `.npmrc` | `$HOME/` | Targeted npm credentials |
+| `com.user.gh-token-monitor.plist` | `$HOME/Library/LaunchAgents/` | ChainDrop macOS persistence (token harvesting) |
+| `gh-token-monitor.service` | `$HOME/.config/systemd/user/` | ChainDrop Linux persistence |
+| `gh-token-monitor.sh` | `$HOME/.local/bin/` | ChainDrop token-harvesting script |
 
 ### Malicious Workflows
 
@@ -1112,7 +1181,9 @@ Check `.github/workflows/` for these suspicious patterns:
 |---------|-------------|
 | `discussion.yaml` or `discussion.yml` | Injected workflow for remote execution |
 | `formatter_*.yml` | Malicious workflow with random suffix (e.g., `formatter_abc123.yml`) |
-| `on: discussion` trigger | Command injection backdoor trigger (🆕 v2.0.0) |
+| `on: discussion` trigger | Command injection backdoor trigger (v2.0.0) |
+| `codeql_analysis.yml` | 🆕 ChainDrop fake CodeQL workflow — note the **underscore** (GitHub's real one is `codeql-analysis.yml`) |
+| `toJSON(secrets)` in any workflow | 🆕 Serializes every repository secret for exfiltration |
 
 These workflows typically use `SHA1HULUD` self-hosted runners to execute malicious code.
 
@@ -1123,6 +1194,10 @@ These workflows typically use `SHA1HULUD` self-hosted runners to execute malicio
 Search your organization for:
 - Self-hosted runners named `SHA1HULUD`
 - Repositories with description containing `Shai-Hulud: The Second Coming`
+- Repositories with description containing `Shai-Hulud: Here We Go Again` (ChainDrop wave)
+- Dune-themed repo names created by the worm: `sardaukar-*`, `mentat-*`, `fremen-*`, `atreides-*`, `harkonnen-*`
+- Commits authored by `claude@users.noreply.github.com` with message `chore: update config` that you didn't make
+- Commit messages containing `IfYouBlockThisAPIKeyItWillCrashTheLiveProductionServersOfAllThirdPartyClients`
 
 ---
 
@@ -1140,14 +1215,25 @@ Search your organization for:
 #### Containment (First Hour)
 
 ```bash
-# 1. Check for malicious files
-find ./node_modules -name "setup_bun.js" -o -name "bun_environment.js"
+# 1. Check for malicious files (both waves)
+find ./node_modules -name "setup_bun.js" -o -name "bun_environment.js" \
+  -o -name "Math_Symbol.js" -o -name "math_init.js" -o -name "router_runtime.js"
 
-# 2. Check for malicious workflows
-ls -la .github/workflows/ | grep -E "(discussion|formatter_)"
+# 2. Check for ChainDrop IDE/agent persistence
+grep -l "setup.mjs\|math_init" .claude/settings.json .vscode/tasks.json 2>/dev/null
+ls .claude/setup.mjs .vscode/setup.mjs 2>/dev/null
 
-# 3. Check for unauthorized runners (requires gh CLI)
+# 3. Check for malicious workflows
+ls -la .github/workflows/ | grep -E "(discussion|formatter_|codeql_analysis)"
+grep -rl "toJSON(secrets)" .github/workflows/ 2>/dev/null
+
+# 4. Check for unauthorized runners (requires gh CLI)
 gh api repos/{owner}/{repo}/actions/runners --jq '.runners[].name' | grep -i sha1hulud
+
+# 5. Check for ChainDrop home-directory persistence
+ls ~/Library/LaunchAgents/com.user.gh-token-monitor.plist \
+   ~/.config/systemd/user/gh-token-monitor.service \
+   ~/.local/bin/gh-token-monitor.sh 2>/dev/null
 ```
 
 #### Credential Rotation Checklist
@@ -1163,6 +1249,9 @@ gh api repos/{owner}/{repo}/actions/runners --jq '.runners[].name' | grep -i sha
 | Database | Change passwords, rotate connection strings | 🟡 High |
 | Third-party APIs | Regenerate API keys | 🟡 High |
 | SSH | Regenerate keys if stored in repo | 🟠 Medium |
+| AI tools (Anthropic/Claude, OpenAI, Cursor, Gemini) | Rotate API keys — explicitly targeted by ChainDrop | 🔴 Critical |
+| Kubernetes / Vault / Terraform | Rotate service-account tokens, Vault tokens, check state files | 🟡 High |
+| Crypto wallets (Electrum, Solana, etc.) | Move funds to fresh wallets — wallet files are harvested | 🔴 Critical |
 
 #### Clean Installation
 
@@ -1191,7 +1280,13 @@ npx gensecaihq/Shai-Hulud-2.0-Detector
 ### General Questions
 
 **Q: Is this a real attack?**
-A: Yes. The Shai-Hulud 2.0 attack occurred on November 24, 2025, and compromised hundreds of npm packages.
+A: Yes. The Shai-Hulud 2.0 attack occurred on November 24, 2025, and compromised hundreds of npm packages. The campaign returned on August 4, 2026 as the **ChainDrop** wave, compromising `keyv`, `cacheable`, `flat-cache` and 450+ packages with ~2 billion combined monthly downloads.
+
+**Q: Does this detector cover the August 2026 ChainDrop attack?**
+A: Yes, as of v2.2.0. The database merges the Wiz Research ChainDrop package list daily, and the scanner detects ChainDrop's droppers, payloads, C2 domains, fake CodeQL workflow, and its Claude Code / VS Code persistence hooks.
+
+**Q: I use Claude Code or VS Code — why does that matter?**
+A: ChainDrop persists by injecting a SessionStart hook into `.claude/settings.json` and a folderOpen task into `.vscode/tasks.json`, so the malware re-runs every time you open the project. The detector scans both locations (finding type `ide-persistence`).
 
 **Q: How do I know if I'm affected?**
 A: Run this detector on your project. If it reports affected packages, you may have been compromised.
@@ -1264,13 +1359,18 @@ npm ci
 
 # 3. Make changes to src/
 
-# 4. Build
+# 4. Typecheck and run the test suite (vitest)
+npm run typecheck
+npm test
+
+# 5. Build
 npm run build
 
-# 5. Test locally
-export INPUT_WORKING_DIRECTORY=/path/to/test/project
-node dist/index.js
+# 6. Test locally
+node dist/index.js --working-directory /path/to/test/project
 ```
+
+> **Note:** Requires Node.js 24+. The `dist/` bundle embeds `compromised-packages.json`, so rebuild after any database change.
 
 ### Pull Request Process
 
@@ -1348,6 +1448,15 @@ This project builds on the excellent work of security researchers who identified
 - [Postman Engineering - npm Supply Chain Attack](https://blog.postman.com/engineering/shai-hulud-2-0-npm-supply-chain-attack/)
 - [PostHog - Attack Post-Mortem](https://posthog.com/blog/nov-24-shai-hulud-attack-post-mortem)
 - [HelixGuard - Malicious SHA1HULUD Analysis](https://helixguard.ai/blog/malicious-sha1hulud-2025-11-24)
+
+**ChainDrop wave (Aug 2026):**
+
+- [Elastic Security Labs - CHAINDROP Worm Analysis](https://www.elastic.co/security-labs/shai-hulud-chaindrop-npm-supply-chain)
+- [Unit 42 - ChainDrop npm Worm Analysis](https://unit42.paloaltonetworks.com/chaindrop-npm-worm-analysis/)
+- [Wiz - keyv and cacheable Supply Chain Attack](https://www.wiz.io/blog/keyv-and-cacheable-npm-supply-chain-attack)
+- [Wiz Research - ChainDrop Package List (live feed)](https://github.com/wiz-sec-public/wiz-research-iocs/blob/main/reports/keyv-packages.csv)
+- [OX Security - Infostealer Worm Hits npm](https://www.ox.security/blog/a-new-infostealer-worm-hits-npm-affecting-keyv-and-cacheable/)
+- [GitGuardian - keyv Mini Shai-Hulud](https://blog.gitguardian.com/keyv-mini-shai-hulud/)
 
 ### Open Source Tools
 

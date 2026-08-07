@@ -33,8 +33,9 @@ The `compromised-packages.json` file is the heart of the Shai-Hulud 2.0 Detector
 
 | Metric | Value |
 |--------|-------|
-| Total Packages | 795+ |
-| Data Sources | 7 security vendors |
+| Total Packages | 1,241 (795 Shai-Hulud 2.0 + 446 ChainDrop) |
+| Campaign Waves | Shai-Hulud 2.0 (Nov 2025) + ChainDrop (Aug 2026) |
+| Data Sources | 7 security vendors + Wiz ChainDrop feed |
 | Update Frequency | Daily (automated) |
 | Version Precision | Specific versions only |
 | Last Updated | See `lastUpdated` field in JSON |
@@ -56,8 +57,10 @@ The package database is **automatically updated daily** via GitHub Actions. This
 │                                                                 │
 │  2. Fetches consolidated IOCs from Datadog repository           │
 │     └─► https://github.com/DataDog/indicators-of-compromise     │
+│     and the ChainDrop package list from Wiz Research            │
+│     └─► https://github.com/wiz-sec-public/wiz-research-iocs     │
 │                                                                 │
-│  3. Parses CSV and extracts package names + specific versions   │
+│  3. Parses both CSVs, merges waves, extracts specific versions  │
 │                                                                 │
 │  4. Updates compromised-packages.json                           │
 │                                                                 │
@@ -84,7 +87,7 @@ node scripts/update-ioc-database.js
 
 ## Data Sources
 
-The database aggregates data from **7 security vendors** via the [Datadog Consolidated IOCs](https://github.com/DataDog/indicators-of-compromise/tree/main/shai-hulud-2.0):
+**Shai-Hulud 2.0 wave (Nov 2025):** aggregated from **7 security vendors** via the [Datadog Consolidated IOCs](https://github.com/DataDog/indicators-of-compromise/tree/main/shai-hulud-2.0):
 
 | Source | Packages | Description |
 |--------|----------|-------------|
@@ -95,6 +98,8 @@ The database aggregates data from **7 security vendors** via the [Datadog Consol
 | **[ReversingLabs](https://www.reversinglabs.com)** | 605 | Software supply chain security |
 | **[Socket.dev](https://socket.dev)** | 554 | npm security monitoring |
 | **[Datadog Security Labs](https://securitylabs.datadoghq.com)** | 428 | SHA256 hash IOCs & malware analysis |
+
+**ChainDrop wave (Aug 2026):** sourced from the continuously updated [Wiz Research ChainDrop package list](https://github.com/wiz-sec-public/wiz-research-iocs/blob/main/reports/keyv-packages.csv) (446 packages including `keyv`, `cacheable`, `flat-cache`, `file-entry-cache`). Packages appearing in both feeds get their affected-version lists merged.
 
 ### Why Multiple Sources?
 
@@ -113,15 +118,15 @@ Each security vendor has unique detection methods. By aggregating data:
 /compromised-packages.json
 ```
 
-### Schema (v2.0.0)
+### Schema (v2.2.0)
 
 ```json
 {
-  "version": "2.0.0",
-  "lastUpdated": "2025-12-02T00:00:00Z",
+  "version": "2.2.0",
+  "lastUpdated": "2026-08-08T00:00:00Z",
   "attackInfo": {
-    "name": "Shai-Hulud 2.0",
-    "alias": "The Second Coming",
+    "name": "Shai-Hulud 2.0 / ChainDrop",
+    "alias": "The Second Coming / Here We Go Again",
     "firstDetected": "2025-11-24T03:16:00Z",
     "description": "..."
   },
@@ -183,6 +188,14 @@ Each security vendor has unique detection methods. By aggregating data:
 | `indicators.primaryInfectionVectors` | Known initial infection packages |
 | `indicators.mavenPackages` | Maven/Java ecosystem packages affected |
 | `acknowledgements` | Credits for security researchers |
+
+### New in v2.2.0
+
+| Change | Description |
+|--------|-------------|
+| ChainDrop wave merged | The daily updater merges the [Wiz Research ChainDrop list](https://github.com/wiz-sec-public/wiz-research-iocs/blob/main/reports/keyv-packages.csv) with the Datadog feed (795 → 1,241 packages) |
+| `dataSource.chainDropUrl` | Points at the ChainDrop feed used for the merge |
+| Version-list union | Packages present in both feeds get their `affectedVersions` merged |
 
 ### Package Entry Fields
 

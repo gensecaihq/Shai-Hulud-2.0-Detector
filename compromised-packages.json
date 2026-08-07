@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "2.2.0",
   "lastUpdated": "2026-08-07T19:43:26.196Z",
   "dataSource": {
     "url": "https://github.com/DataDog/indicators-of-compromise/tree/main/shai-hulud-2.0",
