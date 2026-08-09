@@ -1,6 +1,6 @@
 {
   "version": "2.2.0",
-  "lastUpdated": "2026-08-08T00:46:29.180Z",
+  "lastUpdated": "2026-08-09T00:50:57.997Z",
   "dataSource": {
     "url": "https://github.com/DataDog/indicators-of-compromise/tree/main/shai-hulud-2.0",
     "description": "Consolidated IOCs from multiple security vendors (Shai-Hulud 2.0 wave) merged with the Wiz Research ChainDrop package list (Aug 2026 wave)",
@@ -15,7 +15,7 @@
       "wiz",
       "wiz-chaindrop"
     ],
-    "fetchedAt": "2026-08-08T00:46:29.180Z"
+    "fetchedAt": "2026-08-09T00:50:57.997Z"
   },
   "attackInfo": {
     "name": "Shai-Hulud 2.0 / ChainDrop",
